@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Магазин услуг для бирж</title>
+    <title>Panda Crypto Shop</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <style>
         * {
             margin: 0;
@@ -13,142 +14,127 @@
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            background: var(--tg-theme-bg-color, #ffffff);
-            color: var(--tg-theme-text-color, #000000);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #fff;
             padding: 0;
             overflow-x: hidden;
+            min-height: 100vh;
         }
 
         .screen {
             min-height: 100vh;
             padding: 20px 16px 100px 16px;
+            opacity: 0;
+            animation: fadeIn 0.5s ease forwards;
+        }
+
+        .panda-mascot {
+            text-align: center;
+            margin-bottom: 20px;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .panda-mascot svg {
+            width: 120px;
+            height: 120px;
+            filter: drop-shadow(0 10px 30px rgba(0,0,0,0.3));
         }
 
         .header {
             text-align: center;
-            margin-bottom: 28px;
-            padding-top: 8px;
-        }
-
-        .header-icon {
-            font-size: 64px;
-            margin-bottom: 12px;
-            animation: fadeIn 0.5s ease;
+            margin-bottom: 32px;
         }
 
         .header h1 {
-            font-size: 28px;
-            font-weight: 700;
+            font-size: 32px;
+            font-weight: 800;
             margin-bottom: 8px;
-            animation: fadeIn 0.6s ease;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.2);
         }
 
         .header p {
-            color: var(--tg-theme-hint-color, #999);
-            font-size: 15px;
-            animation: fadeIn 0.7s ease;
+            color: rgba(255,255,255,0.8);
+            font-size: 16px;
         }
 
         .grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 10px;
-            animation: slideUp 0.5s ease;
+            gap: 12px;
+            animation: slideUp 0.6s ease;
         }
 
         .exchange-card {
-            background: var(--tg-theme-secondary-bg-color, #f7f7f7);
-            border-radius: 16px;
-            padding: 20px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 24px 16px;
             cursor: pointer;
-            transition: all 0.2s ease;
-            border: 1.5px solid transparent;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 2px solid rgba(255,255,255,0.3);
             text-align: center;
             position: relative;
             overflow: hidden;
         }
 
-        .exchange-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 100%);
-            opacity: 0;
-            transition: opacity 0.2s ease;
-        }
-
         .exchange-card:active {
-            transform: scale(0.97);
+            transform: scale(0.95);
         }
 
-        .exchange-card:hover::before {
-            opacity: 1;
+        .exchange-logo {
+            width: 56px;
+            height: 56px;
+            margin: 0 auto 12px;
+            background: #fff;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
         }
 
-        .exchange-icon {
-            font-size: 48px;
-            margin-bottom: 12px;
-            display: block;
+        .exchange-logo svg {
+            width: 40px;
+            height: 40px;
         }
 
         .exchange-name {
             font-size: 16px;
-            font-weight: 600;
+            font-weight: 700;
+            color: #1a1a1a;
         }
 
         .back-btn {
-            background: var(--tg-theme-secondary-bg-color, #f7f7f7);
-            border: none;
+            background: rgba(255,255,255,0.2);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.3);
             border-radius: 12px;
             padding: 12px 20px;
             font-size: 15px;
-            font-weight: 500;
+            font-weight: 600;
             cursor: pointer;
             margin-bottom: 20px;
-            color: var(--tg-theme-link-color, #2481cc);
+            color: #fff;
             display: inline-flex;
             align-items: center;
-            gap: 6px;
-            transition: all 0.2s ease;
-        }
-
-        .back-btn:active {
-            transform: scale(0.96);
-            opacity: 0.7;
+            gap: 8px;
         }
 
         .service-list {
             display: flex;
             flex-direction: column;
-            gap: 10px;
-            animation: slideUp 0.5s ease;
+            gap: 12px;
+            animation: slideUp 0.6s ease;
         }
 
         .service-card {
-            background: var(--tg-theme-secondary-bg-color, #f7f7f7);
-            border-radius: 16px;
-            padding: 18px;
+            background: rgba(255,255,255,0.95);
+            border-radius: 20px;
+            padding: 20px;
             cursor: pointer;
-            border: 1.5px solid transparent;
-            transition: all 0.2s ease;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .service-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(135deg, rgba(0,123,255,0.1) 0%, rgba(0,123,255,0) 100%);
-            opacity: 0;
-            transition: opacity 0.2s ease;
+            border: 2px solid rgba(255,255,255,0.3);
+            transition: all 0.3s ease;
         }
 
         .service-card:active {
@@ -156,41 +142,30 @@
         }
 
         .service-card.selected {
-            border-color: var(--tg-theme-button-color, #3390ec);
-            background: rgba(var(--tg-theme-button-color, 51, 144, 236), 0.1);
-        }
-
-        .service-card.selected::before {
-            opacity: 1;
+            border-color: #667eea;
+            box-shadow: 0 8px 30px rgba(102, 126, 234, 0.4);
         }
 
         .service-top {
             display: flex;
-            align-items: flex-start;
-            gap: 14px;
-            margin-bottom: 10px;
+            gap: 16px;
+            margin-bottom: 12px;
         }
 
         .service-icon {
-            font-size: 36px;
-            flex-shrink: 0;
-        }
-
-        .service-info {
-            flex: 1;
+            font-size: 40px;
         }
 
         .service-title {
-            font-size: 17px;
-            font-weight: 600;
+            font-size: 18px;
+            font-weight: 700;
+            color: #1a1a1a;
             margin-bottom: 6px;
-            line-height: 1.3;
         }
 
         .service-desc {
             font-size: 14px;
-            color: var(--tg-theme-hint-color, #999);
-            line-height: 1.4;
+            color: #666;
         }
 
         .service-bottom {
@@ -199,97 +174,88 @@
             align-items: center;
             margin-top: 12px;
             padding-top: 12px;
-            border-top: 1px solid rgba(0,0,0,0.06);
+            border-top: 1px solid rgba(0,0,0,0.08);
         }
 
         .service-price {
-            font-size: 20px;
-            font-weight: 700;
-            color: var(--tg-theme-button-color, #3390ec);
+            font-size: 24px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
         .service-badge {
-            background: rgba(var(--tg-theme-button-color, 51, 144, 236), 0.15);
-            color: var(--tg-theme-button-color, #3390ec);
-            padding: 4px 10px;
-            border-radius: 8px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #fff;
+            padding: 6px 12px;
+            border-radius: 10px;
             font-size: 12px;
-            font-weight: 600;
-        }
-
-        .payment-section {
-            margin-top: 24px;
-            animation: slideUp 0.5s ease;
-        }
-
-        .section-title {
-            font-size: 18px;
             font-weight: 700;
-            margin-bottom: 14px;
-            padding-left: 4px;
         }
 
         .crypto-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             gap: 10px;
-            margin-bottom: 20px;
+            margin: 20px 0;
         }
 
         .crypto-card {
-            background: var(--tg-theme-secondary-bg-color, #f7f7f7);
-            border-radius: 14px;
-            padding: 16px 12px;
+            background: rgba(255,255,255,0.95);
+            border-radius: 16px;
+            padding: 18px 12px;
             cursor: pointer;
-            border: 1.5px solid transparent;
+            border: 2px solid rgba(255,255,255,0.3);
             text-align: center;
-            transition: all 0.2s ease;
+            transition: all 0.3s ease;
         }
 
         .crypto-card:active {
-            transform: scale(0.95);
+            transform: scale(0.92);
         }
 
         .crypto-card.selected {
-            border-color: var(--tg-theme-button-color, #3390ec);
-            background: linear-gradient(135deg, rgba(51, 144, 236, 0.15) 0%, rgba(51, 144, 236, 0.05) 100%);
+            border-color: #667eea;
+            background: rgba(102, 126, 234, 0.2);
         }
 
         .crypto-icon {
-            font-size: 32px;
+            font-size: 36px;
             margin-bottom: 8px;
         }
 
         .crypto-name {
-            font-size: 13px;
-            font-weight: 600;
+            font-size: 14px;
+            font-weight: 700;
+            color: #1a1a1a;
         }
 
         .network-list {
             display: flex;
             flex-direction: column;
-            gap: 8px;
+            gap: 10px;
+            margin-top: 20px;
         }
 
         .network-card {
-            background: var(--tg-theme-secondary-bg-color, #f7f7f7);
-            border-radius: 12px;
-            padding: 14px 16px;
+            background: rgba(255,255,255,0.95);
+            border-radius: 16px;
+            padding: 16px;
             cursor: pointer;
-            border: 1.5px solid transparent;
-            transition: all 0.2s ease;
+            border: 2px solid rgba(255,255,255,0.3);
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
 
         .network-card:active {
-            transform: scale(0.98);
+            transform: scale(0.97);
         }
 
         .network-card.selected {
-            border-color: var(--tg-theme-button-color, #3390ec);
-            background: linear-gradient(135deg, rgba(51, 144, 236, 0.15) 0%, rgba(51, 144, 236, 0.05) 100%);
+            border-color: #667eea;
+            background: rgba(102, 126, 234, 0.2);
         }
 
         .network-info {
@@ -298,48 +264,31 @@
             gap: 12px;
         }
 
-        .network-icon {
-            font-size: 24px;
-        }
-
-        .network-details {
-            flex: 1;
-        }
-
         .network-name {
-            font-size: 15px;
-            font-weight: 600;
-            margin-bottom: 3px;
+            font-size: 16px;
+            font-weight: 700;
+            color: #1a1a1a;
         }
 
         .network-desc {
             font-size: 13px;
-            color: var(--tg-theme-hint-color, #999);
+            color: #666;
         }
 
         .network-badge {
-            background: rgba(52, 199, 89, 0.15);
-            color: #34c759;
-            padding: 4px 10px;
+            background: linear-gradient(135deg, #34c759 0%, #30a14e 100%);
+            color: #fff;
+            padding: 6px 12px;
             border-radius: 8px;
             font-size: 11px;
-            font-weight: 600;
+            font-weight: 700;
         }
 
         .summary-box {
-            background: linear-gradient(135deg, var(--tg-theme-button-color, #3390ec) 0%, rgba(51, 144, 236, 0.8) 100%);
-            color: #ffffff;
-            border-radius: 16px;
-            padding: 20px;
+            background: rgba(255,255,255,0.95);
+            border-radius: 20px;
+            padding: 24px;
             margin-top: 24px;
-            animation: slideUp 0.5s ease;
-        }
-
-        .summary-header {
-            font-size: 16px;
-            font-weight: 600;
-            margin-bottom: 16px;
-            opacity: 0.9;
         }
 
         .summary-row {
@@ -347,23 +296,82 @@
             justify-content: space-between;
             margin-bottom: 10px;
             font-size: 15px;
+            color: #333;
         }
 
         .summary-row:last-child {
             margin-top: 16px;
             padding-top: 16px;
-            border-top: 1px solid rgba(255,255,255,0.2);
-            font-size: 20px;
+            border-top: 2px solid rgba(0,0,0,0.1);
+            font-size: 22px;
+            font-weight: 800;
+            color: #667eea;
+        }
+
+        .qr-container {
+            text-align: center;
+            padding: 24px;
+        }
+
+        .qr-code {
+            width: 280px;
+            height: 280px;
+            margin: 20px auto;
+            padding: 20px;
+            background: #fff;
+            border-radius: 20px;
+        }
+
+        .wallet-address {
+            background: rgba(255,255,255,0.95);
+            padding: 16px;
+            border-radius: 12px;
+            margin: 16px 0;
+            word-break: break-all;
+            font-family: monospace;
+            font-size: 13px;
+            color: #333;
+        }
+
+        .copy-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #fff;
+            border: none;
+            padding: 14px 28px;
+            border-radius: 12px;
+            font-size: 16px;
             font-weight: 700;
-            margin-bottom: 0;
+            cursor: pointer;
+            margin-top: 12px;
         }
 
-        .summary-label {
-            opacity: 0.9;
+        .payment-status {
+            text-align: center;
+            padding: 20px;
+            margin-top: 20px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 16px;
         }
 
-        .summary-value {
-            font-weight: 600;
+        .status-icon {
+            font-size: 64px;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        .success-screen {
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+        .success-icon {
+            font-size: 120px;
+            animation: successPop 0.6s ease;
+        }
+
+        .success-title {
+            font-size: 32px;
+            font-weight: 800;
+            margin-bottom: 12px;
         }
 
         .hidden {
@@ -371,86 +379,107 @@
         }
 
         @keyframes fadeIn {
-            from {
-                opacity: 0;
-            }
-            to {
-                opacity: 1;
-            }
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
 
         @keyframes slideUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
-        @media (max-width: 380px) {
-            .crypto-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        @keyframes successPop {
+            0% { transform: scale(0); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
         }
     </style>
 </head>
 <body>
-    <!-- Экран выбора биржи -->
+    <!-- Экран 1: Выбор биржи -->
     <div id="exchangeScreen" class="screen">
-        <div class="header">
-            <div class="header-icon">💎</div>
-            <h1>Выберите биржу</h1>
-            <p>Услуги для вашей криптобиржи</p>
+        <div class="panda-mascot">
+            <svg viewBox="0 0 200 200">
+                <ellipse cx="100" cy="120" rx="50" ry="60" fill="#fff"/>
+                <circle cx="100" cy="70" r="45" fill="#fff"/>
+                <ellipse cx="70" cy="40" rx="20" ry="25" fill="#000"/>
+                <ellipse cx="130" cy="40" rx="20" ry="25" fill="#000"/>
+                <ellipse cx="85" cy="65" rx="18" ry="22" fill="#000"/>
+                <circle cx="88" cy="68" r="6" fill="#fff"/>
+                <ellipse cx="115" cy="65" rx="18" ry="22" fill="#000"/>
+                <circle cx="118" cy="68" r="6" fill="#fff"/>
+                <ellipse cx="100" cy="85" rx="8" ry="6" fill="#000"/>
+                <circle cx="140" cy="110" r="18" fill="#FFD700"/>
+                <text x="140" y="118" font-size="20" text-anchor="middle" fill="#000" font-weight="bold">₿</text>
+            </svg>
         </div>
-
+        <div class="header">
+            <h1>Panda Shop</h1>
+            <p>Выберите биржу</p>
+        </div>
         <div class="grid">
             <div class="exchange-card" data-exchange="binance">
-                <span class="exchange-icon">🟡</span>
+                <div class="exchange-logo">
+                    <svg viewBox="0 0 126 126">
+                        <path fill="#F3BA2F" d="M38.73,53.2,32.43,47l-6.3,6.3L19.83,47l6.3-6.3L38.73,53.2M58,33.9l6.3-6.3L77,40.2l6.3-6.3,6.3,6.3L77,53.2,70.6,47,64.3,40.6ZM77.43,66.7,83.73,73l-6.3,6.3L64.3,66.1l6.3-6.3ZM58,86l-6.3,6.3L38.73,79.4l-6.3,6.3-6.3-6.3L38.73,66.7l6.3,6.3,6.3,6.3L64.3,92.3ZM32.43,66.7l6.3-6.3L45,66.7l-6.3,6.3Zm32.1-6.3,6.3-6.3L77,60.4l-6.3,6.3ZM70.6,73l6.3-6.3L83.2,73l-6.3,6.3ZM58,53.2l6.3-6.3L70.6,53.2,64.3,59.5Z"/>
+                    </svg>
+                </div>
                 <div class="exchange-name">Binance</div>
             </div>
             <div class="exchange-card" data-exchange="bybit">
-                <span class="exchange-icon">🟠</span>
+                <div class="exchange-logo">
+                    <svg viewBox="0 0 100 100">
+                        <circle cx="50" cy="50" r="45" fill="#F7A600"/>
+                        <path d="M30 35 L50 20 L70 35 L70 65 L50 80 L30 65 Z" fill="#000"/>
+                    </svg>
+                </div>
                 <div class="exchange-name">Bybit</div>
             </div>
             <div class="exchange-card" data-exchange="okx">
-                <span class="exchange-icon">⚫</span>
+                <div class="exchange-logo">
+                    <svg viewBox="0 0 100 100">
+                        <rect width="100" height="100" fill="#000"/>
+                        <circle cx="50" cy="50" r="35" fill="none" stroke="#FFF" stroke-width="4"/>
+                    </svg>
+                </div>
                 <div class="exchange-name">OKX</div>
             </div>
             <div class="exchange-card" data-exchange="kraken">
-                <span class="exchange-icon">🟣</span>
+                <div class="exchange-logo">
+                    <svg viewBox="0 0 100 100">
+                        <circle cx="50" cy="50" r="45" fill="#5741D9"/>
+                        <path d="M35 60 Q50 35 65 60" fill="#FFF"/>
+                    </svg>
+                </div>
                 <div class="exchange-name">Kraken</div>
-            </div>
-            <div class="exchange-card" data-exchange="kucoin">
-                <span class="exchange-icon">🟢</span>
-                <div class="exchange-name">KuCoin</div>
-            </div>
-            <div class="exchange-card" data-exchange="huobi">
-                <span class="exchange-icon">🔵</span>
-                <div class="exchange-name">Huobi</div>
             </div>
         </div>
     </div>
 
-    <!-- Экран выбора услуги -->
+    <!-- Экран 2: Выбор услуги -->
     <div id="serviceScreen" class="screen hidden">
         <button class="back-btn" onclick="goToExchanges()">← Назад</button>
-        
         <div class="header">
-            <div class="header-icon" id="serviceExchangeIcon">🟡</div>
             <h1 id="serviceExchangeName">Binance</h1>
             <p>Выберите услугу</p>
         </div>
-
         <div class="service-list">
             <div class="service-card" data-service="verification" data-price="50">
                 <div class="service-top">
                     <span class="service-icon">✅</span>
-                    <div class="service-info">
-                        <div class="service-title">Верификация аккаунта</div>
-                        <div class="service-desc">Полное KYC прохождение с подтверждением личности</div>
+                    <div>
+                        <div class="service-title">Верификация KYC</div>
+                        <div class="service-desc">Полное прохождение верификации</div>
                     </div>
                 </div>
                 <div class="service-bottom">
@@ -458,13 +487,12 @@
                     <div class="service-badge">Популярно</div>
                 </div>
             </div>
-
             <div class="service-card" data-service="api" data-price="35">
                 <div class="service-top">
                     <span class="service-icon">🔑</span>
-                    <div class="service-info">
+                    <div>
                         <div class="service-title">Настройка API</div>
-                        <div class="service-desc">Создание и настройка безопасных API ключей</div>
+                        <div class="service-desc">Безопасная настройка ключей</div>
                     </div>
                 </div>
                 <div class="service-bottom">
@@ -472,296 +500,154 @@
                     <div class="service-badge">Быстро</div>
                 </div>
             </div>
+        </div>
+    </div>
 
-            <div class="service-card" data-service="account" data-price="120">
-                <div class="service-top">
-                    <span class="service-icon">👤</span>
-                    <div class="service-info">
-                        <div class="service-title">Готовый аккаунт</div>
-                        <div class="service-desc">Полностью верифицированный аккаунт с историей</div>
-                    </div>
-                </div>
-                <div class="service-bottom">
-                    <div class="service-price">$120</div>
-                    <div class="service-badge">Premium</div>
-                </div>
+    <!-- Экран 3: Оплата -->
+    <div id="paymentScreen" class="screen hidden">
+        <button class="back-btn" onclick="goToServices()">← Назад</button>
+        <div class="header">
+            <h1>💳 Оплата</h1>
+            <p>Выберите криптовалюту</p>
+        </div>
+        <div class="crypto-grid">
+            <div class="crypto-card" data-crypto="usdt">
+                <div class="crypto-icon">💵</div>
+                <div class="crypto-name">USDT</div>
             </div>
-
-            <div class="service-card" data-service="strategy" data-price="200">
-                <div class="service-top">
-                    <span class="service-icon">📈</span>
-                    <div class="service-info">
-                        <div class="service-title">Торговая стратегия</div>
-                        <div class="service-desc">Персональная стратегия с обучением</div>
-                    </div>
-                </div>
-                <div class="service-bottom">
-                    <div class="service-price">$200</div>
-                    <div class="service-badge">VIP</div>
-                </div>
+            <div class="crypto-card" data-crypto="btc">
+                <div class="crypto-icon">₿</div>
+                <div class="crypto-name">Bitcoin</div>
             </div>
+        </div>
+        <div id="networkSection" style="display:none">
+            <div class="network-list" id="networkList"></div>
+        </div>
+        <div class="summary-box" id="finalSummary" style="display:none">
+            <div class="summary-row"><span>Биржа:</span><span id="finalExchange"></span></div>
+            <div class="summary-row"><span>Услуга:</span><span id="finalService"></span></div>
+            <div class="summary-row"><span>Итого:</span><span id="finalPrice"></span></div>
+        </div>
+    </div>
 
-            <div class="service-card" data-service="bot" data-price="180">
-                <div class="service-top">
-                    <span class="service-icon">🤖</span>
-                    <div class="service-info">
-                        <div class="service-title">Торговый бот</div>
-                        <div class="service-desc">Автоматическая торговля 24/7 с настройкой</div>
-                    </div>
-                </div>
-                <div class="service-bottom">
-                    <div class="service-price">$180</div>
-                    <div class="service-badge">Топ</div>
-                </div>
+    <!-- Экран 4: QR код -->
+    <div id="qrScreen" class="screen hidden">
+        <div class="header">
+            <h1>📱 Сканируйте QR</h1>
+            <p>Отправьте точную сумму</p>
+        </div>
+        <div class="qr-container">
+            <div class="qr-code" id="qrCode"></div>
+            <div class="wallet-address" id="walletAddress">Загрузка...</div>
+            <button class="copy-btn" onclick="copyAddress()">📋 Копировать</button>
+            <div class="payment-status">
+                <div class="status-icon">⏳</div>
+                <div>Ожидаем оплату...</div>
+                <div style="margin-top:12px;font-size:24px;font-weight:800" id="paymentAmount">$0</div>
             </div>
         </div>
     </div>
 
-    <!-- Экран оплаты -->
-    <div id="paymentScreen" class="screen hidden">
-        <button class="back-btn" onclick="goToServices()">← Назад</button>
-        
-        <div class="header">
-            <div class="header-icon">💳</div>
-            <h1>Оплата</h1>
-            <p>Выберите способ оплаты</p>
-        </div>
-
-        <div class="payment-section">
-            <div class="section-title">Криптовалюта</div>
-            <div class="crypto-grid">
-                <div class="crypto-card" data-crypto="usdt">
-                    <div class="crypto-icon">💵</div>
-                    <div class="crypto-name">USDT</div>
-                </div>
-                <div class="crypto-card" data-crypto="btc">
-                    <div class="crypto-icon">₿</div>
-                    <div class="crypto-name">Bitcoin</div>
-                </div>
-                <div class="crypto-card" data-crypto="eth">
-                    <div class="crypto-icon">Ξ</div>
-                    <div class="crypto-name">Ethereum</div>
-                </div>
-                <div class="crypto-card" data-crypto="usdc">
-                    <div class="crypto-icon">🔵</div>
-                    <div class="crypto-name">USDC</div>
-                </div>
-                <div class="crypto-card" data-crypto="ton">
-                    <div class="crypto-icon">💎</div>
-                    <div class="crypto-name">TON</div>
-                </div>
-                <div class="crypto-card" data-crypto="trx">
-                    <div class="crypto-icon">🔺</div>
-                    <div class="crypto-name">TRON</div>
-                </div>
-            </div>
-        </div>
-
-        <div class="payment-section" id="networkSection" style="display: none;">
-            <div class="section-title">Выберите сеть</div>
-            <div class="network-list" id="networkList">
-                <!-- Динамически заполняется -->
-            </div>
-        </div>
-
-        <div class="summary-box" id="finalSummary" style="display: none;">
-            <div class="summary-header">📋 Детали заказа</div>
-            <div class="summary-row">
-                <span class="summary-label">Биржа:</span>
-                <span class="summary-value" id="finalExchange"></span>
-            </div>
-            <div class="summary-row">
-                <span class="summary-label">Услуга:</span>
-                <span class="summary-value" id="finalService"></span>
-            </div>
-            <div class="summary-row">
-                <span class="summary-label">Оплата:</span>
-                <span class="summary-value" id="finalCrypto"></span>
-            </div>
-            <div class="summary-row">
-                <span class="summary-label">Сеть:</span>
-                <span class="summary-value" id="finalNetwork"></span>
-            </div>
-            <div class="summary-row">
-                <span class="summary-label">Итого:</span>
-                <span class="summary-value" id="finalPrice"></span>
-            </div>
+    <!-- Экран 5: Успех -->
+    <div id="successScreen" class="screen hidden">
+        <div class="success-screen">
+            <div class="success-icon">✅</div>
+            <div class="success-title">Оплата получена!</div>
+            <div>Менеджер свяжется с вами</div>
         </div>
     </div>
 
     <script>
         let tg = window.Telegram.WebApp;
         tg.expand();
-        tg.MainButton.hide();
+        tg.BackButton.show();
 
-        let selectedData = {
+        let data = {
             exchange: null,
             exchangeName: null,
-            exchangeIcon: null,
             service: null,
             serviceName: null,
             price: null,
             crypto: null,
-            cryptoName: null,
             network: null,
-            networkName: null
+            walletAddress: null,
+            orderId: null
         };
 
-        const exchangeData = {
-            'binance': { name: 'Binance', icon: '🟡' },
-            'bybit': { name: 'Bybit', icon: '🟠' },
-            'okx': { name: 'OKX', icon: '⚫' },
-            'kraken': { name: 'Kraken', icon: '🟣' },
-            'kucoin': { name: 'KuCoin', icon: '🟢' },
-            'huobi': { name: 'Huobi', icon: '🔵' }
-        };
-
-        const serviceData = {
-            'verification': 'Верификация аккаунта',
-            'api': 'Настройка API',
-            'account': 'Готовый аккаунт',
-            'strategy': 'Торговая стратегия',
-            'bot': 'Торговый бот'
-        };
-
-        const cryptoData = {
-            'usdt': 'USDT',
-            'btc': 'Bitcoin',
-            'eth': 'Ethereum',
-            'usdc': 'USDC',
-            'ton': 'TON',
-            'trx': 'TRON'
+        const wallets = {
+            'usdt-trc20': 'TXm6gEHhZXjFhzPHpHKVGYHqXeDvXxXxXx',
+            'btc-bitcoin': 'bc1qxy2kgdygjrsqtzq2n0yrf2493p83kkfjhx0wlh'
         };
 
         const networks = {
-            'usdt': [
-                { id: 'trc20', name: 'TRC20', desc: 'TRON Network', fee: 'Низкая' },
-                { id: 'erc20', name: 'ERC20', desc: 'Ethereum', fee: 'Высокая' },
-                { id: 'bep20', name: 'BEP20', desc: 'BSC', fee: 'Низкая' }
-            ],
-            'btc': [
-                { id: 'bitcoin', name: 'Bitcoin', desc: 'Main Network', fee: 'Средняя' },
-                { id: 'lightning', name: 'Lightning', desc: 'Fast & Cheap', fee: 'Низкая' }
-            ],
-            'eth': [
-                { id: 'ethereum', name: 'Ethereum', desc: 'Main Network', fee: 'Высокая' },
-                { id: 'arbitrum', name: 'Arbitrum', desc: 'Layer 2', fee: 'Низкая' }
-            ],
-            'usdc': [
-                { id: 'erc20', name: 'ERC20', desc: 'Ethereum', fee: 'Высокая' },
-                { id: 'polygon', name: 'Polygon', desc: 'MATIC Network', fee: 'Низкая' }
-            ],
-            'ton': [
-                { id: 'ton', name: 'TON', desc: 'The Open Network', fee: 'Низкая' }
-            ],
-            'trx': [
-                { id: 'tron', name: 'TRON', desc: 'Main Network', fee: 'Низкая' }
-            ]
+            usdt: [{id:'trc20', name:'TRC20', desc:'TRON', fee:'Низкая'}],
+            btc: [{id:'bitcoin', name:'Bitcoin', desc:'Main', fee:'Средняя'}]
         };
 
-        // Выбор биржи
-        document.querySelectorAll('.exchange-card').forEach(card => {
-            card.addEventListener('click', function() {
-                const exchangeId = this.getAttribute('data-exchange');
-                selectedData.exchange = exchangeId;
-                selectedData.exchangeName = exchangeData[exchangeId].name;
-                selectedData.exchangeIcon = exchangeData[exchangeId].icon;
-                
+        document.querySelectorAll('.exchange-card').forEach(c => {
+            c.onclick = () => {
+                data.exchange = c.dataset.exchange;
+                data.exchangeName = c.querySelector('.exchange-name').textContent;
                 showScreen('serviceScreen');
-                document.getElementById('serviceExchangeIcon').textContent = selectedData.exchangeIcon;
-                document.getElementById('serviceExchangeName').textContent = selectedData.exchangeName;
-            });
+                document.getElementById('serviceExchangeName').textContent = data.exchangeName;
+            };
         });
 
-        // Выбор услуги
-        document.querySelectorAll('.service-card').forEach(card => {
-            card.addEventListener('click', function() {
-                document.querySelectorAll('.service-card').forEach(c => c.classList.remove('selected'));
-                this.classList.add('selected');
-                
-                const serviceId = this.getAttribute('data-service');
-                selectedData.service = serviceId;
-                selectedData.serviceName = serviceData[serviceId];
-                selectedData.price = this.getAttribute('data-price');
-                
-                setTimeout(() => {
-                    showScreen('paymentScreen');
-                }, 300);
-            });
+        document.querySelectorAll('.service-card').forEach(c => {
+            c.onclick = () => {
+                document.querySelectorAll('.service-card').forEach(x => x.classList.remove('selected'));
+                c.classList.add('selected');
+                data.service = c.dataset.service;
+                data.serviceName = c.querySelector('.service-title').textContent;
+                data.price = c.dataset.price;
+                setTimeout(() => showScreen('paymentScreen'), 300);
+            };
         });
 
-        // Выбор криптовалюты
-        document.querySelectorAll('.crypto-card').forEach(card => {
-            card.addEventListener('click', function() {
-                document.querySelectorAll('.crypto-card').forEach(c => c.classList.remove('selected'));
-                this.classList.add('selected');
-                
-                const cryptoId = this.getAttribute('data-crypto');
-                selectedData.crypto = cryptoId;
-                selectedData.cryptoName = cryptoData[cryptoId];
-                
-                showNetworks(cryptoId);
-            });
+        document.querySelectorAll('.crypto-card').forEach(c => {
+            c.onclick = () => {
+                document.querySelectorAll('.crypto-card').forEach(x => x.classList.remove('selected'));
+                c.classList.add('selected');
+                data.crypto = c.dataset.crypto;
+                showNetworks(data.crypto);
+            };
         });
 
-        function showNetworks(cryptoId) {
-            const networkSection = document.getElementById('networkSection');
-            const networkList = document.getElementById('networkList');
-            
-            networkList.innerHTML = '';
-            networks[cryptoId].forEach(network => {
-                const networkCard = document.createElement('div');
-                networkCard.className = 'network-card';
-                networkCard.setAttribute('data-network', network.id);
-                networkCard.innerHTML = `
+        function showNetworks(crypto) {
+            const list = document.getElementById('networkList');
+            list.innerHTML = '';
+            networks[crypto].forEach(n => {
+                const div = document.createElement('div');
+                div.className = 'network-card';
+                div.innerHTML = `
                     <div class="network-info">
-                        <div class="network-icon">⚡</div>
-                        <div class="network-details">
-                            <div class="network-name">${network.name}</div>
-                            <div class="network-desc">${network.desc}</div>
-                        </div>
+                        <div>${n.name}</div>
                     </div>
-                    <div class="network-badge">${network.fee}</div>
+                    <div class="network-badge">${n.fee}</div>
                 `;
-                
-                networkCard.addEventListener('click', function() {
-                    document.querySelectorAll('.network-card').forEach(c => c.classList.remove('selected'));
-                    this.classList.add('selected');
-                    
-                    selectedData.network = network.id;
-                    selectedData.networkName = network.name;
-                    
-                    showFinalSummary();
-                });
-                
-                networkList.appendChild(networkCard);
+                div.onclick = () => {
+                    document.querySelectorAll('.network-card').forEach(x => x.classList.remove('selected'));
+                    div.classList.add('selected');
+                    data.network = n.id;
+                    showSummary();
+                };
+                list.appendChild(div);
             });
-            
-            networkSection.style.display = 'block';
-            networkSection.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            document.getElementById('networkSection').style.display = 'block';
         }
 
-        function showFinalSummary() {
-            document.getElementById('finalExchange').textContent = selectedData.exchangeName;
-            document.getElementById('finalService').textContent = selectedData.serviceName;
-            document.getElementById('finalCrypto').textContent = selectedData.cryptoName;
-            document.getElementById('finalNetwork').textContent = selectedData.networkName;
-            document.getElementById('finalPrice').textContent = `$${selectedData.price}`;
-            
-            const summaryBox = document.getElementById('finalSummary');
-            summaryBox.style.display = 'block';
-            summaryBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-            
-            tg.MainButton.setText(`Оплатить $${selectedData.price}`);
+        function showSummary() {
+            document.getElementById('finalExchange').textContent = data.exchangeName;
+            document.getElementById('finalService').textContent = data.serviceName;
+            document.getElementById('finalPrice').textContent = '$' + data.price;
+            document.getElementById('finalSummary').style.display = 'block';
+            tg.MainButton.setText('Оплатить $' + data.price);
             tg.MainButton.show();
         }
 
-        function showScreen(screenId) {
-            document.querySelectorAll('.screen').forEach(screen => {
-                screen.classList.add('hidden');
-            });
-            document.getElementById(screenId).classList.remove('hidden');
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+        function showScreen(id) {
+            document.querySelectorAll('.screen').forEach(s => s.classList.add('hidden'));
+            document.getElementById(id).classList.remove('hidden');
         }
 
         function goToExchanges() {
@@ -771,40 +657,47 @@
 
         function goToServices() {
             showScreen('serviceScreen');
-            document.getElementById('networkSection').style.display = 'none';
-            document.getElementById('finalSummary').style.display = 'none';
             tg.MainButton.hide();
         }
 
-        // Обработка главной кнопки
-        tg.MainButton.onClick(function() {
-            const orderData = {
-                exchange: selectedData.exchangeName,
-                service: selectedData.serviceName,
-                price: `$${selectedData.price}`,
-                crypto: selectedData.cryptoName,
-                network: selectedData.networkName,
-                timestamp: new Date().toISOString()
-            };
-            
-            tg.sendData(JSON.stringify(orderData));
-            tg.close();
+        function generateQR() {
+            data.orderId = 'ORDER-' + Date.now();
+            data.walletAddress = wallets[data.crypto + '-' + data.network];
+            document.getElementById('qrCode').innerHTML = '';
+            new QRCode(document.getElementById('qrCode'), {
+                text: data.walletAddress,
+                width: 240,
+                height: 240
+            });
+            document.getElementById('walletAddress').textContent = data.walletAddress;
+            document.getElementById('paymentAmount').textContent = '$' + data.price;
+            setTimeout(paymentReceived, 15000);
+        }
+
+        function paymentReceived() {
+            showScreen('successScreen');
+            tg.sendData(JSON.stringify(data));
+            setTimeout(() => tg.close(), 3000);
+        }
+
+        function copyAddress() {
+            navigator.clipboard.writeText(data.walletAddress);
+            tg.showAlert('✅ Адрес скопирован!');
+        }
+
+        tg.MainButton.onClick(() => {
+            showScreen('qrScreen');
+            tg.MainButton.hide();
+            generateQR();
         });
 
-        // Кнопка назад
-        tg.BackButton.onClick(function() {
-            const currentScreen = document.querySelector('.screen:not(.hidden)').id;
-            
-            if (currentScreen === 'exchangeScreen') {
-                tg.close();
-            } else if (currentScreen === 'serviceScreen') {
-                goToExchanges();
-            } else if (currentScreen === 'paymentScreen') {
-                goToServices();
-            }
+        tg.BackButton.onClick(() => {
+            const current = document.querySelector('.screen:not(.hidden)').id;
+            if (current === 'exchangeScreen') tg.close();
+            else if (current === 'serviceScreen') goToExchanges();
+            else if (current === 'paymentScreen') showScreen('serviceScreen');
+            else if (current === 'qrScreen') showScreen('paymentScreen');
         });
-
-        tg.BackButton.show();
     </script>
 </body>
 </html>
