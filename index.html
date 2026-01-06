@@ -73,7 +73,7 @@ body::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;backgrou
 <div class="shape shape3"></div>
 </div>
 
-<div id="s1" class="screen" style="opacity:1">
+<div id="s1" class="screen" style="opacity:1;display:block">
 <div class="panda-mascot" style="animation:scaleUp 0.8s ease-out">
 <svg viewBox="0 0 200 200">
 <ellipse cx="100" cy="120" rx="50" ry="60" fill="#fff"/>
@@ -93,16 +93,16 @@ body::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;backgrou
 <h1>🐼 Panda Shop</h1>
 <p>Выберите криптобиржу</p>
 </div>
-<div class="grid" id="exchangeGrid" style="animation:slideInUp 1.2s ease-out">
-<div class="card exchange-card" data-ex="binance"><div class="logo">🟡</div><div class="name">Binance</div></div>
-<div class="card exchange-card" data-ex="bybit"><div class="logo">🟠</div><div class="name">Bybit</div></div>
-<div class="card exchange-card" data-ex="okx"><div class="logo">⚫</div><div class="name">OKX</div></div>
-<div class="card exchange-card" data-ex="kraken"><div class="logo">🟣</div><div class="name">Kraken</div></div>
-<div class="card exchange-card" data-ex="gateio"><div class="logo">🟢</div><div class="name">Gate.io</div></div>
-<div class="card exchange-card" data-ex="mexc"><div class="logo">🔵</div><div class="name">MEXC</div></div>
-<div class="card exchange-card" data-ex="bingx"><div class="logo">🔷</div><div class="name">BingX</div></div>
-<div class="card exchange-card" data-ex="bitget"><div class="logo">💠</div><div class="name">Bitget</div></div>
-<div class="card exchange-card" data-ex="kucoin"><div class="logo">🟩</div><div class="name">KuCoin</div></div>
+<div class="grid" style="animation:slideInUp 1.2s ease-out">
+<div class="card" onclick="selectExchange('binance','Binance')"><div class="logo">🟡</div><div class="name">Binance</div></div>
+<div class="card" onclick="selectExchange('bybit','Bybit')"><div class="logo">🟠</div><div class="name">Bybit</div></div>
+<div class="card" onclick="selectExchange('okx','OKX')"><div class="logo">⚫</div><div class="name">OKX</div></div>
+<div class="card" onclick="selectExchange('kraken','Kraken')"><div class="logo">🟣</div><div class="name">Kraken</div></div>
+<div class="card" onclick="selectExchange('gateio','Gate.io')"><div class="logo">🟢</div><div class="name">Gate.io</div></div>
+<div class="card" onclick="selectExchange('mexc','MEXC')"><div class="logo">🔵</div><div class="name">MEXC</div></div>
+<div class="card" onclick="selectExchange('bingx','BingX')"><div class="logo">🔷</div><div class="name">BingX</div></div>
+<div class="card" onclick="selectExchange('bitget','Bitget')"><div class="logo">💠</div><div class="name">Bitget</div></div>
+<div class="card" onclick="selectExchange('kucoin','KuCoin')"><div class="logo">🟩</div><div class="name">KuCoin</div></div>
 </div>
 </div>
 
