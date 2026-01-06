@@ -8,17 +8,20 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#0f0f1e;color:#fff;min-height:100vh;position:relative;overflow-x:hidden}
-body::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;background:radial-gradient(circle at 20% 30%,rgba(102,126,234,0.3) 0%,transparent 50%),radial-gradient(circle at 80% 70%,rgba(118,75,162,0.3) 0%,transparent 50%),radial-gradient(circle at 40% 80%,rgba(52,199,89,0.2) 0%,transparent 40%);z-index:0}
+html, body{width:100%;height:100%;overflow:hidden}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#0f0f1e;color:#fff;min-height:100vh;position:relative}
+body::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;background:radial-gradient(circle at 20% 30%,rgba(102,126,234,0.3) 0%,transparent 50%),radial-gradient(circle at 80% 70%,rgba(118,75,162,0.3) 0%,transparent 50%),radial-gradient(circle at 40% 80%,rgba(52,199,89,0.2) 0%,transparent 40%);z-index:-1}
 .bg-shapes{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;overflow:hidden;pointer-events:none}
 .shape{position:absolute;border-radius:50%;opacity:0.1}
 .shape1{width:300px;height:300px;background:linear-gradient(135deg,#667eea,#764ba2);top:10%;left:10%;animation:float 20s infinite ease-in-out}
 .shape2{width:200px;height:200px;background:linear-gradient(135deg,#f093fb,#f5576c);top:60%;right:10%;animation:float 25s infinite ease-in-out;animation-delay:5s}
 .shape3{width:150px;height:150px;background:linear-gradient(135deg,#4facfe,#00f2fe);bottom:20%;left:30%;animation:float 30s infinite ease-in-out;animation-delay:10s}
-.screen{min-height:100vh;padding:20px 16px 100px;position:relative;z-index:1;transition:transform 0.4s ease, opacity 0.4s ease;opacity:0;transform:translateX(30px);pointer-events:none}
+.app-container{position:fixed;top:0;left:0;width:100%;height:100%;overflow:hidden}
+.screen{position:absolute;top:0;left:0;width:100%;height:100%;padding:20px 16px 80px;overflow-y:auto;overflow-x:hidden;z-index:1;transition:transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1);opacity:0;transform:translateX(30px);pointer-events:none;background:transparent;-webkit-overflow-scrolling:touch}
 .screen.active{opacity:1;transform:translateX(0);pointer-events:auto}
 .screen.exiting{opacity:0;transform:translateX(-30px)}
 .screen.entering{opacity:1;transform:translateX(0)}
+.screen-content{max-width:600px;margin:0 auto;width:100%}
 .panda-mascot{text-align:center;margin-bottom:20px;animation:float 3s ease-in-out infinite}
 .panda-mascot svg{width:120px;height:120px;filter:drop-shadow(0 10px 30px rgba(0,0,0,0.5))}
 .header{text-align:center;margin-bottom:32px}
@@ -74,7 +77,9 @@ body::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;backgrou
 .network-name{font-size:18px;font-weight:700;margin-bottom:4px}
 .network-desc{font-size:14px;opacity:0.8;margin-bottom:8px}
 .network-fee{font-size:12px;color:#4facfe;font-weight:600}
-.continue-btn{position:fixed;bottom:20px;left:20px;right:20px;z-index:10}
+.continue-btn{position:sticky;bottom:20px;z-index:10;margin-top:20px}
+.scroll-container{overflow-y:auto;height:calc(100% - 120px)}
+.fixed-top{position:sticky;top:0;z-index:5;background:rgba(15,15,30,0.8);backdrop-filter:blur(10px);padding-top:10px;margin-bottom:10px}
 @keyframes fadeIn{from{opacity:0}to{opacity:1}}
 @keyframes slideInUp{from{opacity:0;transform:translateY(50px)}to{opacity:1;transform:translateY(0)}}
 @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-20px)}}
@@ -83,7 +88,6 @@ body::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;backgrou
 @keyframes scaleUp{0%{opacity:0;transform:scale(0.8)}100%{opacity:1;transform:scale(1)}}
 @keyframes fadeInScale{0%{opacity:0;transform:scale(0.9)}100%{opacity:1;transform:scale(1)}}
 @keyframes fadeInUp{0%{opacity:0;transform:translateY(20px)}100%{opacity:1;transform:translateY(0)}}
-@keyframes slideInRight{0%{opacity:0;transform:translateX(30px)}100%{opacity:1;transform:translateX(0)}}
 </style>
 </head>
 <body>
@@ -93,8 +97,11 @@ body::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;backgrou
 <div class="shape shape3"></div>
 </div>
 
+<div class="app-container">
 <!-- Экран 1: Выбор биржи -->
 <div id="s1" class="screen active">
+<div class="screen-content">
+<div class="fixed-top">
 <div class="progress-bar"><div class="progress-fill" style="width:20%"></div></div>
 <div class="step-indicator">
 <div class="step active"></div>
@@ -103,6 +110,8 @@ body::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;backgrou
 <div class="step"></div>
 <div class="step"></div>
 </div>
+</div>
+<div class="scroll-container">
 <div class="panda-mascot" style="animation:scaleUp 0.8s ease-out">
 <svg viewBox="0 0 200 200">
 <ellipse cx="100" cy="120" rx="50" ry="60" fill="#fff"/>
@@ -134,9 +143,13 @@ body::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;backgrou
 <div class="card" onclick="selectExchange('kucoin','KuCoin')"><div class="logo">🟩</div><div class="name">KuCoin</div></div>
 </div>
 </div>
+</div>
+</div>
 
 <!-- Экран 2: Выбор услуги -->
 <div id="s2" class="screen">
+<div class="screen-content">
+<div class="fixed-top">
 <div class="progress-bar"><div class="progress-fill" style="width:40%"></div></div>
 <div class="step-indicator">
 <div class="step"></div>
@@ -145,6 +158,8 @@ body::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;backgrou
 <div class="step"></div>
 <div class="step"></div>
 </div>
+</div>
+<div class="scroll-container">
 <button class="back-btn" onclick="go(1)">
 <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
 <path d="M10 12L6 8L10 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -168,9 +183,13 @@ body::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;backgrou
 <div class="service-bottom"><div class="service-price">$120</div><div class="service-badge">Premium</div></div>
 </div>
 </div>
+</div>
+</div>
 
 <!-- Экран 3: Выбор криптовалюты -->
 <div id="s3" class="screen">
+<div class="screen-content">
+<div class="fixed-top">
 <div class="progress-bar"><div class="progress-fill" style="width:60%"></div></div>
 <div class="step-indicator">
 <div class="step"></div>
@@ -179,6 +198,8 @@ body::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;backgrou
 <div class="step"></div>
 <div class="step"></div>
 </div>
+</div>
+<div class="scroll-container">
 <button class="back-btn" onclick="go(2)">
 <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
 <path d="M10 12L6 8L10 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -208,9 +229,13 @@ body::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;backgrou
 <div class="card" onclick="selectCrypto('doge','Dogecoin')"><div class="logo">🐕</div><div class="name">Dogecoin</div></div>
 </div>
 </div>
+</div>
+</div>
 
-<!-- Экран 4: Выбор сети (новая страница) -->
+<!-- Экран 4: Выбор сети -->
 <div id="s4" class="screen">
+<div class="screen-content">
+<div class="fixed-top">
 <div class="progress-bar"><div class="progress-fill" style="width:80%"></div></div>
 <div class="step-indicator">
 <div class="step"></div>
@@ -219,6 +244,8 @@ body::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;backgrou
 <div class="step active"></div>
 <div class="step"></div>
 </div>
+</div>
+<div class="scroll-container">
 <button class="back-btn" onclick="go(3)">
 <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
 <path d="M10 12L6 8L10 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -236,9 +263,13 @@ body::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;backgrou
 </button>
 </div>
 </div>
+</div>
+</div>
 
 <!-- Экран 5: QR-код и оплата -->
 <div id="s5" class="screen">
+<div class="screen-content">
+<div class="fixed-top">
 <div class="progress-bar"><div class="progress-fill" style="width:100%"></div></div>
 <div class="step-indicator">
 <div class="step"></div>
@@ -247,6 +278,8 @@ body::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;backgrou
 <div class="step"></div>
 <div class="step active"></div>
 </div>
+</div>
+<div class="scroll-container">
 <button class="back-btn" onclick="go(4)">
 <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
 <path d="M10 12L6 8L10 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -275,10 +308,13 @@ body::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;backgrou
 </div>
 </div>
 </div>
+</div>
+</div>
 
 <!-- Экран 6: Подтверждение оплаты -->
 <div id="s6" class="screen">
-<div style="text-align:center;padding:40px 20px">
+<div class="screen-content">
+<div class="scroll-container" style="text-align:center;padding:40px 20px">
 <div class="panda-mascot">
 <svg viewBox="0 0 120 120">
 <circle cx="60" cy="60" r="50" fill="#fff"/>
@@ -302,6 +338,8 @@ body::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;backgrou
 <div style="margin-top:24px;padding-top:24px;border-top:2px solid rgba(255,255,255,0.3);text-align:center">
 <div style="font-size:14px;opacity:0.8">Наш менеджер свяжется с вами в ближайшее время</div>
 <div style="font-size:14px;opacity:0.8;margin-top:8px">Спасибо за покупку! 🐼</div>
+</div>
+</div>
 </div>
 </div>
 </div>
@@ -400,7 +438,7 @@ function selectExchange(exId, exName) {
     d.ex = exId;
     d.exName = exName;
     document.getElementById('exName').textContent = exName;
-    animateTransition(2);
+    setTimeout(() => animateTransition(2), 10);
 }
 
 // Функция выбора услуги
@@ -409,10 +447,7 @@ function selectService(srvId, srvName, price) {
     d.srv = srvId;
     d.srvName = srvName;
     d.price = price;
-    
-    setTimeout(function() {
-        animateTransition(3);
-    }, 300);
+    setTimeout(() => animateTransition(3), 10);
 }
 
 // Функция выбора криптовалюты
@@ -420,9 +455,7 @@ function selectCrypto(cryptoId, cryptoName) {
     console.log('Crypto selected:', cryptoId, cryptoName);
     d.crypto = cryptoId;
     d.cryptoName = cryptoName;
-    
-    // Показываем выбор сети
-    showNetworkSelection();
+    setTimeout(() => showNetworkSelection(), 10);
 }
 
 // Функция показа выбора сети
@@ -471,8 +504,11 @@ function showNetworkSelection() {
         networkList.appendChild(card);
     });
     
+    // Сбрасываем кнопку
+    document.getElementById('continueBtn').disabled = true;
+    
     // Переходим на экран выбора сети
-    animateTransition(4);
+    setTimeout(() => animateTransition(4), 10);
 }
 
 // Функция перехода к оплате
@@ -506,6 +542,9 @@ function animateTransition(targetScreen) {
         return;
     }
     
+    // Автоматически скроллим текущий экран наверх перед переходом
+    currentScreenElement.querySelector('.scroll-container').scrollTop = 0;
+    
     // Анимация выхода текущего экрана
     currentScreenElement.classList.remove('active', 'entering');
     currentScreenElement.classList.add('exiting');
@@ -522,8 +561,11 @@ function animateTransition(targetScreen) {
         // Обновляем кнопку "Назад" в Telegram
         updateTelegramBackButton();
         
-        // Прокручиваем наверх
-        window.scrollTo(0, 0);
+        // Автоматически скроллим новый экран наверх
+        setTimeout(() => {
+            targetScreenElement.querySelector('.scroll-container').scrollTop = 0;
+        }, 50);
+        
     }, 400);
     
     // Через 50ms активируем целевой экран для плавного перехода
@@ -544,7 +586,13 @@ function go(s) {
         target.classList.add('active');
         currentScreen = s;
         updateTelegramBackButton();
-        window.scrollTo(0, 0);
+        
+        // Скроллим наверх
+        setTimeout(() => {
+            if (target.querySelector('.scroll-container')) {
+                target.querySelector('.scroll-container').scrollTop = 0;
+            }
+        }, 10);
     }
 }
 
@@ -744,6 +792,9 @@ tg.BackButton.onClick(function() {
 // Инициализация при загрузке
 document.addEventListener('DOMContentLoaded', function() {
     updateTelegramBackButton();
+    
+    // Блокируем скролл на body
+    document.body.style.overflow = 'hidden';
 });
 </script>
 </body>
