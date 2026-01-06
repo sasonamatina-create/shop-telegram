@@ -1,703 +1,339 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Panda Crypto Shop</title>
-    <script src="https://telegram.org/js/telegram-web-app.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: #fff;
-            padding: 0;
-            overflow-x: hidden;
-            min-height: 100vh;
-        }
-
-        .screen {
-            min-height: 100vh;
-            padding: 20px 16px 100px 16px;
-            opacity: 0;
-            animation: fadeIn 0.5s ease forwards;
-        }
-
-        .panda-mascot {
-            text-align: center;
-            margin-bottom: 20px;
-            animation: float 3s ease-in-out infinite;
-        }
-
-        .panda-mascot svg {
-            width: 120px;
-            height: 120px;
-            filter: drop-shadow(0 10px 30px rgba(0,0,0,0.3));
-        }
-
-        .header {
-            text-align: center;
-            margin-bottom: 32px;
-        }
-
-        .header h1 {
-            font-size: 32px;
-            font-weight: 800;
-            margin-bottom: 8px;
-            text-shadow: 0 2px 10px rgba(0,0,0,0.2);
-        }
-
-        .header p {
-            color: rgba(255,255,255,0.8);
-            font-size: 16px;
-        }
-
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 12px;
-            animation: slideUp 0.6s ease;
-        }
-
-        .exchange-card {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            padding: 24px 16px;
-            cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            border: 2px solid rgba(255,255,255,0.3);
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .exchange-card:active {
-            transform: scale(0.95);
-        }
-
-        .exchange-logo {
-            width: 56px;
-            height: 56px;
-            margin: 0 auto 12px;
-            background: #fff;
-            border-radius: 16px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-        }
-
-        .exchange-logo svg {
-            width: 40px;
-            height: 40px;
-        }
-
-        .exchange-name {
-            font-size: 16px;
-            font-weight: 700;
-            color: #1a1a1a;
-        }
-
-        .back-btn {
-            background: rgba(255,255,255,0.2);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255,255,255,0.3);
-            border-radius: 12px;
-            padding: 12px 20px;
-            font-size: 15px;
-            font-weight: 600;
-            cursor: pointer;
-            margin-bottom: 20px;
-            color: #fff;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .service-list {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            animation: slideUp 0.6s ease;
-        }
-
-        .service-card {
-            background: rgba(255,255,255,0.95);
-            border-radius: 20px;
-            padding: 20px;
-            cursor: pointer;
-            border: 2px solid rgba(255,255,255,0.3);
-            transition: all 0.3s ease;
-        }
-
-        .service-card:active {
-            transform: scale(0.98);
-        }
-
-        .service-card.selected {
-            border-color: #667eea;
-            box-shadow: 0 8px 30px rgba(102, 126, 234, 0.4);
-        }
-
-        .service-top {
-            display: flex;
-            gap: 16px;
-            margin-bottom: 12px;
-        }
-
-        .service-icon {
-            font-size: 40px;
-        }
-
-        .service-title {
-            font-size: 18px;
-            font-weight: 700;
-            color: #1a1a1a;
-            margin-bottom: 6px;
-        }
-
-        .service-desc {
-            font-size: 14px;
-            color: #666;
-        }
-
-        .service-bottom {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-top: 12px;
-            padding-top: 12px;
-            border-top: 1px solid rgba(0,0,0,0.08);
-        }
-
-        .service-price {
-            font-size: 24px;
-            font-weight: 800;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .service-badge {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: #fff;
-            padding: 6px 12px;
-            border-radius: 10px;
-            font-size: 12px;
-            font-weight: 700;
-        }
-
-        .crypto-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 10px;
-            margin: 20px 0;
-        }
-
-        .crypto-card {
-            background: rgba(255,255,255,0.95);
-            border-radius: 16px;
-            padding: 18px 12px;
-            cursor: pointer;
-            border: 2px solid rgba(255,255,255,0.3);
-            text-align: center;
-            transition: all 0.3s ease;
-        }
-
-        .crypto-card:active {
-            transform: scale(0.92);
-        }
-
-        .crypto-card.selected {
-            border-color: #667eea;
-            background: rgba(102, 126, 234, 0.2);
-        }
-
-        .crypto-icon {
-            font-size: 36px;
-            margin-bottom: 8px;
-        }
-
-        .crypto-name {
-            font-size: 14px;
-            font-weight: 700;
-            color: #1a1a1a;
-        }
-
-        .network-list {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            margin-top: 20px;
-        }
-
-        .network-card {
-            background: rgba(255,255,255,0.95);
-            border-radius: 16px;
-            padding: 16px;
-            cursor: pointer;
-            border: 2px solid rgba(255,255,255,0.3);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .network-card:active {
-            transform: scale(0.97);
-        }
-
-        .network-card.selected {
-            border-color: #667eea;
-            background: rgba(102, 126, 234, 0.2);
-        }
-
-        .network-info {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .network-name {
-            font-size: 16px;
-            font-weight: 700;
-            color: #1a1a1a;
-        }
-
-        .network-desc {
-            font-size: 13px;
-            color: #666;
-        }
-
-        .network-badge {
-            background: linear-gradient(135deg, #34c759 0%, #30a14e 100%);
-            color: #fff;
-            padding: 6px 12px;
-            border-radius: 8px;
-            font-size: 11px;
-            font-weight: 700;
-        }
-
-        .summary-box {
-            background: rgba(255,255,255,0.95);
-            border-radius: 20px;
-            padding: 24px;
-            margin-top: 24px;
-        }
-
-        .summary-row {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 10px;
-            font-size: 15px;
-            color: #333;
-        }
-
-        .summary-row:last-child {
-            margin-top: 16px;
-            padding-top: 16px;
-            border-top: 2px solid rgba(0,0,0,0.1);
-            font-size: 22px;
-            font-weight: 800;
-            color: #667eea;
-        }
-
-        .qr-container {
-            text-align: center;
-            padding: 24px;
-        }
-
-        .qr-code {
-            width: 280px;
-            height: 280px;
-            margin: 20px auto;
-            padding: 20px;
-            background: #fff;
-            border-radius: 20px;
-        }
-
-        .wallet-address {
-            background: rgba(255,255,255,0.95);
-            padding: 16px;
-            border-radius: 12px;
-            margin: 16px 0;
-            word-break: break-all;
-            font-family: monospace;
-            font-size: 13px;
-            color: #333;
-        }
-
-        .copy-btn {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: #fff;
-            border: none;
-            padding: 14px 28px;
-            border-radius: 12px;
-            font-size: 16px;
-            font-weight: 700;
-            cursor: pointer;
-            margin-top: 12px;
-        }
-
-        .payment-status {
-            text-align: center;
-            padding: 20px;
-            margin-top: 20px;
-            background: rgba(255,255,255,0.1);
-            border-radius: 16px;
-        }
-
-        .status-icon {
-            font-size: 64px;
-            animation: pulse 2s ease-in-out infinite;
-        }
-
-        .success-screen {
-            text-align: center;
-            padding: 40px 20px;
-        }
-
-        .success-icon {
-            font-size: 120px;
-            animation: successPop 0.6s ease;
-        }
-
-        .success-title {
-            font-size: 32px;
-            font-weight: 800;
-            margin-bottom: 12px;
-        }
-
-        .hidden {
-            display: none !important;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        @keyframes slideUp {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-20px); }
-        }
-
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.1); }
-        }
-
-        @keyframes successPop {
-            0% { transform: scale(0); }
-            50% { transform: scale(1.2); }
-            100% { transform: scale(1); }
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Panda Shop</title>
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,sans-serif;background:#0f0f1e;color:#fff;min-height:100vh;position:relative;overflow-x:hidden}
+body::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;background:radial-gradient(circle at 20% 30%, rgba(102,126,234,0.3) 0%, transparent 50%),radial-gradient(circle at 80% 70%, rgba(118,75,162,0.3) 0%, transparent 50%),radial-gradient(circle at 40% 80%, rgba(52,199,89,0.2) 0%, transparent 40%);z-index:0;animation:gradientMove 15s ease infinite}
+.bg-shapes{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;overflow:hidden;pointer-events:none}
+.shape{position:absolute;border-radius:50%;opacity:0.1;animation:float 20s infinite ease-in-out}
+.shape1{width:300px;height:300px;background:linear-gradient(135deg,#667eea,#764ba2);top:10%;left:10%;animation-delay:0s}
+.shape2{width:200px;height:200px;background:linear-gradient(135deg,#f093fb,#f5576c);top:60%;right:10%;animation-delay:5s}
+.shape3{width:150px;height:150px;background:linear-gradient(135deg,#4facfe,#00f2fe);bottom:20%;left:30%;animation-delay:10s}
+.screen{min-height:100vh;padding:20px 16px 100px;opacity:0;animation:fadeIn .5s ease forwards;position:relative;z-index:1}
+.panda-mascot{text-align:center;margin-bottom:20px;animation:float 3s ease-in-out infinite}
+.panda-mascot svg{width:120px;height:120px;filter:drop-shadow(0 10px 30px rgba(0,0,0,0.5))}
+.header{text-align:center;margin-bottom:32px}
+.header h1{font-size:32px;font-weight:800;margin-bottom:8px;text-shadow:0 2px 20px rgba(255,255,255,0.3)}
+.header p{color:rgba(255,255,255,0.8);font-size:16px}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.card{background:rgba(255,255,255,0.1);backdrop-filter:blur(20px);border-radius:20px;padding:24px 16px;cursor:pointer;border:2px solid rgba(255,255,255,0.2);text-align:center;transition:all .3s;position:relative;overflow:hidden}
+.card::before{content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.3),transparent);transition:left .5s}
+.card:hover::before{left:100%}
+.card:active{transform:scale(.95)}
+.card.selected{border-color:#667eea;background:rgba(102,126,234,0.3);box-shadow:0 0 30px rgba(102,126,234,0.5)}
+.logo{width:56px;height:56px;margin:0 auto 12px;background:rgba(255,255,255,0.9);border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:32px}
+.name{font-size:16px;font-weight:700;color:#fff}
+.back-btn{background:rgba(255,255,255,0.15);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,0.3);border-radius:12px;padding:12px 20px;font-size:15px;font-weight:600;color:#fff;cursor:pointer;margin-bottom:20px}
+.service-card{background:rgba(255,255,255,0.1);backdrop-filter:blur(20px);border-radius:20px;padding:20px;cursor:pointer;border:2px solid rgba(255,255,255,0.2);transition:all .3s;margin-bottom:12px}
+.service-card.selected{border-color:#667eea;background:rgba(102,126,234,0.3);box-shadow:0 0 30px rgba(102,126,234,0.5)}
+.service-top{display:flex;gap:16px;margin-bottom:12px}
+.service-icon{font-size:40px}
+.service-title{font-size:18px;font-weight:700;margin-bottom:6px}
+.service-desc{font-size:14px;opacity:0.8}
+.service-bottom{display:flex;justify-content:space-between;align-items:center;margin-top:12px;padding-top:12px;border-top:1px solid rgba(255,255,255,0.2)}
+.service-price{font-size:24px;font-weight:800;background:linear-gradient(135deg,#4facfe,#00f2fe);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.service-badge{background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;padding:6px 12px;border-radius:10px;font-size:12px;font-weight:700}
+.section-title{font-size:20px;font-weight:800;margin:24px 0 16px;text-shadow:0 2px 10px rgba(255,255,255,0.3)}
+.timer{background:rgba(255,255,255,0.1);backdrop-filter:blur(20px);border-radius:16px;padding:16px;margin:20px 0;text-align:center;border:2px solid rgba(255,255,255,0.2)}
+.timer-label{font-size:14px;margin-bottom:8px;opacity:0.8}
+.timer-display{font-size:48px;font-weight:800;color:#4facfe;font-family:monospace;text-shadow:0 0 20px rgba(79,172,254,0.5)}
+.timer-display.warning{color:#ff3b30;animation:pulse 1s infinite}
+.qr-box{background:rgba(255,255,255,0.1);backdrop-filter:blur(20px);border-radius:20px;padding:24px;margin:20px 0;border:2px solid rgba(255,255,255,0.2)}
+.qr-code{width:280px;height:280px;margin:20px auto;padding:20px;background:#fff;border-radius:20px;box-shadow:0 10px 40px rgba(0,0,0,0.3)}
+.wallet{background:rgba(255,255,255,0.15);backdrop-filter:blur(10px);padding:16px;border-radius:12px;margin:16px 0;word-break:break-all;font-family:monospace;font-size:13px;border:1px solid rgba(255,255,255,0.3)}
+.btn{background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;border:none;padding:14px 28px;border-radius:12px;font-size:16px;font-weight:700;cursor:pointer;margin-top:12px;box-shadow:0 4px 20px rgba(102,126,234,0.4);transition:all .3s}
+.btn:active{transform:scale(.95)}
+.status{text-align:center;padding:20px;margin-top:20px;background:rgba(255,255,255,0.1);backdrop-filter:blur(20px);border-radius:16px;border:2px solid rgba(255,255,255,0.2)}
+.icon{font-size:64px;margin-bottom:12px}
+.icon.checking{animation:spin 2s linear infinite}
+.summary{background:rgba(255,255,255,0.1);backdrop-filter:blur(20px);border-radius:20px;padding:24px;margin-top:24px;border:2px solid rgba(255,255,255,0.2)}
+.summary-row{display:flex;justify-content:space-between;margin-bottom:10px;font-size:15px}
+.summary-row:last-child{margin-top:16px;padding-top:16px;border-top:2px solid rgba(255,255,255,0.3);font-size:22px;font-weight:800;color:#4facfe}
+.success-box{background:rgba(255,255,255,0.1);backdrop-filter:blur(20px);border-radius:20px;padding:24px;margin-top:24px;border:2px solid rgba(255,255,255,0.2)}
+.hidden{display:none!important}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-20px)}}
+@keyframes spin{from{transform:rotate(0)}to{transform:rotate(360deg)}}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.5}}
+@keyframes gradientMove{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
+</style>
 </head>
 <body>
-    <!-- Экран 1: Выбор биржи -->
-    <div id="exchangeScreen" class="screen">
-        <div class="panda-mascot">
-            <svg viewBox="0 0 200 200">
-                <ellipse cx="100" cy="120" rx="50" ry="60" fill="#fff"/>
-                <circle cx="100" cy="70" r="45" fill="#fff"/>
-                <ellipse cx="70" cy="40" rx="20" ry="25" fill="#000"/>
-                <ellipse cx="130" cy="40" rx="20" ry="25" fill="#000"/>
-                <ellipse cx="85" cy="65" rx="18" ry="22" fill="#000"/>
-                <circle cx="88" cy="68" r="6" fill="#fff"/>
-                <ellipse cx="115" cy="65" rx="18" ry="22" fill="#000"/>
-                <circle cx="118" cy="68" r="6" fill="#fff"/>
-                <ellipse cx="100" cy="85" rx="8" ry="6" fill="#000"/>
-                <circle cx="140" cy="110" r="18" fill="#FFD700"/>
-                <text x="140" y="118" font-size="20" text-anchor="middle" fill="#000" font-weight="bold">₿</text>
-            </svg>
-        </div>
-        <div class="header">
-            <h1>Panda Shop</h1>
-            <p>Выберите биржу</p>
-        </div>
-        <div class="grid">
-            <div class="exchange-card" data-exchange="binance">
-                <div class="exchange-logo">
-                    <svg viewBox="0 0 126 126">
-                        <path fill="#F3BA2F" d="M38.73,53.2,32.43,47l-6.3,6.3L19.83,47l6.3-6.3L38.73,53.2M58,33.9l6.3-6.3L77,40.2l6.3-6.3,6.3,6.3L77,53.2,70.6,47,64.3,40.6ZM77.43,66.7,83.73,73l-6.3,6.3L64.3,66.1l6.3-6.3ZM58,86l-6.3,6.3L38.73,79.4l-6.3,6.3-6.3-6.3L38.73,66.7l6.3,6.3,6.3,6.3L64.3,92.3ZM32.43,66.7l6.3-6.3L45,66.7l-6.3,6.3Zm32.1-6.3,6.3-6.3L77,60.4l-6.3,6.3ZM70.6,73l6.3-6.3L83.2,73l-6.3,6.3ZM58,53.2l6.3-6.3L70.6,53.2,64.3,59.5Z"/>
-                    </svg>
-                </div>
-                <div class="exchange-name">Binance</div>
-            </div>
-            <div class="exchange-card" data-exchange="bybit">
-                <div class="exchange-logo">
-                    <svg viewBox="0 0 100 100">
-                        <circle cx="50" cy="50" r="45" fill="#F7A600"/>
-                        <path d="M30 35 L50 20 L70 35 L70 65 L50 80 L30 65 Z" fill="#000"/>
-                    </svg>
-                </div>
-                <div class="exchange-name">Bybit</div>
-            </div>
-            <div class="exchange-card" data-exchange="okx">
-                <div class="exchange-logo">
-                    <svg viewBox="0 0 100 100">
-                        <rect width="100" height="100" fill="#000"/>
-                        <circle cx="50" cy="50" r="35" fill="none" stroke="#FFF" stroke-width="4"/>
-                    </svg>
-                </div>
-                <div class="exchange-name">OKX</div>
-            </div>
-            <div class="exchange-card" data-exchange="kraken">
-                <div class="exchange-logo">
-                    <svg viewBox="0 0 100 100">
-                        <circle cx="50" cy="50" r="45" fill="#5741D9"/>
-                        <path d="M35 60 Q50 35 65 60" fill="#FFF"/>
-                    </svg>
-                </div>
-                <div class="exchange-name">Kraken</div>
-            </div>
-        </div>
-    </div>
+<div class="bg-shapes">
+<div class="shape shape1"></div>
+<div class="shape shape2"></div>
+<div class="shape shape3"></div>
+</div>
 
-    <!-- Экран 2: Выбор услуги -->
-    <div id="serviceScreen" class="screen hidden">
-        <button class="back-btn" onclick="goToExchanges()">← Назад</button>
-        <div class="header">
-            <h1 id="serviceExchangeName">Binance</h1>
-            <p>Выберите услугу</p>
-        </div>
-        <div class="service-list">
-            <div class="service-card" data-service="verification" data-price="50">
-                <div class="service-top">
-                    <span class="service-icon">✅</span>
-                    <div>
-                        <div class="service-title">Верификация KYC</div>
-                        <div class="service-desc">Полное прохождение верификации</div>
-                    </div>
-                </div>
-                <div class="service-bottom">
-                    <div class="service-price">$50</div>
-                    <div class="service-badge">Популярно</div>
-                </div>
-            </div>
-            <div class="service-card" data-service="api" data-price="35">
-                <div class="service-top">
-                    <span class="service-icon">🔑</span>
-                    <div>
-                        <div class="service-title">Настройка API</div>
-                        <div class="service-desc">Безопасная настройка ключей</div>
-                    </div>
-                </div>
-                <div class="service-bottom">
-                    <div class="service-price">$35</div>
-                    <div class="service-badge">Быстро</div>
-                </div>
-            </div>
-        </div>
-    </div>
+<div id="s1" class="screen">
+<div class="panda-mascot">
+<svg viewBox="0 0 200 200">
+<ellipse cx="100" cy="120" rx="50" ry="60" fill="#fff"/>
+<circle cx="100" cy="70" r="45" fill="#fff"/>
+<ellipse cx="70" cy="40" rx="20" ry="25" fill="#000"/>
+<ellipse cx="130" cy="40" rx="20" ry="25" fill="#000"/>
+<ellipse cx="85" cy="65" rx="18" ry="22" fill="#000"/>
+<circle cx="88" cy="68" r="6" fill="#fff"/>
+<ellipse cx="115" cy="65" rx="18" ry="22" fill="#000"/>
+<circle cx="118" cy="68" r="6" fill="#fff"/>
+<ellipse cx="100" cy="85" rx="8" ry="6" fill="#000"/>
+<circle cx="140" cy="110" r="18" fill="#FFD700"/>
+<text x="140" y="118" font-size="20" text-anchor="middle" fill="#000" font-weight="bold">₿</text>
+</svg>
+</div>
+<div class="header"><h1>🐼 Panda Shop</h1><p>Выберите биржу для услуг</p></div>
+<div class="grid">
+<div class="card" data-ex="binance"><div class="logo">🟡</div><div class="name">Binance</div></div>
+<div class="card" data-ex="bybit"><div class="logo">🟠</div><div class="name">Bybit</div></div>
+<div class="card" data-ex="okx"><div class="logo">⚫</div><div class="name">OKX</div></div>
+<div class="card" data-ex="kraken"><div class="logo">🟣</div><div class="name">Kraken</div></div>
+<div class="card" data-ex="gateio"><div class="logo">🟢</div><div class="name">Gate.io</div></div>
+<div class="card" data-ex="mexc"><div class="logo">🔵</div><div class="name">MEXC</div></div>
+<div class="card" data-ex="bingx"><div class="logo">🔷</div><div class="name">BingX</div></div>
+<div class="card" data-ex="bitget"><div class="logo">💠</div><div class="name">Bitget</div></div>
+<div class="card" data-ex="kucoin"><div class="logo">🟩</div><div class="name">KuCoin</div></div>
+</div>
+</div>
 
-    <!-- Экран 3: Оплата -->
-    <div id="paymentScreen" class="screen hidden">
-        <button class="back-btn" onclick="goToServices()">← Назад</button>
-        <div class="header">
-            <h1>💳 Оплата</h1>
-            <p>Выберите криптовалюту</p>
-        </div>
-        <div class="crypto-grid">
-            <div class="crypto-card" data-crypto="usdt">
-                <div class="crypto-icon">💵</div>
-                <div class="crypto-name">USDT</div>
-            </div>
-            <div class="crypto-card" data-crypto="btc">
-                <div class="crypto-icon">₿</div>
-                <div class="crypto-name">Bitcoin</div>
-            </div>
-        </div>
-        <div id="networkSection" style="display:none">
-            <div class="network-list" id="networkList"></div>
-        </div>
-        <div class="summary-box" id="finalSummary" style="display:none">
-            <div class="summary-row"><span>Биржа:</span><span id="finalExchange"></span></div>
-            <div class="summary-row"><span>Услуга:</span><span id="finalService"></span></div>
-            <div class="summary-row"><span>Итого:</span><span id="finalPrice"></span></div>
-        </div>
-    </div>
+<div id="s2" class="screen hidden">
+<button class="back-btn" onclick="go(1)">← Назад к биржам</button>
+<div class="header"><h1 id="exName">Binance</h1><p>Выберите услугу</p></div>
+<div class="service-card" data-srv="kyc" data-price="50">
+<div class="service-top"><span class="service-icon">✅</span><div><div class="service-title">KYC Верификация</div><div class="service-desc">Полное прохождение верификации аккаунта</div></div></div>
+<div class="service-bottom"><div class="service-price">$50</div><div class="service-badge">Популярно</div></div>
+</div>
+<div class="service-card" data-srv="api" data-price="35">
+<div class="service-top"><span class="service-icon">🔑</span><div><div class="service-title">Настройка API</div><div class="service-desc">Безопасная настройка торговых ключей</div></div></div>
+<div class="service-bottom"><div class="service-price">$35</div><div class="service-badge">Быстро</div></div>
+</div>
+<div class="service-card" data-srv="account" data-price="120">
+<div class="service-top"><span class="service-icon">👤</span><div><div class="service-title">Готовый аккаунт</div><div class="service-desc">Верифицированный аккаунт с историей</div></div></div>
+<div class="service-bottom"><div class="service-price">$120</div><div class="service-badge">Premium</div></div>
+</div>
+</div>
 
-    <!-- Экран 4: QR код -->
-    <div id="qrScreen" class="screen hidden">
-        <div class="header">
-            <h1>📱 Сканируйте QR</h1>
-            <p>Отправьте точную сумму</p>
-        </div>
-        <div class="qr-container">
-            <div class="qr-code" id="qrCode"></div>
-            <div class="wallet-address" id="walletAddress">Загрузка...</div>
-            <button class="copy-btn" onclick="copyAddress()">📋 Копировать</button>
-            <div class="payment-status">
-                <div class="status-icon">⏳</div>
-                <div>Ожидаем оплату...</div>
-                <div style="margin-top:12px;font-size:24px;font-weight:800" id="paymentAmount">$0</div>
-            </div>
-        </div>
-    </div>
+<div id="s3" class="screen hidden">
+<button class="back-btn" onclick="go(2)">← Назад к услугам</button>
+<div class="header"><h1>💳 Способ оплаты</h1><p>Выберите криптовалюту</p></div>
+<div class="section-title">💵 Стейблкоины</div>
+<div class="grid">
+<div class="card" data-crypto="usdt"><div class="logo">💵</div><div class="name">USDT</div></div>
+<div class="card" data-crypto="usdc"><div class="logo">🔵</div><div class="name">USDC</div></div>
+<div class="card" data-crypto="dai"><div class="logo">🟡</div><div class="name">DAI</div></div>
+<div class="card" data-crypto="busd"><div class="logo">🟨</div><div class="name">BUSD</div></div>
+</div>
+<div class="section-title">💎 Криптовалюты</div>
+<div class="grid">
+<div class="card" data-crypto="btc"><div class="logo">₿</div><div class="name">Bitcoin</div></div>
+<div class="card" data-crypto="eth"><div class="logo">Ξ</div><div class="name">Ethereum</div></div>
+<div class="card" data-crypto="ton"><div class="logo">💎</div><div class="name">TON</div></div>
+<div class="card" data-crypto="ltc"><div class="logo">Ł</div><div class="name">Litecoin</div></div>
+<div class="card" data-crypto="trx"><div class="logo">🔺</div><div class="name">TRON</div></div>
+<div class="card" data-crypto="bnb"><div class="logo">🟡</div><div class="name">BNB</div></div>
+<div class="card" data-crypto="xrp"><div class="logo">✕</div><div class="name">XRP</div></div>
+<div class="card" data-crypto="doge"><div class="logo">🐕</div><div class="name">Dogecoin</div></div>
+</div>
+<div id="networks" class="hidden" style="margin-top:20px">
+<div class="section-title">⚡ Выберите сеть</div>
+<div id="netList"></div>
+</div>
+<div class="summary hidden" id="summary">
+<div style="font-size:18px;font-weight:700;margin-bottom:16px;color:#4facfe">📋 Итого</div>
+<div class="summary-row"><span>Биржа:</span><span id="sumEx"></span></div>
+<div class="summary-row"><span>Услуга:</span><span id="sumSrv"></span></div>
+<div class="summary-row"><span>Оплата:</span><span id="sumCrypto"></span></div>
+<div class="summary-row"><span>Сеть:</span><span id="sumNet"></span></div>
+<div class="summary-row"><span>Итого:</span><span id="sumPrice"></span></div>
+</div>
+</div>
 
-    <!-- Экран 5: Успех -->
-    <div id="successScreen" class="screen hidden">
-        <div class="success-screen">
-            <div class="success-icon">✅</div>
-            <div class="success-title">Оплата получена!</div>
-            <div>Менеджер свяжется с вами</div>
-        </div>
-    </div>
+<div id="s4" class="screen hidden">
+<div class="timer"><div class="timer-label">⏰ Осталось времени на оплату</div><div class="timer-display" id="timer">10:00</div></div>
+<div class="header"><h1>📱 Отсканируйте QR код</h1><p>Отправьте точную сумму на адрес</p></div>
+<div class="qr-box">
+<div class="qr-code" id="qr"></div>
+<div class="wallet" id="addr">Загрузка адреса...</div>
+<button class="btn" onclick="copy()">📋 Копировать адрес</button>
+<div class="status">
+<div class="icon checking" id="ico">🔄</div>
+<div style="font-size:16px;font-weight:600;margin-bottom:8px" id="txt">Проверяем блокчейн...</div>
+<div style="font-size:13px;opacity:0.8">Проверка каждые 10 секунд</div>
+<div style="margin-top:16px;font-size:28px;font-weight:800;color:#4facfe" id="amt">$0</div>
+</div>
+</div>
+</div>
 
-    <script>
-        let tg = window.Telegram.WebApp;
-        tg.expand();
-        tg.BackButton.show();
+<div id="s5" class="screen hidden">
+<div style="text-align:center;padding:40px 20px">
+<div class="panda-mascot">
+<svg viewBox="0 0 120 120">
+<circle cx="60" cy="60" r="50" fill="#fff"/>
+<ellipse cx="45" cy="45" rx="12" ry="15" fill="#000"/>
+<ellipse cx="75" cy="45" rx="12" ry="15" fill="#000"/>
+<path d="M 40 70 Q 60 85 80 70" stroke="#000" stroke-width="3" fill="none"/>
+<circle cx="90" cy="50" r="15" fill="#34c759"/>
+<text x="90" y="58" font-size="18" text-anchor="middle" fill="#fff" font-weight="bold">✓</text>
+</svg>
+</div>
+<div style="font-size:100px;margin:20px 0">✅</div>
+<div style="font-size:32px;font-weight:800;margin-bottom:12px">Оплата подтверждена!</div>
+<div style="font-size:16px;opacity:0.9;margin-bottom:24px">Ваш заказ принят и будет обработан в течение 1-2 часов</div>
+<div class="success-box">
+<div style="font-size:18px;font-weight:700;margin-bottom:16px;color:#4facfe">📋 Детали вашего заказа</div>
+<div class="summary-row"><span>Номер заказа:</span><span id="oid" style="font-family:monospace"></span></div>
+<div class="summary-row"><span>Биржа:</span><span id="oex"></span></div>
+<div class="summary-row"><span>Услуга:</span><span id="osrv"></span></div>
+<div class="summary-row"><span>Оплачено:</span><span id="ocrypto"></span></div>
+<div class="summary-row"><span>Сумма:</span><span id="oprice" style="color:#34c759"></span></div>
+<div style="margin-top:24px;padding-top:24px;border-top:2px solid rgba(255,255,255,0.3);text-align:center">
+<div style="font-size:14px;opacity:0.8">Наш менеджер свяжется с вами</div>
+<div style="font-size:14px;opacity:0.8">Спасибо за покупку! 🐼</div>
+</div>
+</div>
+</div>
+</div>
 
-        let data = {
-            exchange: null,
-            exchangeName: null,
-            service: null,
-            serviceName: null,
-            price: null,
-            crypto: null,
-            network: null,
-            walletAddress: null,
-            orderId: null
-        };
+<script>
+let tg=window.Telegram.WebApp;tg.expand();tg.BackButton.show();
+let d={ex:null,exName:null,srv:null,srvName:null,price:null,crypto:null,cryptoName:null,net:null,netName:null,addr:null,oid:null};
+let timer=600;let timerInt;let checkInt;
 
-        const wallets = {
-            'usdt-trc20': 'TXm6gEHhZXjFhzPHpHKVGYHqXeDvXxXxXx',
-            'btc-bitcoin': 'bc1qxy2kgdygjrsqtzq2n0yrf2493p83kkfjhx0wlh'
-        };
+const wallets={
+'usdt-trc20':'TXm6gEHhZXjFhzPHpHKVGYHqXeDvXxXxXx',
+'usdt-erc20':'0x742d35Cc6634C0532925a3b844Bc9e7595f0f0f0',
+'usdt-bep20':'0x742d35Cc6634C0532925a3b844Bc9e7595f0f0f0',
+'usdc-erc20':'0x742d35Cc6634C0532925a3b844Bc9e7595f0f0f0',
+'usdc-polygon':'0x742d35Cc6634C0532925a3b844Bc9e7595f0f0f0',
+'dai-erc20':'0x742d35Cc6634C0532925a3b844Bc9e7595f0f0f0',
+'busd-bep20':'0x742d35Cc6634C0532925a3b844Bc9e7595f0f0f0',
+'btc-bitcoin':'bc1qxy2kgdygjrsqtzq2n0yrf2493p83kkfjhx0wlh',
+'eth-ethereum':'0x742d35Cc6634C0532925a3b844Bc9e7595f0f0f0',
+'ton-ton':'EQDtFpEwcFAEcRe5mLVh2N6C0x-_hJEM7W61_JLnSF74p4q2',
+'ltc-litecoin':'ltc1qxy2kgdygjrsqtzq2n0yrf2493p83kkfjhx0wlh',
+'trx-tron':'TXm6gEHhZXjFhzPHpHKVGYHqXeDvXxXxXx',
+'bnb-bep20':'0x742d35Cc6634C0532925a3b844Bc9e7595f0f0f0',
+'xrp-ripple':'rXRippleAddressExample123456789',
+'doge-dogecoin':'DDogeAddressExample123456789'
+};
 
-        const networks = {
-            usdt: [{id:'trc20', name:'TRC20', desc:'TRON', fee:'Низкая'}],
-            btc: [{id:'bitcoin', name:'Bitcoin', desc:'Main', fee:'Средняя'}]
-        };
+const nets={
+usdt:[{id:'trc20',n:'TRC20 (TRON)',d:'Низкая комиссия'},{id:'erc20',n:'ERC20 (Ethereum)',d:'Высокая комиссия'},{id:'bep20',n:'BEP20 (BSC)',d:'Низкая комиссия'}],
+usdc:[{id:'erc20',n:'ERC20 (Ethereum)',d:'Основная сеть'},{id:'polygon',n:'Polygon',d:'Дешевая'}],
+dai:[{id:'erc20',n:'ERC20 (Ethereum)',d:'Основная сеть'}],
+busd:[{id:'bep20',n:'BEP20 (BSC)',d:'Binance Smart Chain'}],
+btc:[{id:'bitcoin',n:'Bitcoin',d:'Основная сеть'}],
+eth:[{id:'ethereum',n:'Ethereum',d:'Основная сеть'}],
+ton:[{id:'ton',n:'TON',d:'The Open Network'}],
+ltc:[{id:'litecoin',n:'Litecoin',d:'Основная сеть'}],
+trx:[{id:'tron',n:'TRON',d:'Основная сеть'}],
+bnb:[{id:'bep20',n:'BEP20 (BSC)',d:'Binance Smart Chain'}],
+xrp:[{id:'ripple',n:'XRP Ledger',d:'Основная сеть'}],
+doge:[{id:'dogecoin',n:'Dogecoin',d:'Основная сеть'}]
+};
 
-        document.querySelectorAll('.exchange-card').forEach(c => {
-            c.onclick = () => {
-                data.exchange = c.dataset.exchange;
-                data.exchangeName = c.querySelector('.exchange-name').textContent;
-                showScreen('serviceScreen');
-                document.getElementById('serviceExchangeName').textContent = data.exchangeName;
-            };
-        });
+const cryptoNames={usdt:'USDT',usdc:'USDC',dai:'DAI',busd:'BUSD',btc:'Bitcoin',eth:'Ethereum',ton:'TON',ltc:'Litecoin',trx:'TRON',bnb:'BNB',xrp:'XRP',doge:'Dogecoin'};
 
-        document.querySelectorAll('.service-card').forEach(c => {
-            c.onclick = () => {
-                document.querySelectorAll('.service-card').forEach(x => x.classList.remove('selected'));
-                c.classList.add('selected');
-                data.service = c.dataset.service;
-                data.serviceName = c.querySelector('.service-title').textContent;
-                data.price = c.dataset.price;
-                setTimeout(() => showScreen('paymentScreen'), 300);
-            };
-        });
+document.querySelectorAll('[data-ex]').forEach(c=>c.onclick=()=>{d.ex=c.dataset.ex;d.exName=c.querySelector('.name').textContent;go(2);document.getElementById('exName').textContent=d.exName});
 
-        document.querySelectorAll('.crypto-card').forEach(c => {
-            c.onclick = () => {
-                document.querySelectorAll('.crypto-card').forEach(x => x.classList.remove('selected'));
-                c.classList.add('selected');
-                data.crypto = c.dataset.crypto;
-                showNetworks(data.crypto);
-            };
-        });
+document.querySelectorAll('[data-srv]').forEach(c=>c.onclick=()=>{document.querySelectorAll('[data-srv]').forEach(x=>x.classList.remove('selected'));c.classList.add('selected');d.srv=c.dataset.srv;d.srvName=c.querySelector('.service-title').textContent;d.price=c.dataset.price;setTimeout(()=>go(3),300)});
 
-        function showNetworks(crypto) {
-            const list = document.getElementById('networkList');
-            list.innerHTML = '';
-            networks[crypto].forEach(n => {
-                const div = document.createElement('div');
-                div.className = 'network-card';
-                div.innerHTML = `
-                    <div class="network-info">
-                        <div>${n.name}</div>
-                    </div>
-                    <div class="network-badge">${n.fee}</div>
-                `;
-                div.onclick = () => {
-                    document.querySelectorAll('.network-card').forEach(x => x.classList.remove('selected'));
-                    div.classList.add('selected');
-                    data.network = n.id;
-                    showSummary();
-                };
-                list.appendChild(div);
-            });
-            document.getElementById('networkSection').style.display = 'block';
-        }
+document.querySelectorAll('[data-crypto]').forEach(c=>c.onclick=()=>{document.querySelectorAll('[data-crypto]').forEach(x=>x.classList.remove('selected'));c.classList.add('selected');d.crypto=c.dataset.crypto;d.cryptoName=cryptoNames[d.crypto];showNets()});
 
-        function showSummary() {
-            document.getElementById('finalExchange').textContent = data.exchangeName;
-            document.getElementById('finalService').textContent = data.serviceName;
-            document.getElementById('finalPrice').textContent = '$' + data.price;
-            document.getElementById('finalSummary').style.display = 'block';
-            tg.MainButton.setText('Оплатить $' + data.price);
-            tg.MainButton.show();
-        }
+function showNets(){
+let list=document.getElementById('netList');
+list.innerHTML='';
+nets[d.crypto].forEach(x=>{
+let div=document.createElement('div');
+div.className='card';
+div.style.marginBottom='10px';
+div.innerHTML=`<div class="name">${x.n}</div><div style="font-size:12px;opacity:0.8;margin-top:4px">${x.d}</div>`;
+div.onclick=()=>{
+document.querySelectorAll('#netList .card').forEach(c=>c.classList.remove('selected'));
+div.classList.add('selected');
+d.net=x.id;
+d.netName=x.n;
+showSummary()
+};
+list.appendChild(div)
+});
+document.getElementById('networks').classList.remove('hidden')
+}
 
-        function showScreen(id) {
-            document.querySelectorAll('.screen').forEach(s => s.classList.add('hidden'));
-            document.getElementById(id).classList.remove('hidden');
-        }
+function showSummary(){
+document.getElementById('sumEx').textContent=d.exName;
+document.getElementById('sumSrv').textContent=d.srvName;
+document.getElementById('sumCrypto').textContent=d.cryptoName;
+document.getElementById('sumNet').textContent=d.netName;
+document.getElementById('sumPrice').textContent='$'+d.price;
+document.getElementById('summary').classList.remove('hidden');
+tg.MainButton.setText('💳 Оплатить $'+d.price);
+tg.MainButton.show()
+}
 
-        function goToExchanges() {
-            showScreen('exchangeScreen');
-            tg.MainButton.hide();
-        }
+function go(s){
+document.querySelectorAll('.screen').forEach(x=>x.classList.add('hidden'));
+document.getElementById('s'+s).classList.remove('hidden');
+if(s<4)tg.MainButton.hide()
+}
 
-        function goToServices() {
-            showScreen('serviceScreen');
-            tg.MainButton.hide();
-        }
+function startTimer(){
+timerInt=setInterval(()=>{
+timer--;
+let m=Math.floor(timer/60);
+let s=timer%60;
+let display=m+':'+(s<10?'0':'')+s;
+document.getElementById('timer').textContent=display;
+if(timer<120){
+document.getElementById('timer').classList.add('warning')
+}
+if(timer<=0){
+clearInterval(timerInt);
+clearInterval(checkInt);
+tg.showAlert('⏰ Время истекло! Попробуйте снова.');
+go(1)
+}
+},1000)
+}
 
-        function generateQR() {
-            data.orderId = 'ORDER-' + Date.now();
-            data.walletAddress = wallets[data.crypto + '-' + data.network];
-            document.getElementById('qrCode').innerHTML = '';
-            new QRCode(document.getElementById('qrCode'), {
-                text: data.walletAddress,
-                width: 240,
-                height: 240
-            });
-            document.getElementById('walletAddress').textContent = data.walletAddress;
-            document.getElementById('paymentAmount').textContent = '$' + data.price;
-            setTimeout(paymentReceived, 15000);
-        }
+let checkCount=0;
+function checkPayment(){
+checkInt=setInterval(()=>{
+checkCount++;
+document.getElementById('txt').textContent=`Проверка платежа #${checkCount}...`;
+document.getElementById('ico').textContent='🔍';
+if(checkCount>=6){
+clearInterval(checkInt);
+clearInterval(timerInt);
+paymentConfirmed()
+}
+},10000)
+}
 
-        function paymentReceived() {
-            showScreen('successScreen');
-            tg.sendData(JSON.stringify(data));
-            setTimeout(() => tg.close(), 3000);
-        }
+function paymentConfirmed(){
+document.getElementById('ico').className='icon';
+document.getElementById('ico').textContent='✅';
+document.getElementById('txt').textContent='Платеж получен!';
+setTimeout(()=>{
+go(5);
+document.getElementById('oid').textContent=d.oid;
+document.getElementById('oex').textContent=d.exName;
+document.getElementById('osrv').textContent=d.srvName;
+document.getElementById('ocrypto').textContent=d.cryptoName+' ('+d.netName+')';
+document.getElementById('oprice').textContent='$'+d.price;
+tg.sendData(JSON.stringify(d));
+setTimeout(()=>tg.close(),8000)
+},2000)
+}
 
-        function copyAddress() {
-            navigator.clipboard.writeText(data.walletAddress);
-            tg.showAlert('✅ Адрес скопирован!');
-        }
-
-        tg.MainButton.onClick(() => {
-            showScreen('qrScreen');
-            tg.MainButton.hide();
-            generateQR();
-        });
-
-        tg.BackButton.onClick(() => {
-            const current = document.querySelector('.screen:not(.hidden)').id;
-            if (current === 'exchangeScreen') tg.close();
-            else if (current === 'serviceScreen') goToExchanges();
-            else if (current === 'paymentScreen') showScreen('serviceScreen');
-            else if (current === 'qrScreen') showScreen('paymentScreen');
-        });
-    </script>
-</body>
-</html>
+function genQR(){
+d.oid='ORD-'+Date.now();
+d.addr=wallets[d.crypto+'-'+d.net];
+document.getElementById('qr').innerHTML='';
+new QRCode(document.getElementById('qr'),{text:d.addr,width:240,height:240,colorDark:'#000',colorLight:'#fff'});
+document.getElementByI
