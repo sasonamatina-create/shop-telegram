@@ -47,7 +47,8 @@ body::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;background:
 .logo img{width:100%;height:100%;object-fit:contain;padding:6px;border-radius:14px;filter:drop-shadow(0 4px 8px rgba(0,0,0,0.3))}
 .name{font-size:17px;font-weight:700;color:#fff;margin-bottom:6px}
 .card:hover .name{color:#667eea}
-.back-btn{background:rgba(255,255,255,0.1);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,0.2);border-radius:14px;padding:14px 22px;font-size:15px;font-weight:600;color:#fff;cursor:pointer;border:none;transition:all .3s;display:inline-flex;align-items:center;gap:10px;position:fixed;bottom:20px;left:20px;right:20px;z-index:5}
+.back-btn-container{position:absolute;top:80px;left:20px;right:20px;z-index:5}
+.back-btn{background:rgba(255,255,255,0.1);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,0.2);border-radius:14px;padding:14px 22px;font-size:15px;font-weight:600;color:#fff;cursor:pointer;border:none;transition:all .3s;display:inline-flex;align-items:center;gap:10px;width:100%;max-width:600px;margin:0 auto}
 .back-btn:hover{background:rgba(255,255,255,0.15);transform:translateY(-2px)}
 .back-btn:active{transform:translateY(0) scale(0.98)}
 .service-card{background:rgba(255,255,255,0.08);backdrop-filter:blur(20px);border-radius:18px;padding:22px;cursor:pointer;border:1px solid rgba(255,255,255,0.15);transition:all .4s cubic-bezier(0.4, 0, 0.2, 1);margin-bottom:15px;animation:fadeInScale 0.5s ease-out backwards;position:relative;overflow:hidden}
@@ -98,6 +99,13 @@ body::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;background:
 .network-desc{font-size:14px;opacity:0.8;margin-bottom:10px;position:relative;z-index:1}
 .network-fee{font-size:13px;color:#4facfe;font-weight:600;position:relative;z-index:1}
 .continue-btn{margin-top:50px;margin-bottom:50px;position:relative;z-index:1}
+.support-card{background:rgba(255,255,255,0.08);backdrop-filter:blur(20px);border-radius:18px;padding:22px;margin-bottom:15px;border:1px solid rgba(255,255,255,0.15);position:relative;overflow:hidden}
+.support-card::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;background:linear-gradient(135deg,rgba(102,126,234,0.1),rgba(118,75,162,0.1))}
+.support-icon{font-size:44px;margin-bottom:15px;text-align:center}
+.support-title{font-size:19px;font-weight:700;margin-bottom:8px;color:#fff;text-align:center}
+.support-desc{font-size:14px;opacity:0.8;margin-bottom:20px;text-align:center;line-height:1.5}
+.support-btn{background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;border:none;padding:12px 24px;border-radius:12px;font-size:15px;font-weight:600;cursor:pointer;width:100%;display:flex;align-items:center;justify-content:center;gap:10px;transition:all .3s}
+.support-btn:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(102,126,234,0.4)}
 .emoji{font-family:"Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji","Android Emoji","EmojiSymbols","EmojiOne Mozilla","Twemoji Mozilla","Segoe UI Symbol","Noto Color Emoji Compat","emoji","symbols";}
 @keyframes fadeIn{from{opacity:0}to{opacity:1}}
 @keyframes slideInUp{from{opacity:0;transform:translateY(50px)}to{opacity:1;transform:translateY(0)}}
@@ -130,8 +138,8 @@ body::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;background:
 </div>
 
 <div class="app-container">
-<!-- Экран 1: Выбор биржи -->
-<div id="s1" class="screen active">
+<!-- Экран 0: Вкладка поддержки -->
+<div id="s0" class="screen">
 <div class="screen-content">
 <div class="panda-mascot" style="animation:scaleUp 0.8s ease-out">
 <svg viewBox="0 0 200 200">
@@ -150,6 +158,43 @@ body::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;background:
 </div>
 <div class="header" style="animation:fadeIn 1s ease-out">
 <h1><span class="emoji">🐼</span> Panda Shop</h1>
+<p>Крипто-услуги и поддержка</p>
+</div>
+
+<div class="support-card" style="animation:slideInUp 0.6s ease-out">
+<div class="support-icon"><span class="emoji">💬</span></div>
+<div class="support-title">Поддержка 24/7</div>
+<div class="support-desc">Наша служба поддержки работает круглосуточно. Задавайте вопросы и получайте помощь в любое время</div>
+<button class="support-btn" onclick="openSupport()">
+<span class="emoji">📱</span> Связаться с поддержкой
+</button>
+</div>
+
+<div class="support-card" style="animation:slideInUp 0.8s ease-out">
+<div class="support-icon"><span class="emoji">⚡</span></div>
+<div class="support-title">Быстрая обработка</div>
+<div class="support-desc">Заказы обрабатываются в течение 1-2 часов после подтверждения оплаты</div>
+<button class="support-btn" onclick="go(1)">
+<span class="emoji">🛒</span> Перейти к покупкам
+</button>
+</div>
+
+<div class="support-card" style="animation:slideInUp 1.0s ease-out">
+<div class="support-icon"><span class="emoji">🔒</span></div>
+<div class="support-title">Безопасность</div>
+<div class="support-desc">Все транзакции защищены. Мы гарантируем конфиденциальность ваших данных</div>
+<button class="support-btn" onclick="openSecurityInfo()">
+<span class="emoji">📄</span> Узнать больше о безопасности
+</button>
+</div>
+</div>
+</div>
+
+<!-- Экран 1: Выбор биржи -->
+<div id="s1" class="screen active">
+<div class="screen-content">
+<div class="header" style="animation:fadeIn 1s ease-out">
+<h1><span class="emoji">🏪</span> Выбор биржи</h1>
 <p>Выберите криптобиржу</p>
 </div>
 <div class="grid" style="animation:slideInUp 1.2s ease-out">
@@ -226,9 +271,25 @@ body::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;background:
     </div>
     <div class="name">KuCoin</div>
 </div>
+<div class="card" onclick="selectExchange('weex','Weex')">
+    <div class="logo" id="weex-logo">
+        <img src="https://assets.coingecko.com/markets/images/1180/small/weex.PNG?1705390549" 
+             alt="Weex" 
+             onerror="this.parentElement.innerHTML='<div style=\'font-size:24px;color:#0088FF\'>W</div>'">
+    </div>
+    <div class="name">Weex</div>
 </div>
 </div>
-<!-- Кнопка назад не нужна на первом экране -->
+</div>
+<!-- Кнопка назад вверху -->
+<div class="back-btn-container">
+<button class="back-btn" onclick="go(0)">
+<svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+<path d="M10 12L6 8L10 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+Назад к поддержке
+</button>
+</div>
 </div>
 
 <!-- Экран 2: Выбор услуги -->
@@ -251,13 +312,15 @@ body::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;background:
 <div class="service-bottom"><div class="service-price">$120</div><div class="service-badge">Premium</div></div>
 </div>
 </div>
-<!-- Кнопка назад фиксированная внизу -->
+<!-- Кнопка назад вверху -->
+<div class="back-btn-container">
 <button class="back-btn" onclick="go(1)">
 <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
 <path d="M10 12L6 8L10 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
 </svg>
 Назад к биржам
 </button>
+</div>
 </div>
 
 <!-- Экран 3: Выбор криптовалюты -->
@@ -286,13 +349,15 @@ body::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;background:
 <div class="card" onclick="selectCrypto('doge','Dogecoin')"><div class="logo"><span class="emoji">🐕</span></div><div class="name">Dogecoin</div></div>
 </div>
 </div>
-<!-- Кнопка назад фиксированная внизу -->
+<!-- Кнопка назад вверху -->
+<div class="back-btn-container">
 <button class="back-btn" onclick="go(2)">
 <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
 <path d="M10 12L6 8L10 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
 </svg>
 Назад к услугам
 </button>
+</div>
 </div>
 
 <!-- Экран 4: Выбор сети -->
@@ -309,13 +374,15 @@ body::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;background:
 </button>
 </div>
 </div>
-<!-- Кнопка назад фиксированная внизу -->
+<!-- Кнопка назад вверху -->
+<div class="back-btn-container">
 <button class="back-btn" onclick="go(3)">
 <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
 <path d="M10 12L6 8L10 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
 </svg>
 Назад к валютам
 </button>
+</div>
 </div>
 
 <!-- Экран 5: QR-код и оплата -->
@@ -343,13 +410,15 @@ body::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;background:
 </div>
 </div>
 </div>
-<!-- Кнопка назад фиксированная внизу -->
+<!-- Кнопка назад вверху -->
+<div class="back-btn-container">
 <button class="back-btn" onclick="go(4)">
 <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
 <path d="M10 12L6 8L10 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
 </svg>
 Назад к сетям
 </button>
+</div>
 </div>
 
 <!-- Экран 6: Подтверждение оплаты -->
@@ -383,13 +452,15 @@ body::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;background:
 </div>
 </div>
 </div>
-<!-- Кнопка назад фиксированная внизу -->
+<!-- Кнопка назад вверху -->
+<div class="back-btn-container">
 <button class="back-btn" onclick="tg.close()">
 <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
 <path d="M10 12L6 8L10 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
 </svg>
 Закрыть
 </button>
+</div>
 </div>
 </div>
 
@@ -416,7 +487,16 @@ var timer = 600;
 var timerInt;
 var checkInt;
 var checkCount = 0;
-var currentScreen = 1;
+var currentScreen = 0; // Начинаем с экрана поддержки
+
+// Функции поддержки
+function openSupport() {
+    tg.showAlert('📞 Свяжитесь с нашей поддержкой:\n\nTelegram: @panda_support\nEmail: support@pandashop.com\n\nМы ответим в течение 5 минут!');
+}
+
+function openSecurityInfo() {
+    tg.showAlert('🔒 Меры безопасности:\n\n• Все платежи защищены блокчейном\n• Конфиденциальность данных гарантирована\n• Отсутствие KYC для покупок\n• Анонимные транзакции\n• 24/7 мониторинг безопасности');
+}
 
 // Данные сетей для каждой криптовалюты
 var nets = {
@@ -461,7 +541,7 @@ var nets = {
     ]
 };
 
-// Данные кошельков
+// Данные кошельков (добавлен Weex)
 var wallets = {
     'usdt-trc20': 'TXm6gEHhZXjFhzPHpHKVGYHqXeDvXxXxXx',
     'usdt-erc20': '0x742d35Cc6634C0532925a3b844Bc9e7595f0f0f0',
@@ -477,7 +557,11 @@ var wallets = {
     'trx-tron': 'TXm6gEHhZXjFhzPHpHKVGYHqXeDvXxXxXx',
     'bnb-bep20': '0x742d35Cc6634C0532925a3b844Bc9e7595f0f0f0',
     'xrp-ripple': 'rXRippleAddressExample123456789',
-    'doge-dogecoin': 'DDogeAddressExample123456789'
+    'doge-dogecoin': 'DDogeAddressExample123456789',
+    // Weex кошельки
+    'usdt-weex-trc20': 'TXm6gEHhZXjFhzPHpHKVGYHqXeDvXxXxXx',
+    'usdt-weex-erc20': '0x742d35Cc6634C0532925a3b844Bc9e7595f0f0f0',
+    'btc-weex-bitcoin': 'bc1qxy2kgdygjrsqtzq2n0yrf2493p83kkfjhx0wlh'
 };
 
 // Функция обновления прогресс-бара
@@ -493,21 +577,25 @@ function updateProgress() {
     
     // Устанавливаем ширину прогресса и активный шаг
     switch(currentScreen) {
+        case 0:
+            progressFill.style.width = '0%';
+            steps[0].classList.add('active');
+            break;
         case 1:
             progressFill.style.width = '20%';
-            steps[0].classList.add('active');
+            steps[1].classList.add('active');
             break;
         case 2:
             progressFill.style.width = '40%';
-            steps[1].classList.add('active');
+            steps[2].classList.add('active');
             break;
         case 3:
             progressFill.style.width = '60%';
-            steps[2].classList.add('active');
+            steps[3].classList.add('active');
             break;
         case 4:
             progressFill.style.width = '80%';
-            steps[3].classList.add('active');
+            steps[4].classList.add('active');
             break;
         case 5:
         case 6:
@@ -552,42 +640,65 @@ function showNetworkSelection() {
     var networkList = document.getElementById('networkList');
     networkList.innerHTML = '';
     
-    // Проверяем, есть ли сети для выбранной криптовалюты
-    if (!nets[d.crypto] || nets[d.crypto].length === 0) {
-        networkList.innerHTML = '<div style="text-align:center;padding:40px;color:rgba(255,255,255,0.5)">Нет доступных сетей для этой валюты</div>';
-        return;
+    // Для Weex добавляем специальные сети
+    if (d.ex === 'weex') {
+        var weexNets = [
+            {id: 'trc20', n: 'TRC20 (TRON)', d: 'Быстрая сеть Weex', f: 'Комиссия: ~$1'},
+            {id: 'erc20', n: 'ERC20 (Ethereum)', d: 'Надежная сеть Weex', f: 'Комиссия: ~$15'},
+            {id: 'bitcoin', n: 'Bitcoin Network', d: 'Сеть BTC Weex', f: 'Комиссия: ~$2-5'}
+        ];
+        
+        weexNets.forEach(function(network, index) {
+            var card = document.createElement('div');
+            card.className = 'network-card';
+            card.style.animationDelay = (index * 0.1) + 's';
+            card.innerHTML = `
+                <div class="network-name">${network.n}</div>
+                <div class="network-desc">${network.d}</div>
+                <div class="network-fee">${network.f}</div>
+            `;
+            
+            card.onclick = function() {
+                document.querySelectorAll('.network-card').forEach(function(c) {
+                    c.classList.remove('selected');
+                });
+                this.classList.add('selected');
+                d.net = network.id;
+                d.netName = network.n;
+                document.getElementById('continueBtn').disabled = false;
+            };
+            networkList.appendChild(card);
+        });
+    } else {
+        // Проверяем, есть ли сети для выбранной криптовалюты
+        if (!nets[d.crypto] || nets[d.crypto].length === 0) {
+            networkList.innerHTML = '<div style="text-align:center;padding:40px;color:rgba(255,255,255,0.5)">Нет доступных сетей для этой валюты</div>';
+            return;
+        }
+        
+        // Добавляем сети с анимацией
+        nets[d.crypto].forEach(function(network, index) {
+            var card = document.createElement('div');
+            card.className = 'network-card';
+            card.style.animationDelay = (index * 0.1) + 's';
+            card.innerHTML = `
+                <div class="network-name">${network.n}</div>
+                <div class="network-desc">${network.d}</div>
+                <div class="network-fee">${network.f}</div>
+            `;
+            
+            card.onclick = function() {
+                document.querySelectorAll('.network-card').forEach(function(c) {
+                    c.classList.remove('selected');
+                });
+                this.classList.add('selected');
+                d.net = network.id;
+                d.netName = network.n;
+                document.getElementById('continueBtn').disabled = false;
+            };
+            networkList.appendChild(card);
+        });
     }
-    
-    // Добавляем сети с анимацией
-    nets[d.crypto].forEach(function(network, index) {
-        var card = document.createElement('div');
-        card.className = 'network-card';
-        card.style.animationDelay = (index * 0.1) + 's';
-        card.innerHTML = `
-            <div class="network-name">${network.n}</div>
-            <div class="network-desc">${network.d}</div>
-            <div class="network-fee">${network.f}</div>
-        `;
-        
-        card.onclick = function() {
-            // Снимаем выделение со всех карточек
-            document.querySelectorAll('.network-card').forEach(function(c) {
-                c.classList.remove('selected');
-            });
-            
-            // Выделяем выбранную карточку
-            this.classList.add('selected');
-            
-            // Сохраняем выбранную сеть
-            d.net = network.id;
-            d.netName = network.n;
-            
-            // Активируем кнопку продолжения
-            document.getElementById('continueBtn').disabled = false;
-        };
-        
-        networkList.appendChild(card);
-    });
     
     // Сбрасываем кнопку
     document.getElementById('continueBtn').disabled = true;
@@ -685,7 +796,7 @@ function go(s) {
 
 // Функция обновления кнопки "Назад" в Telegram
 function updateTelegramBackButton() {
-    if (currentScreen === 1) {
+    if (currentScreen === 0) {
         tg.BackButton.hide();
     } else {
         tg.BackButton.show();
@@ -696,6 +807,11 @@ function updateTelegramBackButton() {
 function generateQRCode() {
     d.oid = 'ORD-' + Date.now();
     var walletKey = d.crypto + '-' + d.net;
+    
+    // Для Weex используем специальные ключи
+    if (d.ex === 'weex') {
+        walletKey = d.crypto + '-weex-' + d.net;
+    }
     
     if (!wallets[walletKey]) {
         tg.showAlert('❌ Ошибка: не найден адрес кошелька');
@@ -751,7 +867,7 @@ function startPaymentTimer() {
             clearInterval(timerInt);
             clearInterval(checkInt);
             tg.showAlert('⏰ Время истекло! Попробуйте снова.');
-            go(1); // Возвращаем на первый экран
+            go(1); // Возвращаем на экран выбора бирж
             resetSelection();
         }
     }, 1000);
@@ -857,7 +973,11 @@ function copy() {
 
 // Обработчик кнопки "Назад" в Telegram
 tg.BackButton.onClick(function() {
-    if (currentScreen === 2) {
+    if (currentScreen === 0) {
+        tg.close();
+    } else if (currentScreen === 1) {
+        go(0);
+    } else if (currentScreen === 2) {
         go(1);
     } else if (currentScreen === 3) {
         go(2);
@@ -872,7 +992,7 @@ tg.BackButton.onClick(function() {
     } else if (currentScreen === 6) {
         tg.close();
     } else {
-        go(1);
+        go(0);
     }
 });
 
