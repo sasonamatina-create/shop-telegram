@@ -9,7 +9,7 @@
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#0f0f1e;color:#fff;min-height:100vh;position:relative;overflow-x:hidden}
-body::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;background:radial-gradient(circle at 20% 30%,rgba(102,126,234,0.3) 0%,transparent 50%),radial-gradient(circle at 80% 70%,rgba(118,75,162,0.3) 0%,transparent 50%),radial-gradient(circle at 40% 80%,rgba(52,199,89,0.2) 0%,transparent 40%);z-index:0;animation:gradientMove 15s ease infinite}
+body::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;background:radial-gradient(circle at 20% 30%,rgba(102,126,234,0.3) 0%,transparent 50%),radial-gradient(circle at 80% 70%,rgba(118,75,162,0.3) 0%,transparent 50%),radial-gradient(circle at 40% 80%,rgba(52,199,89,0.2) 0%,transparent 40%);z-index:0}
 .bg-shapes{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;overflow:hidden;pointer-events:none}
 .shape{position:absolute;border-radius:50%;opacity:0.1}
 .shape1{width:300px;height:300px;background:linear-gradient(135deg,#667eea,#764ba2);top:10%;left:10%;animation:float 20s infinite ease-in-out}
@@ -57,13 +57,13 @@ body::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;backgrou
 .summary-row:last-child{margin-top:16px;padding-top:16px;border-top:2px solid rgba(255,255,255,0.3);font-size:22px;font-weight:800;color:#4facfe}
 .success-box{background:rgba(255,255,255,0.1);backdrop-filter:blur(20px);border-radius:20px;padding:24px;margin-top:24px;border:2px solid rgba(255,255,255,0.2)}
 .hidden{display:none!important}
+.splash{position:fixed;top:0;left:0;width:100%;height:100%;background:#0f0f1e;z-index:9999;display:flex;align-items:center;justify-content:center;transition:opacity 0.5s ease}
+.splash.hide{opacity:0;pointer-events:none}
 @keyframes fadeIn{from{opacity:0}to{opacity:1}}
 @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-20px)}}
 @keyframes spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
 @keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.5;transform:scale(1.05)}}
-@keyframes gradientMove{0%,100%{opacity:1}50%{opacity:0.8}}
-@keyframes scaleUp{from{opacity:0;transform:scale(0.5)}to{opacity:1;transform:scale(1)}}
-.exchange-card{cursor:pointer;user-select:none;-webkit-tap-highlight-color:transparent}
+@keyframes scaleUp{0%{opacity:0;transform:scale(0.5)}100%{opacity:1;transform:scale(1)}}
 </style>
 </head>
 <body>
@@ -73,10 +73,10 @@ body::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;backgrou
 <div class="shape shape3"></div>
 </div>
 
-<div id="s0" class="screen" style="display:flex;align-items:center;justify-content:center;opacity:1;animation:none">
+<div id="splash" class="splash">
 <div style="text-align:center">
-<div class="panda-mascot" style="animation:scaleUp 1s ease-out">
-<svg viewBox="0 0 200 200">
+<div style="animation:scaleUp 1s ease-out">
+<svg viewBox="0 0 200 200" style="width:120px;height:120px;filter:drop-shadow(0 10px 30px rgba(0,0,0,0.5))">
 <ellipse cx="100" cy="120" rx="50" ry="60" fill="#fff"/>
 <circle cx="100" cy="70" r="45" fill="#fff"/>
 <ellipse cx="70" cy="40" rx="20" ry="25" fill="#000"/>
@@ -93,7 +93,7 @@ body::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;backgrou
 <div style="font-size:42px;font-weight:800;margin:20px 0;animation:fadeIn 1s ease-out">🐼 Panda Shop</div>
 <div style="font-size:18px;opacity:0.8;animation:fadeIn 1.5s ease-out">Криптоуслуги для бирж</div>
 <div style="margin-top:40px">
-<div class="icon" style="font-size:40px;animation:spin 1.5s linear infinite">⚡</div>
+<div style="font-size:40px;animation:spin 1.5s linear infinite">⚡</div>
 <div style="font-size:14px;opacity:0.6;margin-top:12px">Загрузка...</div>
 </div>
 </div>
@@ -237,22 +237,20 @@ let timer=600;
 let timerInt;
 let checkInt;
 
-// Загрузочный экран - убираем сразу после загрузки скрипта
+// Скрываем splash screen через 2 секунды
+window.onload=function(){
 setTimeout(function(){
-let splash=document.getElementById('s0');
-let main=document.getElementById('s1');
-if(splash){splash.style.display='none'}
-if(main){
-main.classList.remove('hidden');
-main.style.opacity='1';
-}
+document.getElementById('splash').classList.add('hide');
+setTimeout(function(){
+document.getElementById('splash').style.display='none';
+document.getElementById('s1').classList.remove('hidden');
 initExchangeButtons();
+},500);
 },2000);
+};
 
-// Инициализация кнопок бирж
 function initExchangeButtons(){
-let cards=document.querySelectorAll('.exchange-card');
-cards.forEach(function(card){
+document.querySelectorAll('.exchange-card').forEach(function(card){
 card.onclick=function(){
 d.ex=this.getAttribute('data-ex');
 d.exName=this.querySelector('.name').textContent;
@@ -297,41 +295,45 @@ doge:[{id:'dogecoin',n:'Dogecoin',d:'DOGE Network'}]
 
 const cryptoNames={usdt:'USDT',usdc:'USDC',dai:'DAI',busd:'BUSD',btc:'Bitcoin',eth:'Ethereum',ton:'TON',ltc:'Litecoin',trx:'TRON',bnb:'BNB',xrp:'XRP',doge:'Dogecoin'};
 
-document.querySelectorAll('[data-srv]').forEach(c=>c.onclick=()=>{
-document.querySelectorAll('[data-srv]').forEach(x=>x.classList.remove('selected'));
-c.classList.add('selected');
-d.srv=c.dataset.srv;
-d.srvName=c.querySelector('.service-title').textContent;
-d.price=c.dataset.price;
-setTimeout(()=>go(3),300)
+document.querySelectorAll('[data-srv]').forEach(function(c){
+c.onclick=function(){
+document.querySelectorAll('[data-srv]').forEach(function(x){x.classList.remove('selected')});
+this.classList.add('selected');
+d.srv=this.getAttribute('data-srv');
+d.srvName=this.querySelector('.service-title').textContent;
+d.price=this.getAttribute('data-price');
+setTimeout(function(){go(3)},300);
+};
 });
 
-document.querySelectorAll('[data-crypto]').forEach(c=>c.onclick=()=>{
-document.querySelectorAll('[data-crypto]').forEach(x=>x.classList.remove('selected'));
-c.classList.add('selected');
-d.crypto=c.dataset.crypto;
+document.querySelectorAll('[data-crypto]').forEach(function(c){
+c.onclick=function(){
+document.querySelectorAll('[data-crypto]').forEach(function(x){x.classList.remove('selected')});
+this.classList.add('selected');
+d.crypto=this.getAttribute('data-crypto');
 d.cryptoName=cryptoNames[d.crypto];
-showNets()
+showNets();
+};
 });
 
 function showNets(){
 let list=document.getElementById('netList');
 list.innerHTML='';
-nets[d.crypto].forEach(x=>{
+nets[d.crypto].forEach(function(x){
 let div=document.createElement('div');
 div.className='card';
 div.style.marginBottom='10px';
-div.innerHTML=`<div class="name">${x.n}</div><div style="font-size:12px;opacity:0.8;margin-top:4px">${x.d}</div>`;
-div.onclick=()=>{
-document.querySelectorAll('#netList .card').forEach(c=>c.classList.remove('selected'));
-div.classList.add('selected');
+div.innerHTML='<div class="name">'+x.n+'</div><div style="font-size:12px;opacity:0.8;margin-top:4px">'+x.d+'</div>';
+div.onclick=function(){
+document.querySelectorAll('#netList .card').forEach(function(c){c.classList.remove('selected')});
+this.classList.add('selected');
 d.net=x.id;
 d.netName=x.n;
-showSummary()
+showSummary();
 };
-list.appendChild(div)
+list.appendChild(div);
 });
-document.getElementById('networks').classList.remove('hidden')
+document.getElementById('networks').classList.remove('hidden');
 }
 
 function showSummary(){
@@ -339,58 +341,58 @@ document.getElementById('sumEx').textContent=d.exName;
 document.getElementById('sumSrv').textContent=d.srvName;
 document.getElementById('sumCrypto').textContent=d.cryptoName;
 document.getElementById('sumNet').textContent=d.netName;
-document.getElementById('sumPrice').textContent='$'+d.price;
+document.getElementById('sumPrice').textContent='+d.price;
 document.getElementById('summary').classList.remove('hidden');
 document.getElementById('summary').scrollIntoView({behavior:'smooth',block:'nearest'});
-tg.MainButton.setText('💳 Оплатить $'+d.price);
-tg.MainButton.show()
+tg.MainButton.setText('💳 Оплатить +d.price);
+tg.MainButton.show();
 }
 
 function go(s){
-document.querySelectorAll('.screen').forEach(x=>x.classList.add('hidden'));
+document.querySelectorAll('.screen').forEach(function(x){x.classList.add('hidden')});
 document.getElementById('s'+s).classList.remove('hidden');
 window.scrollTo({top:0,behavior:'smooth'});
-if(s<4)tg.MainButton.hide()
+if(s<4)tg.MainButton.hide();
 }
 
 function startTimer(){
-timerInt=setInterval(()=>{
+timerInt=setInterval(function(){
 timer--;
 let m=Math.floor(timer/60);
-let s=timer%60;
-let display=m+':'+(s<10?'0':'')+s;
+let sec=timer%60;
+let display=m+':'+(sec<10?'0':'')+sec;
 document.getElementById('timer').textContent=display;
 if(timer<120){
-document.getElementById('timer').classList.add('warning')
+document.getElementById('timer').classList.add('warning');
 }
 if(timer<=0){
 clearInterval(timerInt);
 clearInterval(checkInt);
 tg.showAlert('⏰ Время истекло! Попробуйте снова.');
-go(1)
+go(1);
 }
-},1000)
+},1000);
 }
 
 let checkCount=0;
 function checkPayment(){
-checkInt=setInterval(()=>{
+checkInt=setInterval(function(){
 checkCount++;
-document.getElementById('txt').textContent=`Проверка платежа #${checkCount}...`;
+document.getElementById('txt').textContent='Проверка платежа #'+checkCount+'...';
 document.getElementById('ico').textContent='🔍';
 if(checkCount>=6){
 clearInterval(checkInt);
 clearInterval(timerInt);
-paymentConfirmed()
+paymentConfirmed();
 }
-},10000)
+},10000);
 }
 
 function paymentConfirmed(){
 document.getElementById('ico').className='icon';
 document.getElementById('ico').textContent='✅';
 document.getElementById('txt').textContent='Платеж получен!';
-setTimeout(()=>{
+setTimeout(function(){
 go(5);
 document.getElementById('oid').textContent=d.oid;
 document.getElementById('oex').textContent=d.exName;
@@ -398,8 +400,8 @@ document.getElementById('osrv').textContent=d.srvName;
 document.getElementById('ocrypto').textContent=d.cryptoName+' ('+d.netName+')';
 document.getElementById('oprice').textContent='+d.price;
 tg.sendData(JSON.stringify(d));
-setTimeout(()=>tg.close(),8000)
-},2000)
+setTimeout(function(){tg.close()},8000);
+},2000);
 }
 
 function genQR(){
@@ -416,40 +418,40 @@ colorLight:'#fff'
 document.getElementById('addr').textContent=d.addr;
 document.getElementById('amt').textContent='+d.price;
 startTimer();
-checkPayment()
+checkPayment();
 }
 
 function copy(){
-navigator.clipboard.writeText(d.addr).then(()=>{
-tg.showAlert('✅ Адрес успешно скопирован в буфер обмена!')
-}).catch(()=>{
-tg.showAlert('❌ Не удалось скопировать адрес')
-})
+navigator.clipboard.writeText(d.addr).then(function(){
+tg.showAlert('✅ Адрес успешно скопирован в буфер обмена!');
+}).catch(function(){
+tg.showAlert('❌ Не удалось скопировать адрес');
+});
 }
 
-tg.MainButton.onClick(()=>{
+tg.MainButton.onClick(function(){
 go(4);
 tg.MainButton.hide();
-genQR()
+genQR();
 });
 
-tg.BackButton.onClick(()=>{
+tg.BackButton.onClick(function(){
 let cur=document.querySelector('.screen:not(.hidden)').id;
 if(cur=='s1'){
-tg.close()
+tg.close();
 }else if(cur=='s2'){
-go(1)
+go(1);
 }else if(cur=='s3'){
-go(2)
+go(2);
 }else if(cur=='s4'){
 clearInterval(timerInt);
 clearInterval(checkInt);
 timer=600;
 checkCount=0;
 go(3);
-tg.MainButton.show()
+tg.MainButton.show();
 }else if(cur=='s5'){
-tg.close()
+tg.close();
 }
 });
 </script>
