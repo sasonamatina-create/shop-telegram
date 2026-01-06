@@ -67,6 +67,47 @@ body::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;backgrou
 </style>
 </head>
 <body>
+<script>
+// Определяем все функции ДО загрузки HTML
+var tg=window.Telegram.WebApp;
+tg.expand();
+tg.BackButton.show();
+
+var d={ex:null,exName:null,srv:null,srvName:null,price:null,crypto:null,cryptoName:null,net:null,netName:null,addr:null,oid:null};
+var timer=600;
+var timerInt;
+var checkInt;
+
+// Функция выбора биржи
+function selectExchange(exId,exName){
+console.log('Exchange selected:',exId,exName);
+d.ex=exId;
+d.exName=exName;
+document.getElementById('exName').textContent=exName;
+go(2);
+}
+
+// Функция переключения экранов
+function go(s){
+console.log('Going to screen:',s);
+var allScreens=document.getElementsByClassName('screen');
+for(var i=0;i<allScreens.length;i++){
+allScreens[i].style.display='none';
+}
+var target=document.getElementById('s'+s);
+if(target){
+target.style.display='block';
+console.log('Screen s'+s+' shown');
+}else{
+console.error('Screen s'+s+' not found!');
+}
+window.scrollTo(0,0);
+if(s<4){
+tg.MainButton.hide();
+}
+}
+</script>
+
 <div class="bg-shapes">
 <div class="shape shape1"></div>
 <div class="shape shape2"></div>
@@ -205,46 +246,9 @@ body::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;backgrou
 </div>
 
 <script>
-let tg=window.Telegram.WebApp;
-tg.expand();
-tg.BackButton.show();
+// Остальной код
 
-let d={ex:null,exName:null,srv:null,srvName:null,price:null,crypto:null,cryptoName:null,net:null,netName:null,addr:null,oid:null};
-let timer=600;
-let timerInt;
-let checkInt;
-
-// Инициализация кнопок бирж сразу
-setTimeout(function(){
-console.log('Starting initialization...');
-initExchangeButtons();
-},500);
-
-function initExchangeButtons(){
-console.log('Initializing exchange buttons...');
-var cards=document.querySelectorAll('.exchange-card');
-console.log('Found cards:',cards.length);
-for(var i=0;i<cards.length;i++){
-(function(card){
-console.log('Adding listener to card:',card.getAttribute('data-ex'));
-card.addEventListener('click',function(e){
-console.log('Card clicked!',card.getAttribute('data-ex'));
-e.preventDefault();
-e.stopPropagation();
-d.ex=card.getAttribute('data-ex');
-d.exName=card.querySelector('.name').textContent;
-console.log('Selected exchange:',d.ex,d.exName);
-document.getElementById('exName').textContent=d.exName;
-go(2);
-},true);
-card.style.cursor='pointer';
-card.style.pointerEvents='auto';
-})(cards[i]);
-}
-console.log('Exchange buttons initialized');
-}
-
-const wallets={
+var wallets={
 'usdt-trc20':'TXm6gEHhZXjFhzPHpHKVGYHqXeDvXxXxXx',
 'usdt-erc20':'0x742d35Cc6634C0532925a3b844Bc9e7595f0f0f0',
 'usdt-bep20':'0x742d35Cc6634C0532925a3b844Bc9e7595f0f0f0',
@@ -262,7 +266,7 @@ const wallets={
 'doge-dogecoin':'DDogeAddressExample123456789'
 };
 
-const nets={
+var nets={
 usdt:[{id:'trc20',n:'TRC20 (TRON)',d:'Низкая комиссия ~$1'},{id:'erc20',n:'ERC20 (Ethereum)',d:'Высокая комиссия ~$15'},{id:'bep20',n:'BEP20 (BSC)',d:'Низкая комиссия ~$0.5'}],
 usdc:[{id:'erc20',n:'ERC20 (Ethereum)',d:'Основная сеть'},{id:'polygon',n:'Polygon',d:'Очень дешево'}],
 dai:[{id:'erc20',n:'ERC20 (Ethereum)',d:'Основная сеть'}],
@@ -277,7 +281,7 @@ xrp:[{id:'ripple',n:'XRP Ledger',d:'Ripple Network'}],
 doge:[{id:'dogecoin',n:'Dogecoin',d:'DOGE Network'}]
 };
 
-const cryptoNames={usdt:'USDT',usdc:'USDC',dai:'DAI',busd:'BUSD',btc:'Bitcoin',eth:'Ethereum',ton:'TON',ltc:'Litecoin',trx:'TRON',bnb:'BNB',xrp:'XRP',doge:'Dogecoin'};
+var cryptoNames={usdt:'USDT',usdc:'USDC',dai:'DAI',busd:'BUSD',btc:'Bitcoin',eth:'Ethereum',ton:'TON',ltc:'Litecoin',trx:'TRON',bnb:'BNB',xrp:'XRP',doge:'Dogecoin'};
 
 document.querySelectorAll('[data-srv]').forEach(function(c){
 c.onclick=function(){
@@ -333,20 +337,19 @@ tg.MainButton.show();
 }
 
 function go(s){
-console.log('Go to screen:',s);
-var screens=document.querySelectorAll('.screen');
-for(var i=0;i<screens.length;i++){
-screens[i].classList.add('hidden');
-screens[i].style.display='none';
+console.log('Going to screen:',s);
+var allScreens=document.getElementsByClassName('screen');
+for(var i=0;i<allScreens.length;i++){
+allScreens[i].style.display='none';
 }
-var targetScreen=document.getElementById('s'+s);
-console.log('Target screen:',targetScreen);
-if(targetScreen){
-targetScreen.classList.remove('hidden');
-targetScreen.style.display='block';
-targetScreen.style.opacity='1';
+var target=document.getElementById('s'+s);
+if(target){
+target.style.display='block';
+console.log('Screen s'+s+' shown');
+}else{
+console.error('Screen s'+s+' not found!');
 }
-window.scrollTo({top:0,behavior:'smooth'});
+window.scrollTo(0,0);
 if(s<4){
 tg.MainButton.hide();
 }
@@ -371,7 +374,7 @@ go(1);
 },1000);
 }
 
-let checkCount=0;
+var checkCount=0;
 function checkPayment(){
 checkInt=setInterval(function(){
 checkCount++;
