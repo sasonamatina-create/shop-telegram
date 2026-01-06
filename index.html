@@ -104,7 +104,751 @@ d.cryptoName=cryptoName;
 showNets();
 }
 
+// Функция показа сетей
+function showNets(){
+var list=document.getElementById('netList');
+list.innerHTML='';
+nets[d.crypto].forEach(function(x){
+var div=document.createElement('div');
+div.className='card';
+div.style.marginBottom='10px';
+div.innerHTML='<div class="name">'+x.n+'</div><div style="font-size:12px;opacity:0.8;margin-top:4px">'+x.d+'</div>';
+div.onclick=function(){
+var allNets=document.querySelectorAll('#netList .card');
+for(var i=0;i<allNets.length;i++){
+allNets[i].classList.remove('selected');
+}
+this.classList.add('selected');
+d.net=x.id;
+d.netName=x.n;
+showSummary();
+};
+list.appendChild(div);
+});
+var networkSection=document.getElementById('networks');
+networkSection.classList.remove('hidden');
+networkSection.style.display='block';
+}
+
+// Функция показа итоговой информации
+function showSummary(){
+document.getElementById('sumEx').textContent=d.exName;
+document.getElementById('sumSrv').textContent=d.srvName;
+document.getElementById('sumCrypto').textContent=d.cryptoName;
+document.getElementById('sumNet').textContent=d.netName;
+document.getElementById('sumPrice').textContent='
+function go(s){
+console.log('Going to screen:',s);
+var allScreens=document.getElementsByClassName('screen');
+for(var i=0;i<allScreens.length;i++){
+allScreens[i].style.display='none';
+allScreens[i].classList.add('hidden');
+}
+var target=document.getElementById('s'+s);
+if(target){
+target.classList.remove('hidden');
+target.style.display='block';
+target.style.opacity='1';
+console.log('Screen s'+s+' shown');
+}else{
+console.error('Screen s'+s+' not found!');
+}
+window.scrollTo(0,0);
+if(s<4){
+tg.MainButton.hide();
+}
+}
+
+// Данные кошельков и сетей
+var wallets={
+<div class="shape shape1"></div>
+<div class="shape shape2"></div>
+<div class="shape shape3"></div>
+</div>
+
+<div id="s1" class="screen" style="opacity:1;display:block">
+<div class="panda-mascot" style="animation:scaleUp 0.8s ease-out">
+<svg viewBox="0 0 200 200">
+<ellipse cx="100" cy="120" rx="50" ry="60" fill="#fff"/>
+<circle cx="100" cy="70" r="45" fill="#fff"/>
+<ellipse cx="70" cy="40" rx="20" ry="25" fill="#000"/>
+<ellipse cx="130" cy="40" rx="20" ry="25" fill="#000"/>
+<ellipse cx="85" cy="65" rx="18" ry="22" fill="#000"/>
+<circle cx="88" cy="68" r="6" fill="#fff"/>
+<ellipse cx="115" cy="65" rx="18" ry="22" fill="#000"/>
+<circle cx="118" cy="68" r="6" fill="#fff"/>
+<ellipse cx="100" cy="85" rx="8" ry="6" fill="#000"/>
+<circle cx="140" cy="110" r="18" fill="#FFD700"/>
+<text x="140" y="118" font-size="20" text-anchor="middle" fill="#000" font-weight="bold">₿</text>
+</svg>
+</div>
+<div class="header" style="animation:fadeIn 1s ease-out">
+<h1>🐼 Panda Shop</h1>
+<p>Выберите криптобиржу</p>
+</div>
+<div class="grid" style="animation:slideInUp 1.2s ease-out">
+<div class="card" onclick="selectExchange('binance','Binance')"><div class="logo">🟡</div><div class="name">Binance</div></div>
+<div class="card" onclick="selectExchange('bybit','Bybit')"><div class="logo">🟠</div><div class="name">Bybit</div></div>
+<div class="card" onclick="selectExchange('okx','OKX')"><div class="logo">⚫</div><div class="name">OKX</div></div>
+<div class="card" onclick="selectExchange('kraken','Kraken')"><div class="logo">🟣</div><div class="name">Kraken</div></div>
+<div class="card" onclick="selectExchange('gateio','Gate.io')"><div class="logo">🟢</div><div class="name">Gate.io</div></div>
+<div class="card" onclick="selectExchange('mexc','MEXC')"><div class="logo">🔵</div><div class="name">MEXC</div></div>
+<div class="card" onclick="selectExchange('bingx','BingX')"><div class="logo">🔷</div><div class="name">BingX</div></div>
+<div class="card" onclick="selectExchange('bitget','Bitget')"><div class="logo">💠</div><div class="name">Bitget</div></div>
+<div class="card" onclick="selectExchange('kucoin','KuCoin')"><div class="logo">🟩</div><div class="name">KuCoin</div></div>
+</div>
+</div>
+
+<div id="s2" class="screen" style="display:none;opacity:1">
+<button class="back-btn" onclick="go(1)">← Назад к биржам</button>
+<div class="header"><h1 id="exName">Binance</h1><p>Выберите услугу</p></div>
+<div class="service-card" onclick="selectService('kyc','KYC Верификация','50')">
+<div class="service-top"><span class="service-icon">✅</span><div><div class="service-title">KYC Верификация</div><div class="service-desc">Полное прохождение верификации аккаунта</div></div></div>
+<div class="service-bottom"><div class="service-price">$50</div><div class="service-badge">Популярно</div></div>
+</div>
+<div class="service-card" onclick="selectService('api','Настройка API','35')">
+<div class="service-top"><span class="service-icon">🔑</span><div><div class="service-title">Настройка API</div><div class="service-desc">Безопасная настройка торговых ключей</div></div></div>
+<div class="service-bottom"><div class="service-price">$35</div><div class="service-badge">Быстро</div></div>
+</div>
+<div class="service-card" onclick="selectService('account','Готовый аккаунт','120')">
+<div class="service-top"><span class="service-icon">👤</span><div><div class="service-title">Готовый аккаунт</div><div class="service-desc">Верифицированный аккаунт с историей</div></div></div>
+<div class="service-bottom"><div class="service-price">$120</div><div class="service-badge">Premium</div></div>
+</div>
+</div>
+
+<div id="s3" class="screen" style="display:none;opacity:1">
+<button class="back-btn" onclick="go(2)">← Назад к услугам</button>
+<div class="header"><h1>💳 Способ оплаты</h1><p>Выберите криптовалюту</p></div>
+<div class="section-title">💵 Стейблкоины</div>
+<div class="grid">
+<div class="card" onclick="selectCrypto('usdt','USDT')"><div class="logo">💵</div><div class="name">USDT</div></div>
+<div class="card" onclick="selectCrypto('usdc','USDC')"><div class="logo">🔵</div><div class="name">USDC</div></div>
+<div class="card" onclick="selectCrypto('dai','DAI')"><div class="logo">🟡</div><div class="name">DAI</div></div>
+<div class="card" onclick="selectCrypto('busd','BUSD')"><div class="logo">🟨</div><div class="name">BUSD</div></div>
+</div>
+<div class="section-title">💎 Криптовалюты</div>
+<div class="grid">
+<div class="card" onclick="selectCrypto('btc','Bitcoin')"><div class="logo">₿</div><div class="name">Bitcoin</div></div>
+<div class="card" onclick="selectCrypto('eth','Ethereum')"><div class="logo">Ξ</div><div class="name">Ethereum</div></div>
+<div class="card" onclick="selectCrypto('ton','TON')"><div class="logo">💎</div><div class="name">TON</div></div>
+<div class="card" onclick="selectCrypto('ltc','Litecoin')"><div class="logo">Ł</div><div class="name">Litecoin</div></div>
+<div class="card" onclick="selectCrypto('trx','TRON')"><div class="logo">🔺</div><div class="name">TRON</div></div>
+<div class="card" onclick="selectCrypto('bnb','BNB')"><div class="logo">🟡</div><div class="name">BNB</div></div>
+<div class="card" onclick="selectCrypto('xrp','XRP')"><div class="logo">✕</div><div class="name">XRP</div></div>
+<div class="card" onclick="selectCrypto('doge','Dogecoin')"><div class="logo">🐕</div><div class="name">Dogecoin</div></div>
+</div>
+<div id="networks" style="margin-top:20px;display:none">
+<div class="section-title">⚡ Выберите сеть</div>
+<div id="netList"></div>
+</div>
+<div class="summary" id="summary" style="display:none">
+<div style="font-size:18px;font-weight:700;margin-bottom:16px;color:#4facfe">📋 Итого</div>
+<div class="summary-row"><span>Биржа:</span><span id="sumEx"></span></div>
+<div class="summary-row"><span>Услуга:</span><span id="sumSrv"></span></div>
+<div class="summary-row"><span>Оплата:</span><span id="sumCrypto"></span></div>
+<div class="summary-row"><span>Сеть:</span><span id="sumNet"></span></div>
+<div class="summary-row"><span>Итого:</span><span id="sumPrice"></span></div>
+</div>
+</div>
+
+<div id="s4" class="screen" style="display:none;opacity:1">
+<div class="timer"><div class="timer-label">⏰ Осталось времени на оплату</div><div class="timer-display" id="timer">10:00</div></div>
+<div class="header"><h1>📱 Отсканируйте QR код</h1><p>Отправьте точную сумму на адрес</p></div>
+<div class="qr-box">
+<div class="qr-code" id="qr"></div>
+<div class="wallet" id="addr">Загрузка адреса...</div>
+<button class="btn" onclick="copy()">📋 Копировать адрес</button>
+<div class="status">
+<div class="icon checking" id="ico">🔄</div>
+<div style="font-size:16px;font-weight:600;margin-bottom:8px" id="txt">Проверяем блокчейн...</div>
+<div style="font-size:13px;opacity:0.8">Проверка каждые 10 секунд</div>
+<div style="margin-top:16px;font-size:28px;font-weight:800;color:#4facfe" id="amt">$0</div>
+</div>
+</div>
+</div>
+
+<div id="s5" class="screen" style="display:none;opacity:1">
+<div style="text-align:center;padding:40px 20px">
+<div class="panda-mascot">
+<svg viewBox="0 0 120 120">
+<circle cx="60" cy="60" r="50" fill="#fff"/>
+<ellipse cx="45" cy="45" rx="12" ry="15" fill="#000"/>
+<ellipse cx="75" cy="45" rx="12" ry="15" fill="#000"/>
+<path d="M 40 70 Q 60 85 80 70" stroke="#000" stroke-width="3" fill="none"/>
+<circle cx="90" cy="50" r="15" fill="#34c759"/>
+<text x="90" y="58" font-size="18" text-anchor="middle" fill="#fff" font-weight="bold">✓</text>
+</svg>
+</div>
+<div style="font-size:100px;margin:20px 0">✅</div>
+<div style="font-size:32px;font-weight:800;margin-bottom:12px">Оплата подтверждена!</div>
+<div style="font-size:16px;opacity:0.9;margin-bottom:24px">Ваш заказ принят и будет обработан в течение 1-2 часов</div>
+<div class="success-box">
+<div style="font-size:18px;font-weight:700;margin-bottom:16px;color:#4facfe">📋 Детали вашего заказа</div>
+<div class="summary-row"><span>Номер заказа:</span><span id="oid" style="font-family:monospace"></span></div>
+<div class="summary-row"><span>Биржа:</span><span id="oex"></span></div>
+<div class="summary-row"><span>Услуга:</span><span id="osrv"></span></div>
+<div class="summary-row"><span>Оплачено:</span><span id="ocrypto"></span></div>
+<div class="summary-row"><span>Сумма:</span><span id="oprice" style="color:#34c759"></span></div>
+<div style="margin-top:24px;padding-top:24px;border-top:2px solid rgba(255,255,255,0.3);text-align:center">
+<div style="font-size:14px;opacity:0.8">Наш менеджер свяжется с вами в ближайшее время</div>
+<div style="font-size:14px;opacity:0.8;margin-top:8px">Спасибо за покупку! 🐼</div>
+</div>
+</div>
+</div>
+</div>
+
+<script>
+// Остальной код
+
+var wallets={
+'usdt-trc20':'TXm6gEHhZXjFhzPHpHKVGYHqXeDvXxXxXx',
+'usdt-erc20':'0x742d35Cc6634C0532925a3b844Bc9e7595f0f0f0',
+'usdt-bep20':'0x742d35Cc6634C0532925a3b844Bc9e7595f0f0f0',
+'usdc-erc20':'0x742d35Cc6634C0532925a3b844Bc9e7595f0f0f0',
+'usdc-polygon':'0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174',
+'dai-erc20':'0x6B175474E89094C44Da98b954EedeAC495271d0F',
+'busd-bep20':'0xe9e7CEA3DedcA5984780Bafc599bD69ADd087D56',
+'btc-bitcoin':'bc1qxy2kgdygjrsqtzq2n0yrf2493p83kkfjhx0wlh',
+'eth-ethereum':'0x742d35Cc6634C0532925a3b844Bc9e7595f0f0f0',
+'ton-ton':'EQDtFpEwcFAEcRe5mLVh2N6C0x-_hJEM7W61_JLnSF74p4q2',
+'ltc-litecoin':'ltc1qxy2kgdygjrsqtzq2n0yrf2493p83kkfjhx0wlh',
+'trx-tron':'TXm6gEHhZXjFhzPHpHKVGYHqXeDvXxXxXx',
+'bnb-bep20':'0x742d35Cc6634C0532925a3b844Bc9e7595f0f0f0',
+'xrp-ripple':'rXRippleAddressExample123456789',
+'doge-dogecoin':'DDogeAddressExample123456789'
+};
+
+var nets={
+usdt:[{id:'trc20',n:'TRC20 (TRON)',d:'Низкая комиссия ~$1'},{id:'erc20',n:'ERC20 (Ethereum)',d:'Высокая комиссия ~$15'},{id:'bep20',n:'BEP20 (BSC)',d:'Низкая комиссия ~$0.5'}],
+usdc:[{id:'erc20',n:'ERC20 (Ethereum)',d:'Основная сеть'},{id:'polygon',n:'Polygon',d:'Очень дешево'}],
+dai:[{id:'erc20',n:'ERC20 (Ethereum)',d:'Основная сеть'}],
+busd:[{id:'bep20',n:'BEP20 (BSC)',d:'Binance Smart Chain'}],
+btc:[{id:'bitcoin',n:'Bitcoin',d:'Основная сеть BTC'}],
+eth:[{id:'ethereum',n:'Ethereum',d:'Основная сеть ETH'}],
+ton:[{id:'ton',n:'TON',d:'The Open Network'}],
+ltc:[{id:'litecoin',n:'Litecoin',d:'Основная сеть LTC'}],
+trx:[{id:'tron',n:'TRON',d:'Основная сеть TRX'}],
+bnb:[{id:'bep20',n:'BEP20 (BSC)',d:'Binance Smart Chain'}],
+xrp:[{id:'ripple',n:'XRP Ledger',d:'Ripple Network'}],
+doge:[{id:'dogecoin',n:'Dogecoin',d:'DOGE Network'}]
+};
+
+var cryptoNames={usdt:'USDT',usdc:'USDC',dai:'DAI',busd:'BUSD',btc:'Bitcoin',eth:'Ethereum',ton:'TON',ltc:'Litecoin',trx:'TRON',bnb:'BNB',xrp:'XRP',doge:'Dogecoin'};
+
+function showNets(){
+let list=document.getElementById('netList');
+list.innerHTML='';
+nets[d.crypto].forEach(function(x){
+let div=document.createElement('div');
+div.className='card';
+div.style.marginBottom='10px';
+div.innerHTML='<div class="name">'+x.n+'</div><div style="font-size:12px;opacity:0.8;margin-top:4px">'+x.d+'</div>';
+div.onclick=function(){
+document.querySelectorAll('#netList .card').forEach(function(c){c.classList.remove('selected')});
+this.classList.add('selected');
+d.net=x.id;
+d.netName=x.n;
+showSummary();
+};
+list.appendChild(div);
+});
+document.getElementById('networks').classList.remove('hidden');
+}
+
+function showSummary(){
+document.getElementById('sumEx').textContent=d.exName;
+document.getElementById('sumSrv').textContent=d.srvName;
+document.getElementById('sumCrypto').textContent=d.cryptoName;
+document.getElementById('sumNet').textContent=d.netName;
+document.getElementById('sumPrice').textContent='+d.price;
+document.getElementById('summary').classList.remove('hidden');
+document.getElementById('summary').scrollIntoView({behavior:'smooth',block:'nearest'});
+tg.MainButton.setText('💳 Оплатить +d.price);
+tg.MainButton.show();
+}
+
+function go(s){
+console.log('Going to screen:',s);
+var allScreens=document.getElementsByClassName('screen');
+for(var i=0;i<allScreens.length;i++){
+allScreens[i].style.display='none';
+}
+var target=document.getElementById('s'+s);
+if(target){
+target.style.display='block';
+console.log('Screen s'+s+' shown');
+}else{
+console.error('Screen s'+s+' not found!');
+}
+window.scrollTo(0,0);
+if(s<4){
+tg.MainButton.hide();
+}
+}
+
+function startTimer(){
+timerInt=setInterval(function(){
+timer--;
+let m=Math.floor(timer/60);
+let sec=timer%60;
+let display=m+':'+(sec<10?'0':'')+sec;
+document.getElementById('timer').textContent=display;
+if(timer<120){
+document.getElementById('timer').classList.add('warning');
+}
+if(timer<=0){
+clearInterval(timerInt);
+clearInterval(checkInt);
+tg.showAlert('⏰ Время истекло! Попробуйте снова.');
+go(1);
+}
+},1000);
+}
+
+var checkCount=0;
+function checkPayment(){
+checkInt=setInterval(function(){
+checkCount++;
+document.getElementById('txt').textContent='Проверка платежа #'+checkCount+'...';
+document.getElementById('ico').textContent='🔍';
+if(checkCount>=6){
+clearInterval(checkInt);
+clearInterval(timerInt);
+paymentConfirmed();
+}
+},10000);
+}
+
+function paymentConfirmed(){
+document.getElementById('ico').className='icon';
+document.getElementById('ico').textContent='✅';
+document.getElementById('txt').textContent='Платеж получен!';
+setTimeout(function(){
+go(5);
+document.getElementById('oid').textContent=d.oid;
+document.getElementById('oex').textContent=d.exName;
+document.getElementById('osrv').textContent=d.srvName;
+document.getElementById('ocrypto').textContent=d.cryptoName+' ('+d.netName+')';
+document.getElementById('oprice').textContent='+d.price;
+tg.sendData(JSON.stringify(d));
+setTimeout(function(){tg.close()},8000);
+},2000);
+}
+
+function genQR(){
+d.oid='ORD-'+Date.now();
+d.addr=wallets[d.crypto+'-'+d.net];
+document.getElementById('qr').innerHTML='';
+new QRCode(document.getElementById('qr'),{
+text:d.addr,
+width:240,
+height:240,
+colorDark:'#000',
+colorLight:'#fff'
+});
+document.getElementById('addr').textContent=d.addr;
+document.getElementById('amt').textContent='+d.price;
+startTimer();
+checkPayment();
+}
+
+function copy(){
+navigator.clipboard.writeText(d.addr).then(function(){
+tg.showAlert('✅ Адрес успешно скопирован в буфер обмена!');
+}).catch(function(){
+tg.showAlert('❌ Не удалось скопировать адрес');
+});
+}
+
+tg.MainButton.onClick(function(){
+go(4);
+tg.MainButton.hide();
+genQR();
+});
+
+tg.BackButton.onClick(function(){
+let cur=document.querySelector('.screen:not(.hidden)').id;
+if(cur=='s1'){
+tg.close();
+}else if(cur=='s2'){
+go(1);
+}else if(cur=='s3'){
+go(2);
+}else if(cur=='s4'){
+clearInterval(timerInt);
+clearInterval(checkInt);
+timer=600;
+checkCount=0;
+go(3);
+tg.MainButton.show();
+}else if(cur=='s5'){
+tg.close();
+}
+});
+</script>
+</body>
+</html>+d.price;
+var summaryBox=document.getElementById('summary');
+summaryBox.classList.remove('hidden');
+summaryBox.style.display='block';
+summaryBox.scrollIntoView({behavior:'smooth',block:'nearest'});
+tg.MainButton.setText('💳 Оплатить 
+function go(s){
+console.log('Going to screen:',s);
+var allScreens=document.getElementsByClassName('screen');
+for(var i=0;i<allScreens.length;i++){
+allScreens[i].style.display='none';
+allScreens[i].classList.add('hidden');
+}
+var target=document.getElementById('s'+s);
+if(target){
+target.classList.remove('hidden');
+target.style.display='block';
+target.style.opacity='1';
+console.log('Screen s'+s+' shown');
+}else{
+console.error('Screen s'+s+' not found!');
+}
+window.scrollTo(0,0);
+if(s<4){
+tg.MainButton.hide();
+}
+}
+</script>
+
+<div class="bg-shapes">
+<div class="shape shape1"></div>
+<div class="shape shape2"></div>
+<div class="shape shape3"></div>
+</div>
+
+<div id="s1" class="screen" style="opacity:1;display:block">
+<div class="panda-mascot" style="animation:scaleUp 0.8s ease-out">
+<svg viewBox="0 0 200 200">
+<ellipse cx="100" cy="120" rx="50" ry="60" fill="#fff"/>
+<circle cx="100" cy="70" r="45" fill="#fff"/>
+<ellipse cx="70" cy="40" rx="20" ry="25" fill="#000"/>
+<ellipse cx="130" cy="40" rx="20" ry="25" fill="#000"/>
+<ellipse cx="85" cy="65" rx="18" ry="22" fill="#000"/>
+<circle cx="88" cy="68" r="6" fill="#fff"/>
+<ellipse cx="115" cy="65" rx="18" ry="22" fill="#000"/>
+<circle cx="118" cy="68" r="6" fill="#fff"/>
+<ellipse cx="100" cy="85" rx="8" ry="6" fill="#000"/>
+<circle cx="140" cy="110" r="18" fill="#FFD700"/>
+<text x="140" y="118" font-size="20" text-anchor="middle" fill="#000" font-weight="bold">₿</text>
+</svg>
+</div>
+<div class="header" style="animation:fadeIn 1s ease-out">
+<h1>🐼 Panda Shop</h1>
+<p>Выберите криптобиржу</p>
+</div>
+<div class="grid" style="animation:slideInUp 1.2s ease-out">
+<div class="card" onclick="selectExchange('binance','Binance')"><div class="logo">🟡</div><div class="name">Binance</div></div>
+<div class="card" onclick="selectExchange('bybit','Bybit')"><div class="logo">🟠</div><div class="name">Bybit</div></div>
+<div class="card" onclick="selectExchange('okx','OKX')"><div class="logo">⚫</div><div class="name">OKX</div></div>
+<div class="card" onclick="selectExchange('kraken','Kraken')"><div class="logo">🟣</div><div class="name">Kraken</div></div>
+<div class="card" onclick="selectExchange('gateio','Gate.io')"><div class="logo">🟢</div><div class="name">Gate.io</div></div>
+<div class="card" onclick="selectExchange('mexc','MEXC')"><div class="logo">🔵</div><div class="name">MEXC</div></div>
+<div class="card" onclick="selectExchange('bingx','BingX')"><div class="logo">🔷</div><div class="name">BingX</div></div>
+<div class="card" onclick="selectExchange('bitget','Bitget')"><div class="logo">💠</div><div class="name">Bitget</div></div>
+<div class="card" onclick="selectExchange('kucoin','KuCoin')"><div class="logo">🟩</div><div class="name">KuCoin</div></div>
+</div>
+</div>
+
+<div id="s2" class="screen" style="display:none;opacity:1">
+<button class="back-btn" onclick="go(1)">← Назад к биржам</button>
+<div class="header"><h1 id="exName">Binance</h1><p>Выберите услугу</p></div>
+<div class="service-card" onclick="selectService('kyc','KYC Верификация','50')">
+<div class="service-top"><span class="service-icon">✅</span><div><div class="service-title">KYC Верификация</div><div class="service-desc">Полное прохождение верификации аккаунта</div></div></div>
+<div class="service-bottom"><div class="service-price">$50</div><div class="service-badge">Популярно</div></div>
+</div>
+<div class="service-card" onclick="selectService('api','Настройка API','35')">
+<div class="service-top"><span class="service-icon">🔑</span><div><div class="service-title">Настройка API</div><div class="service-desc">Безопасная настройка торговых ключей</div></div></div>
+<div class="service-bottom"><div class="service-price">$35</div><div class="service-badge">Быстро</div></div>
+</div>
+<div class="service-card" onclick="selectService('account','Готовый аккаунт','120')">
+<div class="service-top"><span class="service-icon">👤</span><div><div class="service-title">Готовый аккаунт</div><div class="service-desc">Верифицированный аккаунт с историей</div></div></div>
+<div class="service-bottom"><div class="service-price">$120</div><div class="service-badge">Premium</div></div>
+</div>
+</div>
+
+<div id="s3" class="screen" style="display:none;opacity:1">
+<button class="back-btn" onclick="go(2)">← Назад к услугам</button>
+<div class="header"><h1>💳 Способ оплаты</h1><p>Выберите криптовалюту</p></div>
+<div class="section-title">💵 Стейблкоины</div>
+<div class="grid">
+<div class="card" onclick="selectCrypto('usdt','USDT')"><div class="logo">💵</div><div class="name">USDT</div></div>
+<div class="card" onclick="selectCrypto('usdc','USDC')"><div class="logo">🔵</div><div class="name">USDC</div></div>
+<div class="card" onclick="selectCrypto('dai','DAI')"><div class="logo">🟡</div><div class="name">DAI</div></div>
+<div class="card" onclick="selectCrypto('busd','BUSD')"><div class="logo">🟨</div><div class="name">BUSD</div></div>
+</div>
+<div class="section-title">💎 Криптовалюты</div>
+<div class="grid">
+<div class="card" onclick="selectCrypto('btc','Bitcoin')"><div class="logo">₿</div><div class="name">Bitcoin</div></div>
+<div class="card" onclick="selectCrypto('eth','Ethereum')"><div class="logo">Ξ</div><div class="name">Ethereum</div></div>
+<div class="card" onclick="selectCrypto('ton','TON')"><div class="logo">💎</div><div class="name">TON</div></div>
+<div class="card" onclick="selectCrypto('ltc','Litecoin')"><div class="logo">Ł</div><div class="name">Litecoin</div></div>
+<div class="card" onclick="selectCrypto('trx','TRON')"><div class="logo">🔺</div><div class="name">TRON</div></div>
+<div class="card" onclick="selectCrypto('bnb','BNB')"><div class="logo">🟡</div><div class="name">BNB</div></div>
+<div class="card" onclick="selectCrypto('xrp','XRP')"><div class="logo">✕</div><div class="name">XRP</div></div>
+<div class="card" onclick="selectCrypto('doge','Dogecoin')"><div class="logo">🐕</div><div class="name">Dogecoin</div></div>
+</div>
+<div id="networks" style="margin-top:20px;display:none">
+<div class="section-title">⚡ Выберите сеть</div>
+<div id="netList"></div>
+</div>
+<div class="summary" id="summary" style="display:none">
+<div style="font-size:18px;font-weight:700;margin-bottom:16px;color:#4facfe">📋 Итого</div>
+<div class="summary-row"><span>Биржа:</span><span id="sumEx"></span></div>
+<div class="summary-row"><span>Услуга:</span><span id="sumSrv"></span></div>
+<div class="summary-row"><span>Оплата:</span><span id="sumCrypto"></span></div>
+<div class="summary-row"><span>Сеть:</span><span id="sumNet"></span></div>
+<div class="summary-row"><span>Итого:</span><span id="sumPrice"></span></div>
+</div>
+</div>
+
+<div id="s4" class="screen" style="display:none;opacity:1">
+<div class="timer"><div class="timer-label">⏰ Осталось времени на оплату</div><div class="timer-display" id="timer">10:00</div></div>
+<div class="header"><h1>📱 Отсканируйте QR код</h1><p>Отправьте точную сумму на адрес</p></div>
+<div class="qr-box">
+<div class="qr-code" id="qr"></div>
+<div class="wallet" id="addr">Загрузка адреса...</div>
+<button class="btn" onclick="copy()">📋 Копировать адрес</button>
+<div class="status">
+<div class="icon checking" id="ico">🔄</div>
+<div style="font-size:16px;font-weight:600;margin-bottom:8px" id="txt">Проверяем блокчейн...</div>
+<div style="font-size:13px;opacity:0.8">Проверка каждые 10 секунд</div>
+<div style="margin-top:16px;font-size:28px;font-weight:800;color:#4facfe" id="amt">$0</div>
+</div>
+</div>
+</div>
+
+<div id="s5" class="screen" style="display:none;opacity:1">
+<div style="text-align:center;padding:40px 20px">
+<div class="panda-mascot">
+<svg viewBox="0 0 120 120">
+<circle cx="60" cy="60" r="50" fill="#fff"/>
+<ellipse cx="45" cy="45" rx="12" ry="15" fill="#000"/>
+<ellipse cx="75" cy="45" rx="12" ry="15" fill="#000"/>
+<path d="M 40 70 Q 60 85 80 70" stroke="#000" stroke-width="3" fill="none"/>
+<circle cx="90" cy="50" r="15" fill="#34c759"/>
+<text x="90" y="58" font-size="18" text-anchor="middle" fill="#fff" font-weight="bold">✓</text>
+</svg>
+</div>
+<div style="font-size:100px;margin:20px 0">✅</div>
+<div style="font-size:32px;font-weight:800;margin-bottom:12px">Оплата подтверждена!</div>
+<div style="font-size:16px;opacity:0.9;margin-bottom:24px">Ваш заказ принят и будет обработан в течение 1-2 часов</div>
+<div class="success-box">
+<div style="font-size:18px;font-weight:700;margin-bottom:16px;color:#4facfe">📋 Детали вашего заказа</div>
+<div class="summary-row"><span>Номер заказа:</span><span id="oid" style="font-family:monospace"></span></div>
+<div class="summary-row"><span>Биржа:</span><span id="oex"></span></div>
+<div class="summary-row"><span>Услуга:</span><span id="osrv"></span></div>
+<div class="summary-row"><span>Оплачено:</span><span id="ocrypto"></span></div>
+<div class="summary-row"><span>Сумма:</span><span id="oprice" style="color:#34c759"></span></div>
+<div style="margin-top:24px;padding-top:24px;border-top:2px solid rgba(255,255,255,0.3);text-align:center">
+<div style="font-size:14px;opacity:0.8">Наш менеджер свяжется с вами в ближайшее время</div>
+<div style="font-size:14px;opacity:0.8;margin-top:8px">Спасибо за покупку! 🐼</div>
+</div>
+</div>
+</div>
+</div>
+
+<script>
+// Остальной код
+
+var wallets={
+'usdt-trc20':'TXm6gEHhZXjFhzPHpHKVGYHqXeDvXxXxXx',
+'usdt-erc20':'0x742d35Cc6634C0532925a3b844Bc9e7595f0f0f0',
+'usdt-bep20':'0x742d35Cc6634C0532925a3b844Bc9e7595f0f0f0',
+'usdc-erc20':'0x742d35Cc6634C0532925a3b844Bc9e7595f0f0f0',
+'usdc-polygon':'0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174',
+'dai-erc20':'0x6B175474E89094C44Da98b954EedeAC495271d0F',
+'busd-bep20':'0xe9e7CEA3DedcA5984780Bafc599bD69ADd087D56',
+'btc-bitcoin':'bc1qxy2kgdygjrsqtzq2n0yrf2493p83kkfjhx0wlh',
+'eth-ethereum':'0x742d35Cc6634C0532925a3b844Bc9e7595f0f0f0',
+'ton-ton':'EQDtFpEwcFAEcRe5mLVh2N6C0x-_hJEM7W61_JLnSF74p4q2',
+'ltc-litecoin':'ltc1qxy2kgdygjrsqtzq2n0yrf2493p83kkfjhx0wlh',
+'trx-tron':'TXm6gEHhZXjFhzPHpHKVGYHqXeDvXxXxXx',
+'bnb-bep20':'0x742d35Cc6634C0532925a3b844Bc9e7595f0f0f0',
+'xrp-ripple':'rXRippleAddressExample123456789',
+'doge-dogecoin':'DDogeAddressExample123456789'
+};
+
+var nets={
+usdt:[{id:'trc20',n:'TRC20 (TRON)',d:'Низкая комиссия ~$1'},{id:'erc20',n:'ERC20 (Ethereum)',d:'Высокая комиссия ~$15'},{id:'bep20',n:'BEP20 (BSC)',d:'Низкая комиссия ~$0.5'}],
+usdc:[{id:'erc20',n:'ERC20 (Ethereum)',d:'Основная сеть'},{id:'polygon',n:'Polygon',d:'Очень дешево'}],
+dai:[{id:'erc20',n:'ERC20 (Ethereum)',d:'Основная сеть'}],
+busd:[{id:'bep20',n:'BEP20 (BSC)',d:'Binance Smart Chain'}],
+btc:[{id:'bitcoin',n:'Bitcoin',d:'Основная сеть BTC'}],
+eth:[{id:'ethereum',n:'Ethereum',d:'Основная сеть ETH'}],
+ton:[{id:'ton',n:'TON',d:'The Open Network'}],
+ltc:[{id:'litecoin',n:'Litecoin',d:'Основная сеть LTC'}],
+trx:[{id:'tron',n:'TRON',d:'Основная сеть TRX'}],
+bnb:[{id:'bep20',n:'BEP20 (BSC)',d:'Binance Smart Chain'}],
+xrp:[{id:'ripple',n:'XRP Ledger',d:'Ripple Network'}],
+doge:[{id:'dogecoin',n:'Dogecoin',d:'DOGE Network'}]
+};
+
+var cryptoNames={usdt:'USDT',usdc:'USDC',dai:'DAI',busd:'BUSD',btc:'Bitcoin',eth:'Ethereum',ton:'TON',ltc:'Litecoin',trx:'TRON',bnb:'BNB',xrp:'XRP',doge:'Dogecoin'};
+
+function showNets(){
+let list=document.getElementById('netList');
+list.innerHTML='';
+nets[d.crypto].forEach(function(x){
+let div=document.createElement('div');
+div.className='card';
+div.style.marginBottom='10px';
+div.innerHTML='<div class="name">'+x.n+'</div><div style="font-size:12px;opacity:0.8;margin-top:4px">'+x.d+'</div>';
+div.onclick=function(){
+document.querySelectorAll('#netList .card').forEach(function(c){c.classList.remove('selected')});
+this.classList.add('selected');
+d.net=x.id;
+d.netName=x.n;
+showSummary();
+};
+list.appendChild(div);
+});
+document.getElementById('networks').classList.remove('hidden');
+}
+
+function showSummary(){
+document.getElementById('sumEx').textContent=d.exName;
+document.getElementById('sumSrv').textContent=d.srvName;
+document.getElementById('sumCrypto').textContent=d.cryptoName;
+document.getElementById('sumNet').textContent=d.netName;
+document.getElementById('sumPrice').textContent='+d.price;
+document.getElementById('summary').classList.remove('hidden');
+document.getElementById('summary').scrollIntoView({behavior:'smooth',block:'nearest'});
+tg.MainButton.setText('💳 Оплатить +d.price);
+tg.MainButton.show();
+}
+
+function go(s){
+console.log('Going to screen:',s);
+var allScreens=document.getElementsByClassName('screen');
+for(var i=0;i<allScreens.length;i++){
+allScreens[i].style.display='none';
+}
+var target=document.getElementById('s'+s);
+if(target){
+target.style.display='block';
+console.log('Screen s'+s+' shown');
+}else{
+console.error('Screen s'+s+' not found!');
+}
+window.scrollTo(0,0);
+if(s<4){
+tg.MainButton.hide();
+}
+}
+
+function startTimer(){
+timerInt=setInterval(function(){
+timer--;
+let m=Math.floor(timer/60);
+let sec=timer%60;
+let display=m+':'+(sec<10?'0':'')+sec;
+document.getElementById('timer').textContent=display;
+if(timer<120){
+document.getElementById('timer').classList.add('warning');
+}
+if(timer<=0){
+clearInterval(timerInt);
+clearInterval(checkInt);
+tg.showAlert('⏰ Время истекло! Попробуйте снова.');
+go(1);
+}
+},1000);
+}
+
+var checkCount=0;
+function checkPayment(){
+checkInt=setInterval(function(){
+checkCount++;
+document.getElementById('txt').textContent='Проверка платежа #'+checkCount+'...';
+document.getElementById('ico').textContent='🔍';
+if(checkCount>=6){
+clearInterval(checkInt);
+clearInterval(timerInt);
+paymentConfirmed();
+}
+},10000);
+}
+
+function paymentConfirmed(){
+document.getElementById('ico').className='icon';
+document.getElementById('ico').textContent='✅';
+document.getElementById('txt').textContent='Платеж получен!';
+setTimeout(function(){
+go(5);
+document.getElementById('oid').textContent=d.oid;
+document.getElementById('oex').textContent=d.exName;
+document.getElementById('osrv').textContent=d.srvName;
+document.getElementById('ocrypto').textContent=d.cryptoName+' ('+d.netName+')';
+document.getElementById('oprice').textContent='+d.price;
+tg.sendData(JSON.stringify(d));
+setTimeout(function(){tg.close()},8000);
+},2000);
+}
+
+function genQR(){
+d.oid='ORD-'+Date.now();
+d.addr=wallets[d.crypto+'-'+d.net];
+document.getElementById('qr').innerHTML='';
+new QRCode(document.getElementById('qr'),{
+text:d.addr,
+width:240,
+height:240,
+colorDark:'#000',
+colorLight:'#fff'
+});
+document.getElementById('addr').textContent=d.addr;
+document.getElementById('amt').textContent='+d.price;
+startTimer();
+checkPayment();
+}
+
+function copy(){
+navigator.clipboard.writeText(d.addr).then(function(){
+tg.showAlert('✅ Адрес успешно скопирован в буфер обмена!');
+}).catch(function(){
+tg.showAlert('❌ Не удалось скопировать адрес');
+});
+}
+
+tg.MainButton.onClick(function(){
+go(4);
+tg.MainButton.hide();
+genQR();
+});
+
+tg.BackButton.onClick(function(){
+let cur=document.querySelector('.screen:not(.hidden)').id;
+if(cur=='s1'){
+tg.close();
+}else if(cur=='s2'){
+go(1);
+}else if(cur=='s3'){
+go(2);
+}else if(cur=='s4'){
+clearInterval(timerInt);
+clearInterval(checkInt);
+timer=600;
+checkCount=0;
+go(3);
+tg.MainButton.show();
+}else if(cur=='s5'){
+tg.close();
+}
+});
+</script>
+</body>
+</html>+d.price);
+tg.MainButton.show();
+}
+
 // Функция переключения экранов
+function go(s){
 function go(s){
 console.log('Going to screen:',s);
 var allScreens=document.getElementsByClassName('screen');
