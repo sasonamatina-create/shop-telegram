@@ -87,6 +87,23 @@ document.getElementById('exName').textContent=exName;
 go(2);
 }
 
+// Функция выбора услуги
+function selectService(srvId,srvName,price){
+console.log('Service selected:',srvId,srvName,price);
+d.srv=srvId;
+d.srvName=srvName;
+d.price=price;
+setTimeout(function(){go(3)},300);
+}
+
+// Функция выбора криптовалюты
+function selectCrypto(cryptoId,cryptoName){
+console.log('Crypto selected:',cryptoId,cryptoName);
+d.crypto=cryptoId;
+d.cryptoName=cryptoName;
+showNets();
+}
+
 // Функция переключения экранов
 function go(s){
 console.log('Going to screen:',s);
@@ -147,49 +164,49 @@ tg.MainButton.hide();
 </div>
 </div>
 
-<div id="s2" class="screen hidden">
+<div id="s2" class="screen hidden" style="display:none">
 <button class="back-btn" onclick="go(1)">← Назад к биржам</button>
 <div class="header"><h1 id="exName">Binance</h1><p>Выберите услугу</p></div>
-<div class="service-card" data-srv="kyc" data-price="50">
+<div class="service-card" onclick="selectService('kyc','KYC Верификация','50')">
 <div class="service-top"><span class="service-icon">✅</span><div><div class="service-title">KYC Верификация</div><div class="service-desc">Полное прохождение верификации аккаунта</div></div></div>
 <div class="service-bottom"><div class="service-price">$50</div><div class="service-badge">Популярно</div></div>
 </div>
-<div class="service-card" data-srv="api" data-price="35">
+<div class="service-card" onclick="selectService('api','Настройка API','35')">
 <div class="service-top"><span class="service-icon">🔑</span><div><div class="service-title">Настройка API</div><div class="service-desc">Безопасная настройка торговых ключей</div></div></div>
 <div class="service-bottom"><div class="service-price">$35</div><div class="service-badge">Быстро</div></div>
 </div>
-<div class="service-card" data-srv="account" data-price="120">
+<div class="service-card" onclick="selectService('account','Готовый аккаунт','120')">
 <div class="service-top"><span class="service-icon">👤</span><div><div class="service-title">Готовый аккаунт</div><div class="service-desc">Верифицированный аккаунт с историей</div></div></div>
 <div class="service-bottom"><div class="service-price">$120</div><div class="service-badge">Premium</div></div>
 </div>
 </div>
 
-<div id="s3" class="screen hidden">
+<div id="s3" class="screen hidden" style="display:none">
 <button class="back-btn" onclick="go(2)">← Назад к услугам</button>
 <div class="header"><h1>💳 Способ оплаты</h1><p>Выберите криптовалюту</p></div>
 <div class="section-title">💵 Стейблкоины</div>
 <div class="grid">
-<div class="card" data-crypto="usdt"><div class="logo">💵</div><div class="name">USDT</div></div>
-<div class="card" data-crypto="usdc"><div class="logo">🔵</div><div class="name">USDC</div></div>
-<div class="card" data-crypto="dai"><div class="logo">🟡</div><div class="name">DAI</div></div>
-<div class="card" data-crypto="busd"><div class="logo">🟨</div><div class="name">BUSD</div></div>
+<div class="card" onclick="selectCrypto('usdt','USDT')"><div class="logo">💵</div><div class="name">USDT</div></div>
+<div class="card" onclick="selectCrypto('usdc','USDC')"><div class="logo">🔵</div><div class="name">USDC</div></div>
+<div class="card" onclick="selectCrypto('dai','DAI')"><div class="logo">🟡</div><div class="name">DAI</div></div>
+<div class="card" onclick="selectCrypto('busd','BUSD')"><div class="logo">🟨</div><div class="name">BUSD</div></div>
 </div>
 <div class="section-title">💎 Криптовалюты</div>
 <div class="grid">
-<div class="card" data-crypto="btc"><div class="logo">₿</div><div class="name">Bitcoin</div></div>
-<div class="card" data-crypto="eth"><div class="logo">Ξ</div><div class="name">Ethereum</div></div>
-<div class="card" data-crypto="ton"><div class="logo">💎</div><div class="name">TON</div></div>
-<div class="card" data-crypto="ltc"><div class="logo">Ł</div><div class="name">Litecoin</div></div>
-<div class="card" data-crypto="trx"><div class="logo">🔺</div><div class="name">TRON</div></div>
-<div class="card" data-crypto="bnb"><div class="logo">🟡</div><div class="name">BNB</div></div>
-<div class="card" data-crypto="xrp"><div class="logo">✕</div><div class="name">XRP</div></div>
-<div class="card" data-crypto="doge"><div class="logo">🐕</div><div class="name">Dogecoin</div></div>
+<div class="card" onclick="selectCrypto('btc','Bitcoin')"><div class="logo">₿</div><div class="name">Bitcoin</div></div>
+<div class="card" onclick="selectCrypto('eth','Ethereum')"><div class="logo">Ξ</div><div class="name">Ethereum</div></div>
+<div class="card" onclick="selectCrypto('ton','TON')"><div class="logo">💎</div><div class="name">TON</div></div>
+<div class="card" onclick="selectCrypto('ltc','Litecoin')"><div class="logo">Ł</div><div class="name">Litecoin</div></div>
+<div class="card" onclick="selectCrypto('trx','TRON')"><div class="logo">🔺</div><div class="name">TRON</div></div>
+<div class="card" onclick="selectCrypto('bnb','BNB')"><div class="logo">🟡</div><div class="name">BNB</div></div>
+<div class="card" onclick="selectCrypto('xrp','XRP')"><div class="logo">✕</div><div class="name">XRP</div></div>
+<div class="card" onclick="selectCrypto('doge','Dogecoin')"><div class="logo">🐕</div><div class="name">Dogecoin</div></div>
 </div>
-<div id="networks" class="hidden" style="margin-top:20px">
+<div id="networks" class="hidden" style="margin-top:20px;display:none">
 <div class="section-title">⚡ Выберите сеть</div>
 <div id="netList"></div>
 </div>
-<div class="summary hidden" id="summary">
+<div class="summary hidden" id="summary" style="display:none">
 <div style="font-size:18px;font-weight:700;margin-bottom:16px;color:#4facfe">📋 Итого</div>
 <div class="summary-row"><span>Биржа:</span><span id="sumEx"></span></div>
 <div class="summary-row"><span>Услуга:</span><span id="sumSrv"></span></div>
@@ -282,27 +299,6 @@ doge:[{id:'dogecoin',n:'Dogecoin',d:'DOGE Network'}]
 };
 
 var cryptoNames={usdt:'USDT',usdc:'USDC',dai:'DAI',busd:'BUSD',btc:'Bitcoin',eth:'Ethereum',ton:'TON',ltc:'Litecoin',trx:'TRON',bnb:'BNB',xrp:'XRP',doge:'Dogecoin'};
-
-document.querySelectorAll('[data-srv]').forEach(function(c){
-c.onclick=function(){
-document.querySelectorAll('[data-srv]').forEach(function(x){x.classList.remove('selected')});
-this.classList.add('selected');
-d.srv=this.getAttribute('data-srv');
-d.srvName=this.querySelector('.service-title').textContent;
-d.price=this.getAttribute('data-price');
-setTimeout(function(){go(3)},300);
-};
-});
-
-document.querySelectorAll('[data-crypto]').forEach(function(c){
-c.onclick=function(){
-document.querySelectorAll('[data-crypto]').forEach(function(x){x.classList.remove('selected')});
-this.classList.add('selected');
-d.crypto=this.getAttribute('data-crypto');
-d.cryptoName=cryptoNames[d.crypto];
-showNets();
-};
-});
 
 function showNets(){
 let list=document.getElementById('netList');
