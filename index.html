@@ -110,10 +110,13 @@ console.log('Going to screen:',s);
 var allScreens=document.getElementsByClassName('screen');
 for(var i=0;i<allScreens.length;i++){
 allScreens[i].style.display='none';
+allScreens[i].classList.add('hidden');
 }
 var target=document.getElementById('s'+s);
 if(target){
+target.classList.remove('hidden');
 target.style.display='block';
+target.style.opacity='1';
 console.log('Screen s'+s+' shown');
 }else{
 console.error('Screen s'+s+' not found!');
@@ -164,7 +167,7 @@ tg.MainButton.hide();
 </div>
 </div>
 
-<div id="s2" class="screen hidden" style="display:none">
+<div id="s2" class="screen" style="display:none;opacity:1">
 <button class="back-btn" onclick="go(1)">← Назад к биржам</button>
 <div class="header"><h1 id="exName">Binance</h1><p>Выберите услугу</p></div>
 <div class="service-card" onclick="selectService('kyc','KYC Верификация','50')">
@@ -181,7 +184,7 @@ tg.MainButton.hide();
 </div>
 </div>
 
-<div id="s3" class="screen hidden" style="display:none">
+<div id="s3" class="screen" style="display:none;opacity:1">
 <button class="back-btn" onclick="go(2)">← Назад к услугам</button>
 <div class="header"><h1>💳 Способ оплаты</h1><p>Выберите криптовалюту</p></div>
 <div class="section-title">💵 Стейблкоины</div>
@@ -216,7 +219,7 @@ tg.MainButton.hide();
 </div>
 </div>
 
-<div id="s4" class="screen hidden">
+<div id="s4" class="screen" style="display:none;opacity:1">
 <div class="timer"><div class="timer-label">⏰ Осталось времени на оплату</div><div class="timer-display" id="timer">10:00</div></div>
 <div class="header"><h1>📱 Отсканируйте QR код</h1><p>Отправьте точную сумму на адрес</p></div>
 <div class="qr-box">
@@ -232,7 +235,7 @@ tg.MainButton.hide();
 </div>
 </div>
 
-<div id="s5" class="screen hidden">
+<div id="s5" class="screen" style="display:none;opacity:1">
 <div style="text-align:center;padding:40px 20px">
 <div class="panda-mascot">
 <svg viewBox="0 0 120 120">
