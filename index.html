@@ -43,8 +43,8 @@ body::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;background:
 .card:active{transform:translateY(-2px) scale(0.98)}
 .card.selected{border-color:#667eea;background:linear-gradient(135deg,rgba(102,126,234,0.25),rgba(118,75,162,0.25));box-shadow:0 0 40px rgba(102,126,234,0.4)}
 .card.selected .logo{border-color:#667eea;box-shadow:0 0 20px rgba(102,126,234,0.4)}
-.logo{width:60px;height:60px;margin:0 auto 14px;background:rgba(255,255,255,0.95);border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:28px;border:2px solid rgba(255,255,255,0.3);transition:all .3s;overflow:hidden}
-.logo img{width:100%;height:100%;object-fit:contain;border-radius:14px}
+.logo{width:60px;height:60px;margin:0 auto 14px;border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:28px;border:2px solid rgba(255,255,255,0.2);transition:all .3s;overflow:hidden;background:rgba(255,255,255,0.05)}
+.logo img{width:100%;height:100%;object-fit:contain;padding:6px;border-radius:14px;filter:drop-shadow(0 4px 8px rgba(0,0,0,0.3))}
 .name{font-size:17px;font-weight:700;color:#fff;margin-bottom:6px}
 .card:hover .name{color:#667eea}
 .back-btn{background:rgba(255,255,255,0.1);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,0.2);border-radius:14px;padding:14px 22px;font-size:15px;font-weight:600;color:#fff;cursor:pointer;margin-bottom:25px;border:none;transition:all .3s;display:inline-flex;align-items:center;gap:10px;margin-top:15px}
@@ -152,60 +152,76 @@ body::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;background:
 <p>Выберите криптобиржу</p>
 </div>
 <div class="grid" style="animation:slideInUp 1.2s ease-out">
-<!-- Карточки бирж с поддержкой логотипов -->
+<!-- Карточки бирж с красивыми логотипами -->
 <div class="card" onclick="selectExchange('binance','Binance')">
     <div class="logo" id="binance-logo">
         <img src="https://cryptologos.cc/logos/binance-coin-bnb-logo.png" 
              alt="Binance" 
-             onerror="this.parentElement.innerHTML='🟡'">
+             onerror="this.parentElement.innerHTML='<div style=\'font-size:24px;color:#F0B90B\'>B</div>'">
     </div>
     <div class="name">Binance</div>
 </div>
 <div class="card" onclick="selectExchange('bybit','Bybit')">
     <div class="logo" id="bybit-logo">
-        🟠
+        <img src="https://cryptologos.cc/logos/bybit-token-byt-logo.png" 
+             alt="Bybit" 
+             onerror="this.parentElement.innerHTML='<div style=\'font-size:24px;color:#FF6B35\'>B</div>'">
     </div>
     <div class="name">Bybit</div>
 </div>
 <div class="card" onclick="selectExchange('okx','OKX')">
     <div class="logo" id="okx-logo">
-        ⚫
+        <img src="https://cryptologos.cc/logos/okx-okx-logo.png" 
+             alt="OKX" 
+             onerror="this.parentElement.innerHTML='<div style=\'font-size:24px;color:#0E2147\'>OKX</div>'">
     </div>
     <div class="name">OKX</div>
 </div>
 <div class="card" onclick="selectExchange('kraken','Kraken')">
     <div class="logo" id="kraken-logo">
-        🟣
+        <img src="https://cryptologos.cc/logos/kraken-kraken-logo.png" 
+             alt="Kraken" 
+             onerror="this.parentElement.innerHTML='<div style=\'font-size:24px;color:#5910FF\'>K</div>'">
     </div>
     <div class="name">Kraken</div>
 </div>
 <div class="card" onclick="selectExchange('gateio','Gate.io')">
     <div class="logo" id="gateio-logo">
-        🟢
+        <img src="https://cryptologos.cc/logos/gate-io-gate-logo.png" 
+             alt="Gate.io" 
+             onerror="this.parentElement.innerHTML='<div style=\'font-size:24px;color:#1EB18D\'>G</div>'">
     </div>
     <div class="name">Gate.io</div>
 </div>
 <div class="card" onclick="selectExchange('mexc','MEXC')">
     <div class="logo" id="mexc-logo">
-        🔵
+        <img src="https://cryptologos.cc/logos/mexc-mexc-logo.png" 
+             alt="MEXC" 
+             onerror="this.parentElement.innerHTML='<div style=\'font-size:24px;color:#002EA6\'>M</div>'">
     </div>
     <div class="name">MEXC</div>
 </div>
 <div class="card" onclick="selectExchange('bingx','BingX')">
     <div class="logo" id="bingx-logo">
-        🔷
+        <img src="https://assets.coingecko.com/markets/images/901/small/BingX_logo.png" 
+             alt="BingX" 
+             onerror="this.parentElement.innerHTML='<div style=\'font-size:24px;color:#0082FF\'>BX</div>'">
     </div>
     <div class="name">BingX</div>
 </div>
 <div class="card" onclick="selectExchange('bitget','Bitget')">
     <div class="logo" id="bitget-logo">
-        💠
+        <img src="https://cryptologos.cc/logos/bitget-token-bgb-logo.png" 
+             alt="Bitget" 
+             onerror="this.parentElement.innerHTML='<div style=\'font-size:24px;color:#0092FF\'>B</div>'">
     </div>
     <div class="name">Bitget</div>
 </div>
 <div class="card" onclick="selectExchange('kucoin','KuCoin')">
     <div class="logo" id="kucoin-logo">
-        🟩
+        <img src="https://cryptologos.cc/logos/kucoin-token-kcs-logo.png" 
+             alt="KuCoin" 
+             onerror="this.parentElement.innerHTML='<div style=\'font-size:24px;color:#24C3B5\'>K</div>'">
     </div>
     <div class="name">KuCoin</div>
 </div>
@@ -388,47 +404,6 @@ var timerInt;
 var checkInt;
 var checkCount = 0;
 var currentScreen = 1;
-
-// Данные логотипов бирж (можно заменить на реальные ссылки)
-var exchangeLogos = {
-    'binance': '🟡', // Можно заменить на URL логотипа Binance
-    'bybit': '🟠',
-    'okx': '⚫',
-    'kraken': '🟣',
-    'gateio': '🟢',
-    'mexc': '🔵',
-    'bingx': '🔷',
-    'bitget': '💠',
-    'kucoin': '🟩'
-};
-
-// Функция для загрузки логотипов бирж
-function loadExchangeLogos() {
-    // Пример как можно загрузить настоящие логотипы:
-    /*
-    var logoData = {
-        'binance': 'https://cryptologos.cc/logos/binance-coin-bnb-logo.png',
-        'bybit': 'https://cryptologos.cc/logos/bybit-token-byt-logo.png',
-        'okx': 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/8a/OKX_logo.svg/1200px-OKX_logo.svg.png',
-        // Добавьте остальные логотипы...
-    };
-    
-    for (var exchange in logoData) {
-        var logoElement = document.getElementById(exchange + '-logo');
-        if (logoElement) {
-            var img = document.createElement('img');
-            img.src = logoData[exchange];
-            img.alt = exchange;
-            img.onerror = function() {
-                // Если логотип не загрузился, показываем смайлик
-                this.parentElement.innerHTML = exchangeLogos[exchange];
-            };
-            logoElement.innerHTML = '';
-            logoElement.appendChild(img);
-        }
-    }
-    */
-}
 
 // Данные сетей для каждой криптовалюты
 var nets = {
@@ -892,7 +867,6 @@ tg.BackButton.onClick(function() {
 document.addEventListener('DOMContentLoaded', function() {
     updateTelegramBackButton();
     updateProgress();
-    loadExchangeLogos(); // Загружаем логотипы
     
     // Блокируем скролл на body
     document.body.style.overflow = 'hidden';
@@ -900,4 +874,3 @@ document.addEventListener('DOMContentLoaded', function() {
 </script>
 </body>
 </html>
-
