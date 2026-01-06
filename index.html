@@ -21,7 +21,7 @@ body::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;background:
 .screen.active{opacity:1;transform:translateX(0);pointer-events:auto}
 .screen.exiting{opacity:0;transform:translateX(-30px)}
 .screen.entering{opacity:1;transform:translateX(0)}
-.screen-content{max-width:600px;margin:0 auto;width:100%;padding:20px 16px;padding-bottom:100px}
+.screen-content{max-width:600px;margin:0 auto;width:100%;padding:20px 16px;padding-bottom:120px}
 .top-progress{position:fixed;top:0;left:0;width:100%;z-index:100;background:linear-gradient(180deg, rgba(15,15,30,0.98) 0%, rgba(15,15,30,0.85) 100%);backdrop-filter:blur(15px);padding:12px 20px;border-bottom:1px solid rgba(255,255,255,0.15);box-shadow:0 2px 20px rgba(0,0,0,0.2);height:65px}
 .progress-bar{height:6px;background:rgba(255,255,255,0.15);border-radius:3px;margin:0 auto 8px;overflow:hidden;max-width:600px;position:relative}
 .progress-fill{height:100%;background:linear-gradient(90deg,#667eea,#764ba2,#4facfe);width:0%;transition:width 0.5s ease;border-radius:3px;position:relative;overflow:hidden}
@@ -33,7 +33,7 @@ body::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;background:
 .panda-mascot{text-align:center;margin-bottom:20px;margin-top:85px;animation:float 3s ease-in-out infinite}
 .panda-mascot svg{width:120px;height:120px;filter:drop-shadow(0 10px 30px rgba(0,0,0,0.5))}
 .header{text-align:center;margin-bottom:32px}
-.header h1{font-size:32px;font-weight:800;margin-bottom:8px;text-shadow:0 2px 20px rgba(255,255,255,0.3);background:linear-gradient(135deg,#667eea,#764ba2,#4facfe);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.header h1{font-size:32px;font-weight:800;margin-bottom:8px;text-shadow:0 2px 20px rgba(255,255,255,0.3);color:#fff}
 .header p{color:rgba(255,255,255,0.8);font-size:16px}
 .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:15px}
 .card{background:rgba(255,255,255,0.08);backdrop-filter:blur(20px);border-radius:18px;padding:22px 16px;cursor:pointer;border:1px solid rgba(255,255,255,0.15);text-align:center;transition:all .4s cubic-bezier(0.4, 0, 0.2, 1);position:relative;overflow:hidden;user-select:none;-webkit-user-select:none;-webkit-tap-highlight-color:transparent;animation:fadeInScale 0.5s ease-out backwards}
@@ -47,9 +47,9 @@ body::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;background:
 .logo img{width:100%;height:100%;object-fit:contain;padding:6px;border-radius:14px;filter:drop-shadow(0 4px 8px rgba(0,0,0,0.3))}
 .name{font-size:17px;font-weight:700;color:#fff;margin-bottom:6px}
 .card:hover .name{color:#667eea}
-.back-btn{background:rgba(255,255,255,0.1);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,0.2);border-radius:14px;padding:14px 22px;font-size:15px;font-weight:600;color:#fff;cursor:pointer;margin-bottom:25px;border:none;transition:all .3s;display:inline-flex;align-items:center;gap:10px;margin-top:15px}
-.back-btn:hover{background:rgba(255,255,255,0.15);transform:translateX(-3px)}
-.back-btn:active{transform:translateX(-1px) scale(0.98)}
+.back-btn{background:rgba(255,255,255,0.1);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,0.2);border-radius:14px;padding:14px 22px;font-size:15px;font-weight:600;color:#fff;cursor:pointer;border:none;transition:all .3s;display:inline-flex;align-items:center;gap:10px;position:fixed;bottom:20px;left:20px;right:20px;z-index:5}
+.back-btn:hover{background:rgba(255,255,255,0.15);transform:translateY(-2px)}
+.back-btn:active{transform:translateY(0) scale(0.98)}
 .service-card{background:rgba(255,255,255,0.08);backdrop-filter:blur(20px);border-radius:18px;padding:22px;cursor:pointer;border:1px solid rgba(255,255,255,0.15);transition:all .4s cubic-bezier(0.4, 0, 0.2, 1);margin-bottom:15px;animation:fadeInScale 0.5s ease-out backwards;position:relative;overflow:hidden}
 .service-card::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;background:linear-gradient(135deg,rgba(102,126,234,0.1),rgba(118,75,162,0.1));opacity:0;transition:opacity 0.3s}
 .service-card:hover{transform:translateY(-5px);border-color:rgba(102,126,234,0.5);box-shadow:0 10px 30px rgba(102,126,234,0.2)}
@@ -98,6 +98,7 @@ body::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;background:
 .network-desc{font-size:14px;opacity:0.8;margin-bottom:10px;position:relative;z-index:1}
 .network-fee{font-size:13px;color:#4facfe;font-weight:600;position:relative;z-index:1}
 .continue-btn{margin-top:50px;margin-bottom:50px;position:relative;z-index:1}
+.emoji{font-family:"Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji","Android Emoji","EmojiSymbols","EmojiOne Mozilla","Twemoji Mozilla","Segoe UI Symbol","Noto Color Emoji Compat","emoji","symbols";}
 @keyframes fadeIn{from{opacity:0}to{opacity:1}}
 @keyframes slideInUp{from{opacity:0;transform:translateY(50px)}to{opacity:1;transform:translateY(0)}}
 @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-20px)}}
@@ -148,7 +149,7 @@ body::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;background:
 </svg>
 </div>
 <div class="header" style="animation:fadeIn 1s ease-out">
-<h1>🐼 Panda Shop</h1>
+<h1><span class="emoji">🐼</span> Panda Shop</h1>
 <p>Выберите криптобиржу</p>
 </div>
 <div class="grid" style="animation:slideInUp 1.2s ease-out">
@@ -179,7 +180,7 @@ body::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;background:
 </div>
 <div class="card" onclick="selectExchange('kraken','Kraken')">
     <div class="logo" id="kraken-logo">
-        <img src="https://altcoinsbox.com/wp-content/uploads/2023/03/okx-logo-300x300.webp" 
+        <img src="https://cryptologos.cc/logos/kraken-kraken-logo.png" 
              alt="Kraken" 
              onerror="this.parentElement.innerHTML='<div style=\'font-size:24px;color:#5910FF\'>K</div>'">
     </div>
@@ -227,123 +228,128 @@ body::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;background:
 </div>
 </div>
 </div>
+<!-- Кнопка назад не нужна на первом экране -->
 </div>
 
 <!-- Экран 2: Выбор услуги -->
 <div id="s2" class="screen">
 <div class="screen-content">
+<div class="header">
+<h1 id="exName"><span class="emoji">🔄</span> Binance</h1>
+<p>Выберите услугу</p>
+</div>
+<div class="service-card" onclick="selectService('kyc','KYC Верификация','50')">
+<div class="service-top"><span class="emoji">✅</span><div><div class="service-title">KYC Верификация</div><div class="service-desc">Полное прохождение верификации аккаунта</div></div></div>
+<div class="service-bottom"><div class="service-price">$50</div><div class="service-badge">Популярно</div></div>
+</div>
+<div class="service-card" onclick="selectService('api','Настройка API','35')">
+<div class="service-top"><span class="emoji">🔑</span><div><div class="service-title">Настройка API</div><div class="service-desc">Безопасная настройка торговых ключей</div></div></div>
+<div class="service-bottom"><div class="service-price">$35</div><div class="service-badge">Быстро</div></div>
+</div>
+<div class="service-card" onclick="selectService('account','Готовый аккаунт','120')">
+<div class="service-top"><span class="emoji">👤</span><div><div class="service-title">Готовый аккаунт</div><div class="service-desc">Верифицированный аккаунт с историей</div></div></div>
+<div class="service-bottom"><div class="service-price">$120</div><div class="service-badge">Premium</div></div>
+</div>
+</div>
+<!-- Кнопка назад фиксированная внизу -->
 <button class="back-btn" onclick="go(1)">
 <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
 <path d="M10 12L6 8L10 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
 </svg>
 Назад к биржам
 </button>
-<div class="header">
-<h1 id="exName">Binance</h1>
-<p>Выберите услугу</p>
-</div>
-<div class="service-card" onclick="selectService('kyc','KYC Верификация','50')">
-<div class="service-top"><span class="service-icon">✅</span><div><div class="service-title">KYC Верификация</div><div class="service-desc">Полное прохождение верификации аккаунта</div></div></div>
-<div class="service-bottom"><div class="service-price">$50</div><div class="service-badge">Популярно</div></div>
-</div>
-<div class="service-card" onclick="selectService('api','Настройка API','35')">
-<div class="service-top"><span class="service-icon">🔑</span><div><div class="service-title">Настройка API</div><div class="service-desc">Безопасная настройка торговых ключей</div></div></div>
-<div class="service-bottom"><div class="service-price">$35</div><div class="service-badge">Быстро</div></div>
-</div>
-<div class="service-card" onclick="selectService('account','Готовый аккаунт','120')">
-<div class="service-top"><span class="service-icon">👤</span><div><div class="service-title">Готовый аккаунт</div><div class="service-desc">Верифицированный аккаунт с историей</div></div></div>
-<div class="service-bottom"><div class="service-price">$120</div><div class="service-badge">Premium</div></div>
-</div>
-</div>
 </div>
 
 <!-- Экран 3: Выбор криптовалюты -->
 <div id="s3" class="screen">
 <div class="screen-content">
+<div class="header">
+<h1><span class="emoji">💳</span> Способ оплаты</h1>
+<p>Выберите криптовалюту</p>
+</div>
+<div class="section-title"><span class="emoji">💵</span> Стейблкоины</div>
+<div class="grid">
+<div class="card" onclick="selectCrypto('usdt','USDT')"><div class="logo"><span class="emoji">💵</span></div><div class="name">USDT</div></div>
+<div class="card" onclick="selectCrypto('usdc','USDC')"><div class="logo"><span class="emoji">🔵</span></div><div class="name">USDC</div></div>
+<div class="card" onclick="selectCrypto('dai','DAI')"><div class="logo"><span class="emoji">🟡</span></div><div class="name">DAI</div></div>
+<div class="card" onclick="selectCrypto('busd','BUSD')"><div class="logo"><span class="emoji">🟨</span></div><div class="name">BUSD</div></div>
+</div>
+<div class="section-title"><span class="emoji">💎</span> Криптовалюты</div>
+<div class="grid">
+<div class="card" onclick="selectCrypto('btc','Bitcoin')"><div class="logo"><span class="emoji">₿</span></div><div class="name">Bitcoin</div></div>
+<div class="card" onclick="selectCrypto('eth','Ethereum')"><div class="logo"><span class="emoji">Ξ</span></div><div class="name">Ethereum</div></div>
+<div class="card" onclick="selectCrypto('ton','TON')"><div class="logo"><span class="emoji">💎</span></div><div class="name">TON</div></div>
+<div class="card" onclick="selectCrypto('ltc','Litecoin')"><div class="logo"><span class="emoji">Ł</span></div><div class="name">Litecoin</div></div>
+<div class="card" onclick="selectCrypto('trx','TRON')"><div class="logo"><span class="emoji">🔺</span></div><div class="name">TRON</div></div>
+<div class="card" onclick="selectCrypto('bnb','BNB')"><div class="logo"><span class="emoji">🟡</span></div><div class="name">BNB</div></div>
+<div class="card" onclick="selectCrypto('xrp','XRP')"><div class="logo"><span class="emoji">✕</span></div><div class="name">XRP</div></div>
+<div class="card" onclick="selectCrypto('doge','Dogecoin')"><div class="logo"><span class="emoji">🐕</span></div><div class="name">Dogecoin</div></div>
+</div>
+</div>
+<!-- Кнопка назад фиксированная внизу -->
 <button class="back-btn" onclick="go(2)">
 <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
 <path d="M10 12L6 8L10 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
 </svg>
 Назад к услугам
 </button>
-<div class="header">
-<h1>💳 Способ оплаты</h1>
-<p>Выберите криптовалюту</p>
-</div>
-<div class="section-title">💵 Стейблкоины</div>
-<div class="grid">
-<div class="card" onclick="selectCrypto('usdt','USDT')"><div class="logo">💵</div><div class="name">USDT</div></div>
-<div class="card" onclick="selectCrypto('usdc','USDC')"><div class="logo">🔵</div><div class="name">USDC</div></div>
-<div class="card" onclick="selectCrypto('dai','DAI')"><div class="logo">🟡</div><div class="name">DAI</div></div>
-<div class="card" onclick="selectCrypto('busd','BUSD')"><div class="logo">🟨</div><div class="name">BUSD</div></div>
-</div>
-<div class="section-title">💎 Криптовалюты</div>
-<div class="grid">
-<div class="card" onclick="selectCrypto('btc','Bitcoin')"><div class="logo">₿</div><div class="name">Bitcoin</div></div>
-<div class="card" onclick="selectCrypto('eth','Ethereum')"><div class="logo">Ξ</div><div class="name">Ethereum</div></div>
-<div class="card" onclick="selectCrypto('ton','TON')"><div class="logo">💎</div><div class="name">TON</div></div>
-<div class="card" onclick="selectCrypto('ltc','Litecoin')"><div class="logo">Ł</div><div class="name">Litecoin</div></div>
-<div class="card" onclick="selectCrypto('trx','TRON')"><div class="logo">🔺</div><div class="name">TRON</div></div>
-<div class="card" onclick="selectCrypto('bnb','BNB')"><div class="logo">🟡</div><div class="name">BNB</div></div>
-<div class="card" onclick="selectCrypto('xrp','XRP')"><div class="logo">✕</div><div class="name">XRP</div></div>
-<div class="card" onclick="selectCrypto('doge','Dogecoin')"><div class="logo">🐕</div><div class="name">Dogecoin</div></div>
-</div>
-</div>
 </div>
 
 <!-- Экран 4: Выбор сети -->
 <div id="s4" class="screen">
 <div class="screen-content">
+<div class="header">
+<h1><span class="emoji">⚡</span> Выберите сеть</h1>
+<p id="selectedCryptoName">USDT</p>
+</div>
+<div id="networkList"></div>
+<div class="continue-btn">
+<button class="btn" id="continueBtn" onclick="proceedToPayment()" disabled>
+<span class="emoji">💳</span> Перейти к оплате
+</button>
+</div>
+</div>
+<!-- Кнопка назад фиксированная внизу -->
 <button class="back-btn" onclick="go(3)">
 <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
 <path d="M10 12L6 8L10 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
 </svg>
 Назад к валютам
 </button>
-<div class="header">
-<h1>⚡ Выберите сеть</h1>
-<p id="selectedCryptoName">USDT</p>
-</div>
-<div id="networkList"></div>
-<div class="continue-btn">
-<button class="btn" id="continueBtn" onclick="proceedToPayment()" disabled>
-💳 Перейти к оплате
-</button>
-</div>
-</div>
 </div>
 
 <!-- Экран 5: QR-код и оплата -->
 <div id="s5" class="screen">
 <div class="screen-content">
-<button class="back-btn" onclick="go(4)">
-<svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-<path d="M10 12L6 8L10 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-</svg>
-Назад к сетям
-</button>
 <div class="timer">
-<div class="timer-label">⏰ Осталось времени на оплату</div>
+<div class="timer-label"><span class="emoji">⏰</span> Осталось времени на оплату</div>
 <div class="timer-display" id="timer">10:00</div>
 </div>
 <div class="header">
-<h1>📱 Отсканируйте QR-код</h1>
+<h1><span class="emoji">📱</span> Отсканируйте QR-код</h1>
 <p>Отправьте точную сумму на адрес</p>
 </div>
 <div class="qr-box">
 <div class="qr-code" id="qr"></div>
 <div class="wallet" id="addr">Загрузка адреса...</div>
 <button class="btn btn-secondary" onclick="copy()">
-📋 Копировать адрес
+<span class="emoji">📋</span> Копировать адрес
 </button>
 <div class="status">
-<div class="icon checking" id="ico">🔄</div>
+<div class="icon checking" id="ico"><span class="emoji">🔄</span></div>
 <div style="font-size:16px;font-weight:600;margin-bottom:8px" id="txt">Ожидание платежа...</div>
 <div style="font-size:13px;opacity:0.8">Проверка каждые 10 секунд</div>
 <div style="margin-top:16px;font-size:28px;font-weight:800;color:#4facfe" id="amt">$0</div>
 </div>
 </div>
 </div>
+<!-- Кнопка назад фиксированная внизу -->
+<button class="back-btn" onclick="go(4)">
+<svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+<path d="M10 12L6 8L10 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+Назад к сетям
+</button>
 </div>
 
 <!-- Экран 6: Подтверждение оплаты -->
@@ -360,11 +366,11 @@ body::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;background:
 <text x="90" y="58" font-size="18" text-anchor="middle" fill="#fff" font-weight="bold">✓</text>
 </svg>
 </div>
-<div style="font-size:100px;margin:20px 0;animation:scaleUp 0.5s ease-out">✅</div>
+<div style="font-size:100px;margin:20px 0;animation:scaleUp 0.5s ease-out"><span class="emoji">✅</span></div>
 <div style="font-size:32px;font-weight:800;margin-bottom:12px">Оплата подтверждена!</div>
 <div style="font-size:16px;opacity:0.9;margin-bottom:24px">Ваш заказ принят и будет обработан в течение 1-2 часов</div>
 <div class="success-box">
-<div style="font-size:18px;font-weight:700;margin-bottom:16px;color:#4facfe">📋 Детали вашего заказа</div>
+<div style="font-size:18px;font-weight:700;margin-bottom:16px;color:#4facfe"><span class="emoji">📋</span> Детали вашего заказа</div>
 <div class="summary-row"><span>Номер заказа:</span><span id="oid" style="font-family:monospace"></span></div>
 <div class="summary-row"><span>Биржа:</span><span id="oex"></span></div>
 <div class="summary-row"><span>Услуга:</span><span id="osrv"></span></div>
@@ -372,11 +378,18 @@ body::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;background:
 <div class="summary-row"><span>Сумма:</span><span id="oprice" style="color:#34c759"></span></div>
 <div style="margin-top:24px;padding-top:24px;border-top:2px solid rgba(255,255,255,0.3);text-align:center">
 <div style="font-size:14px;opacity:0.8">Наш менеджер свяжется с вами в ближайшее время</div>
-<div style="font-size:14px;opacity:0.8;margin-top:8px">Спасибо за покупку! 🐼</div>
+<div style="font-size:14px;opacity:0.8;margin-top:8px"><span class="emoji">🐼</span> Спасибо за покупку!</div>
 </div>
 </div>
 </div>
 </div>
+<!-- Кнопка назад фиксированная внизу -->
+<button class="back-btn" onclick="tg.close()">
+<svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+<path d="M10 12L6 8L10 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+Закрыть
+</button>
 </div>
 </div>
 
@@ -509,7 +522,7 @@ function selectExchange(exId, exName) {
     console.log('Exchange selected:', exId, exName);
     d.ex = exId;
     d.exName = exName;
-    document.getElementById('exName').textContent = exName;
+    document.getElementById('exName').innerHTML = '<span class="emoji">🔄</span> ' + exName;
     setTimeout(() => animateTransition(2), 10);
 }
 
@@ -758,7 +771,7 @@ function startPaymentCheck() {
         statusText.textContent = 'Проверка платежа #' + checkCount + '...';
         
         // Анимация иконки
-        iconElement.textContent = '🔄';
+        iconElement.innerHTML = '<span class="emoji">🔄</span>';
         iconElement.classList.add('checking');
         
         // Имитация успешного платежа через 3 проверки (30 секунд)
@@ -778,7 +791,7 @@ function paymentConfirmed() {
     
     // Меняем иконку и текст
     iconElement.classList.remove('checking');
-    iconElement.textContent = '✅';
+    iconElement.innerHTML = '<span class="emoji">✅</span>';
     statusText.textContent = 'Платеж получен!';
     
     // Плавный переход на экран подтверждения
@@ -874,4 +887,3 @@ document.addEventListener('DOMContentLoaded', function() {
 </script>
 </body>
 </html>
-
