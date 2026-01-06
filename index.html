@@ -216,30 +216,32 @@ let checkInt;
 
 // Инициализация кнопок бирж сразу
 setTimeout(function(){
+console.log('Starting initialization...');
 initExchangeButtons();
-},100);
+},500);
 
 function initExchangeButtons(){
+console.log('Initializing exchange buttons...');
 var cards=document.querySelectorAll('.exchange-card');
+console.log('Found cards:',cards.length);
 for(var i=0;i<cards.length;i++){
 (function(card){
+console.log('Adding listener to card:',card.getAttribute('data-ex'));
 card.addEventListener('click',function(e){
+console.log('Card clicked!',card.getAttribute('data-ex'));
 e.preventDefault();
 e.stopPropagation();
 d.ex=card.getAttribute('data-ex');
 d.exName=card.querySelector('.name').textContent;
+console.log('Selected exchange:',d.ex,d.exName);
 document.getElementById('exName').textContent=d.exName;
 go(2);
-});
-card.addEventListener('touchend',function(e){
-e.preventDefault();
-d.ex=card.getAttribute('data-ex');
-d.exName=card.querySelector('.name').textContent;
-document.getElementById('exName').textContent=d.exName;
-go(2);
-});
+},true);
+card.style.cursor='pointer';
+card.style.pointerEvents='auto';
 })(cards[i]);
 }
+console.log('Exchange buttons initialized');
 }
 
 const wallets={
@@ -331,10 +333,23 @@ tg.MainButton.show();
 }
 
 function go(s){
-document.querySelectorAll('.screen').forEach(function(x){x.classList.add('hidden')});
-document.getElementById('s'+s).classList.remove('hidden');
+console.log('Go to screen:',s);
+var screens=document.querySelectorAll('.screen');
+for(var i=0;i<screens.length;i++){
+screens[i].classList.add('hidden');
+screens[i].style.display='none';
+}
+var targetScreen=document.getElementById('s'+s);
+console.log('Target screen:',targetScreen);
+if(targetScreen){
+targetScreen.classList.remove('hidden');
+targetScreen.style.display='block';
+targetScreen.style.opacity='1';
+}
 window.scrollTo({top:0,behavior:'smooth'});
-if(s<4)tg.MainButton.hide();
+if(s<4){
+tg.MainButton.hide();
+}
 }
 
 function startTimer(){
