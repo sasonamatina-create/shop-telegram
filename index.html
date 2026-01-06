@@ -237,33 +237,28 @@ let timer=600;
 let timerInt;
 let checkInt;
 
-// Загрузочный экран - показываем меню через 2 секунды
-window.addEventListener('load',function(){
-setTimeout(()=>{
-document.getElementById('s0').style.display='none';
-document.getElementById('s1').classList.remove('hidden');
-document.getElementById('s1').style.display='block';
+// Загрузочный экран - убираем сразу после загрузки скрипта
+setTimeout(function(){
+let splash=document.getElementById('s0');
+let main=document.getElementById('s1');
+if(splash){splash.style.display='none'}
+if(main){
+main.classList.remove('hidden');
+main.style.opacity='1';
+}
 initExchangeButtons();
 },2000);
-});
 
 // Инициализация кнопок бирж
 function initExchangeButtons(){
-document.querySelectorAll('.exchange-card').forEach(card=>{
-card.addEventListener('click',function(e){
-e.preventDefault();
-e.stopPropagation();
-d.ex=this.dataset.ex;
+let cards=document.querySelectorAll('.exchange-card');
+cards.forEach(function(card){
+card.onclick=function(){
+d.ex=this.getAttribute('data-ex');
 d.exName=this.querySelector('.name').textContent;
 document.getElementById('exName').textContent=d.exName;
 go(2);
-});
-card.addEventListener('touchstart',function(e){
-this.style.transform='scale(0.95)';
-});
-card.addEventListener('touchend',function(e){
-this.style.transform='scale(1)';
-});
+};
 });
 }
 
