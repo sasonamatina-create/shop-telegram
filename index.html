@@ -57,13 +57,13 @@ body::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;backgrou
 .summary-row:last-child{margin-top:16px;padding-top:16px;border-top:2px solid rgba(255,255,255,0.3);font-size:22px;font-weight:800;color:#4facfe}
 .success-box{background:rgba(255,255,255,0.1);backdrop-filter:blur(20px);border-radius:20px;padding:24px;margin-top:24px;border:2px solid rgba(255,255,255,0.2)}
 .hidden{display:none!important}
-.splash{position:fixed;top:0;left:0;width:100%;height:100%;background:#0f0f1e;z-index:9999;display:flex;align-items:center;justify-content:center;transition:opacity 0.5s ease}
-.splash.hide{opacity:0;pointer-events:none}
 @keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes slideInUp{from{opacity:0;transform:translateY(50px)}to{opacity:1;transform:translateY(0)}}
 @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-20px)}}
 @keyframes spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
 @keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.5;transform:scale(1.05)}}
-@keyframes scaleUp{0%{opacity:0;transform:scale(0.5)}100%{opacity:1;transform:scale(1)}}
+@keyframes scaleUp{0%{opacity:0;transform:scale(0.8)}100%{opacity:1;transform:scale(1)}}
+@keyframes fadeInScale{0%{opacity:0;transform:scale(0.9)}100%{opacity:1;transform:scale(1)}}
 </style>
 </head>
 <body>
@@ -73,34 +73,8 @@ body::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;backgrou
 <div class="shape shape3"></div>
 </div>
 
-<div id="splash" class="splash">
-<div style="text-align:center">
-<div style="animation:scaleUp 1s ease-out">
-<svg viewBox="0 0 200 200" style="width:120px;height:120px;filter:drop-shadow(0 10px 30px rgba(0,0,0,0.5))">
-<ellipse cx="100" cy="120" rx="50" ry="60" fill="#fff"/>
-<circle cx="100" cy="70" r="45" fill="#fff"/>
-<ellipse cx="70" cy="40" rx="20" ry="25" fill="#000"/>
-<ellipse cx="130" cy="40" rx="20" ry="25" fill="#000"/>
-<ellipse cx="85" cy="65" rx="18" ry="22" fill="#000"/>
-<circle cx="88" cy="68" r="6" fill="#fff"/>
-<ellipse cx="115" cy="65" rx="18" ry="22" fill="#000"/>
-<circle cx="118" cy="68" r="6" fill="#fff"/>
-<ellipse cx="100" cy="85" rx="8" ry="6" fill="#000"/>
-<circle cx="140" cy="110" r="18" fill="#FFD700"/>
-<text x="140" y="118" font-size="20" text-anchor="middle" fill="#000" font-weight="bold">₿</text>
-</svg>
-</div>
-<div style="font-size:42px;font-weight:800;margin:20px 0;animation:fadeIn 1s ease-out">🐼 Panda Shop</div>
-<div style="font-size:18px;opacity:0.8;animation:fadeIn 1.5s ease-out">Криптоуслуги для бирж</div>
-<div style="margin-top:40px">
-<div style="font-size:40px;animation:spin 1.5s linear infinite">⚡</div>
-<div style="font-size:14px;opacity:0.6;margin-top:12px">Загрузка...</div>
-</div>
-</div>
-</div>
-
-<div id="s1" class="screen hidden">
-<div class="panda-mascot">
+<div id="s1" class="screen" style="opacity:1">
+<div class="panda-mascot" style="animation:scaleUp 0.8s ease-out">
 <svg viewBox="0 0 200 200">
 <ellipse cx="100" cy="120" rx="50" ry="60" fill="#fff"/>
 <circle cx="100" cy="70" r="45" fill="#fff"/>
@@ -115,8 +89,11 @@ body::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;backgrou
 <text x="140" y="118" font-size="20" text-anchor="middle" fill="#000" font-weight="bold">₿</text>
 </svg>
 </div>
-<div class="header"><h1>🐼 Panda Shop</h1><p>Выберите криптобиржу</p></div>
-<div class="grid" id="exchangeGrid">
+<div class="header" style="animation:fadeIn 1s ease-out">
+<h1>🐼 Panda Shop</h1>
+<p>Выберите криптобиржу</p>
+</div>
+<div class="grid" id="exchangeGrid" style="animation:slideInUp 1.2s ease-out">
 <div class="card exchange-card" data-ex="binance"><div class="logo">🟡</div><div class="name">Binance</div></div>
 <div class="card exchange-card" data-ex="bybit"><div class="logo">🟠</div><div class="name">Bybit</div></div>
 <div class="card exchange-card" data-ex="okx"><div class="logo">⚫</div><div class="name">OKX</div></div>
@@ -237,17 +214,10 @@ let timer=600;
 let timerInt;
 let checkInt;
 
-// Скрываем splash screen через 2 секунды
-window.onload=function(){
-setTimeout(function(){
-document.getElementById('splash').classList.add('hide');
-setTimeout(function(){
-document.getElementById('splash').style.display='none';
-document.getElementById('s1').classList.remove('hidden');
+// Инициализация кнопок бирж после загрузки
+document.addEventListener('DOMContentLoaded',function(){
 initExchangeButtons();
-},500);
-},2000);
-};
+});
 
 function initExchangeButtons(){
 document.querySelectorAll('.exchange-card').forEach(function(card){
