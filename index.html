@@ -22,7 +22,7 @@ body::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;backgrou
 .header h1{font-size:32px;font-weight:800;margin-bottom:8px;text-shadow:0 2px 20px rgba(255,255,255,0.3)}
 .header p{color:rgba(255,255,255,0.8);font-size:16px}
 .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
-.card{background:rgba(255,255,255,0.1);backdrop-filter:blur(20px);border-radius:20px;padding:24px 16px;cursor:pointer;border:2px solid rgba(255,255,255,0.2);text-align:center;transition:all .3s;position:relative;overflow:hidden}
+.card{background:rgba(255,255,255,0.1);backdrop-filter:blur(20px);border-radius:20px;padding:24px 16px;cursor:pointer;border:2px solid rgba(255,255,255,0.2);text-align:center;transition:all .3s;position:relative;overflow:hidden;user-select:none;-webkit-user-select:none;-webkit-tap-highlight-color:transparent}
 .card::before{content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.3),transparent);transition:left .5s}
 .card:hover::before{left:100%}
 .card:active{transform:scale(.95)}
@@ -214,20 +214,32 @@ let timer=600;
 let timerInt;
 let checkInt;
 
-// Инициализация кнопок бирж после загрузки
-document.addEventListener('DOMContentLoaded',function(){
+// Инициализация кнопок бирж сразу
+setTimeout(function(){
 initExchangeButtons();
-});
+},100);
 
 function initExchangeButtons(){
-document.querySelectorAll('.exchange-card').forEach(function(card){
-card.onclick=function(){
-d.ex=this.getAttribute('data-ex');
-d.exName=this.querySelector('.name').textContent;
+var cards=document.querySelectorAll('.exchange-card');
+for(var i=0;i<cards.length;i++){
+(function(card){
+card.addEventListener('click',function(e){
+e.preventDefault();
+e.stopPropagation();
+d.ex=card.getAttribute('data-ex');
+d.exName=card.querySelector('.name').textContent;
 document.getElementById('exName').textContent=d.exName;
 go(2);
-};
 });
+card.addEventListener('touchend',function(e){
+e.preventDefault();
+d.ex=card.getAttribute('data-ex');
+d.exName=card.querySelector('.name').textContent;
+document.getElementById('exName').textContent=d.exName;
+go(2);
+});
+})(cards[i]);
+}
 }
 
 const wallets={
