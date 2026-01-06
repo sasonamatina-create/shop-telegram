@@ -15,22 +15,27 @@ body::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;backgrou
 .shape1{width:300px;height:300px;background:linear-gradient(135deg,#667eea,#764ba2);top:10%;left:10%;animation:float 20s infinite ease-in-out}
 .shape2{width:200px;height:200px;background:linear-gradient(135deg,#f093fb,#f5576c);top:60%;right:10%;animation:float 25s infinite ease-in-out;animation-delay:5s}
 .shape3{width:150px;height:150px;background:linear-gradient(135deg,#4facfe,#00f2fe);bottom:20%;left:30%;animation:float 30s infinite ease-in-out;animation-delay:10s}
-.screen{min-height:100vh;padding:20px 16px 100px;position:relative;z-index:1;transition:opacity 0.3s ease}
+.screen{min-height:100vh;padding:20px 16px 100px;position:relative;z-index:1;transition:transform 0.4s ease, opacity 0.4s ease;opacity:0;transform:translateX(30px);pointer-events:none}
+.screen.active{opacity:1;transform:translateX(0);pointer-events:auto}
+.screen.exiting{opacity:0;transform:translateX(-30px)}
+.screen.entering{opacity:1;transform:translateX(0)}
 .panda-mascot{text-align:center;margin-bottom:20px;animation:float 3s ease-in-out infinite}
 .panda-mascot svg{width:120px;height:120px;filter:drop-shadow(0 10px 30px rgba(0,0,0,0.5))}
 .header{text-align:center;margin-bottom:32px}
 .header h1{font-size:32px;font-weight:800;margin-bottom:8px;text-shadow:0 2px 20px rgba(255,255,255,0.3)}
 .header p{color:rgba(255,255,255,0.8);font-size:16px}
 .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
-.card{background:rgba(255,255,255,0.1);backdrop-filter:blur(20px);border-radius:20px;padding:24px 16px;cursor:pointer;border:2px solid rgba(255,255,255,0.2);text-align:center;transition:all .3s;position:relative;overflow:hidden;user-select:none;-webkit-user-select:none;-webkit-tap-highlight-color:transparent}
+.card{background:rgba(255,255,255,0.1);backdrop-filter:blur(20px);border-radius:20px;padding:24px 16px;cursor:pointer;border:2px solid rgba(255,255,255,0.2);text-align:center;transition:all .3s;position:relative;overflow:hidden;user-select:none;-webkit-user-select:none;-webkit-tap-highlight-color:transparent;animation:fadeInScale 0.5s ease-out backwards}
 .card::before{content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.3),transparent);transition:left .5s}
 .card:hover::before{left:100%}
 .card:active{transform:scale(.95)}
 .card.selected{border-color:#667eea;background:rgba(102,126,234,0.3);box-shadow:0 0 30px rgba(102,126,234,0.5)}
 .logo{width:56px;height:56px;margin:0 auto 12px;background:rgba(255,255,255,0.9);border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:32px}
 .name{font-size:16px;font-weight:700;color:#fff}
-.back-btn{background:rgba(255,255,255,0.15);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,0.3);border-radius:12px;padding:12px 20px;font-size:15px;font-weight:600;color:#fff;cursor:pointer;margin-bottom:20px;border:none}
-.service-card{background:rgba(255,255,255,0.1);backdrop-filter:blur(20px);border-radius:20px;padding:20px;cursor:pointer;border:2px solid rgba(255,255,255,0.2);transition:all .3s;margin-bottom:12px}
+.back-btn{background:rgba(255,255,255,0.15);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,0.3);border-radius:12px;padding:12px 20px;font-size:15px;font-weight:600;color:#fff;cursor:pointer;margin-bottom:20px;border:none;transition:all .3s;display:inline-flex;align-items:center;gap:8px}
+.back-btn:hover{background:rgba(255,255,255,0.2)}
+.back-btn:active{transform:scale(.95)}
+.service-card{background:rgba(255,255,255,0.1);backdrop-filter:blur(20px);border-radius:20px;padding:20px;cursor:pointer;border:2px solid rgba(255,255,255,0.2);transition:all .3s;margin-bottom:12px;animation:fadeInScale 0.5s ease-out backwards}
 .service-card.selected{border-color:#667eea;background:rgba(102,126,234,0.3);box-shadow:0 0 30px rgba(102,126,234,0.5)}
 .service-top{display:flex;gap:16px;margin-bottom:12px}
 .service-icon{font-size:40px}
@@ -47,8 +52,10 @@ body::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;backgrou
 .qr-box{background:rgba(255,255,255,0.1);backdrop-filter:blur(20px);border-radius:20px;padding:24px;margin:20px 0;border:2px solid rgba(255,255,255,0.2)}
 .qr-code{width:280px;height:280px;margin:20px auto;padding:20px;background:#fff;border-radius:20px;box-shadow:0 10px 40px rgba(0,0,0,0.3)}
 .wallet{background:rgba(255,255,255,0.15);backdrop-filter:blur(10px);padding:16px;border-radius:12px;margin:16px 0;word-break:break-all;font-family:monospace;font-size:13px;border:1px solid rgba(255,255,255,0.3)}
-.btn{background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;border:none;padding:14px 28px;border-radius:12px;font-size:16px;font-weight:700;cursor:pointer;margin-top:12px;box-shadow:0 4px 20px rgba(102,126,234,0.4);transition:all .3s}
+.btn{background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;border:none;padding:14px 28px;border-radius:12px;font-size:16px;font-weight:700;cursor:pointer;margin-top:12px;box-shadow:0 4px 20px rgba(102,126,234,0.4);transition:all .3s;width:100%;display:flex;align-items:center;justify-content:center;gap:10px}
 .btn:active{transform:scale(.95)}
+.btn:disabled{opacity:0.6;cursor:not-allowed}
+.btn-secondary{background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.3)}
 .status{text-align:center;padding:20px;margin-top:20px;background:rgba(255,255,255,0.1);backdrop-filter:blur(20px);border-radius:16px;border:2px solid rgba(255,255,255,0.2)}
 .icon{font-size:64px;margin-bottom:12px}
 .icon.checking{animation:spin 2s linear infinite}
@@ -56,7 +63,18 @@ body::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;backgrou
 .summary-row{display:flex;justify-content:space-between;margin-bottom:10px;font-size:15px}
 .summary-row:last-child{margin-top:16px;padding-top:16px;border-top:2px solid rgba(255,255,255,0.3);font-size:22px;font-weight:800;color:#4facfe}
 .success-box{background:rgba(255,255,255,0.1);backdrop-filter:blur(20px);border-radius:20px;padding:24px;margin-top:24px;border:2px solid rgba(255,255,255,0.2)}
-.hidden{display:none!important}
+.progress-bar{height:4px;background:rgba(255,255,255,0.1);border-radius:2px;margin:20px 0;overflow:hidden}
+.progress-fill{height:100%;background:linear-gradient(90deg,#667eea,#764ba2);width:0%;transition:width 0.5s ease}
+.step-indicator{display:flex;justify-content:center;gap:8px;margin:20px 0}
+.step{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,0.2);transition:all 0.3s}
+.step.active{background:#667eea;transform:scale(1.3)}
+.network-card{background:rgba(255,255,255,0.1);backdrop-filter:blur(20px);border-radius:16px;padding:20px;cursor:pointer;border:2px solid rgba(255,255,255,0.2);transition:all .3s;margin-bottom:12px;animation:fadeInUp 0.5s ease-out backwards}
+.network-card:hover{border-color:#667eea}
+.network-card.selected{border-color:#667eea;background:rgba(102,126,234,0.3);box-shadow:0 0 30px rgba(102,126,234,0.5)}
+.network-name{font-size:18px;font-weight:700;margin-bottom:4px}
+.network-desc{font-size:14px;opacity:0.8;margin-bottom:8px}
+.network-fee{font-size:12px;color:#4facfe;font-weight:600}
+.continue-btn{position:fixed;bottom:20px;left:20px;right:20px;z-index:10}
 @keyframes fadeIn{from{opacity:0}to{opacity:1}}
 @keyframes slideInUp{from{opacity:0;transform:translateY(50px)}to{opacity:1;transform:translateY(0)}}
 @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-20px)}}
@@ -64,6 +82,8 @@ body::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;backgrou
 @keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.5;transform:scale(1.05)}}
 @keyframes scaleUp{0%{opacity:0;transform:scale(0.8)}100%{opacity:1;transform:scale(1)}}
 @keyframes fadeInScale{0%{opacity:0;transform:scale(0.9)}100%{opacity:1;transform:scale(1)}}
+@keyframes fadeInUp{0%{opacity:0;transform:translateY(20px)}100%{opacity:1;transform:translateY(0)}}
+@keyframes slideInRight{0%{opacity:0;transform:translateX(30px)}100%{opacity:1;transform:translateX(0)}}
 </style>
 </head>
 <body>
@@ -73,7 +93,16 @@ body::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;backgrou
 <div class="shape shape3"></div>
 </div>
 
-<div id="s1" class="screen" style="opacity:1;display:block">
+<!-- Экран 1: Выбор биржи -->
+<div id="s1" class="screen active">
+<div class="progress-bar"><div class="progress-fill" style="width:20%"></div></div>
+<div class="step-indicator">
+<div class="step active"></div>
+<div class="step"></div>
+<div class="step"></div>
+<div class="step"></div>
+<div class="step"></div>
+</div>
 <div class="panda-mascot" style="animation:scaleUp 0.8s ease-out">
 <svg viewBox="0 0 200 200">
 <ellipse cx="100" cy="120" rx="50" ry="60" fill="#fff"/>
@@ -106,9 +135,26 @@ body::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;backgrou
 </div>
 </div>
 
-<div id="s2" class="screen" style="display:none;opacity:1">
-<button class="back-btn" onclick="go(1)">← Назад к биржам</button>
-<div class="header"><h1 id="exName">Binance</h1><p>Выберите услугу</p></div>
+<!-- Экран 2: Выбор услуги -->
+<div id="s2" class="screen">
+<div class="progress-bar"><div class="progress-fill" style="width:40%"></div></div>
+<div class="step-indicator">
+<div class="step"></div>
+<div class="step active"></div>
+<div class="step"></div>
+<div class="step"></div>
+<div class="step"></div>
+</div>
+<button class="back-btn" onclick="go(1)">
+<svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+<path d="M10 12L6 8L10 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+Назад к биржам
+</button>
+<div class="header">
+<h1 id="exName">Binance</h1>
+<p>Выберите услугу</p>
+</div>
 <div class="service-card" onclick="selectService('kyc','KYC Верификация','50')">
 <div class="service-top"><span class="service-icon">✅</span><div><div class="service-title">KYC Верификация</div><div class="service-desc">Полное прохождение верификации аккаунта</div></div></div>
 <div class="service-bottom"><div class="service-price">$50</div><div class="service-badge">Популярно</div></div>
@@ -123,9 +169,26 @@ body::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;backgrou
 </div>
 </div>
 
-<div id="s3" class="screen" style="display:none;opacity:1">
-<button class="back-btn" onclick="go(2)">← Назад к услугам</button>
-<div class="header"><h1>💳 Способ оплаты</h1><p>Выберите криптовалюту</p></div>
+<!-- Экран 3: Выбор криптовалюты -->
+<div id="s3" class="screen">
+<div class="progress-bar"><div class="progress-fill" style="width:60%"></div></div>
+<div class="step-indicator">
+<div class="step"></div>
+<div class="step"></div>
+<div class="step active"></div>
+<div class="step"></div>
+<div class="step"></div>
+</div>
+<button class="back-btn" onclick="go(2)">
+<svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+<path d="M10 12L6 8L10 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+Назад к услугам
+</button>
+<div class="header">
+<h1>💳 Способ оплаты</h1>
+<p>Выберите криптовалюту</p>
+</div>
 <div class="section-title">💵 Стейблкоины</div>
 <div class="grid">
 <div class="card" onclick="selectCrypto('usdt','USDT')"><div class="logo">💵</div><div class="name">USDT</div></div>
@@ -144,37 +207,77 @@ body::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;backgrou
 <div class="card" onclick="selectCrypto('xrp','XRP')"><div class="logo">✕</div><div class="name">XRP</div></div>
 <div class="card" onclick="selectCrypto('doge','Dogecoin')"><div class="logo">🐕</div><div class="name">Dogecoin</div></div>
 </div>
-<div id="networks" style="margin-top:20px;display:none">
-<div class="section-title">⚡ Выберите сеть</div>
-<div id="netList"></div>
 </div>
-<div class="summary" id="summary" style="display:none">
-<div style="font-size:18px;font-weight:700;margin-bottom:16px;color:#4facfe">📋 Итого</div>
-<div class="summary-row"><span>Биржа:</span><span id="sumEx"></span></div>
-<div class="summary-row"><span>Услуга:</span><span id="sumSrv"></span></div>
-<div class="summary-row"><span>Оплата:</span><span id="sumCrypto"></span></div>
-<div class="summary-row"><span>Сеть:</span><span id="sumNet"></span></div>
-<div class="summary-row"><span>Итого:</span><span id="sumPrice"></span></div>
+
+<!-- Экран 4: Выбор сети (новая страница) -->
+<div id="s4" class="screen">
+<div class="progress-bar"><div class="progress-fill" style="width:80%"></div></div>
+<div class="step-indicator">
+<div class="step"></div>
+<div class="step"></div>
+<div class="step"></div>
+<div class="step active"></div>
+<div class="step"></div>
+</div>
+<button class="back-btn" onclick="go(3)">
+<svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+<path d="M10 12L6 8L10 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+Назад к валютам
+</button>
+<div class="header">
+<h1>⚡ Выберите сеть</h1>
+<p id="selectedCryptoName">USDT</p>
+</div>
+<div id="networkList"></div>
+<div class="continue-btn">
+<button class="btn" id="continueBtn" onclick="proceedToPayment()" disabled>
+💳 Перейти к оплате
+</button>
 </div>
 </div>
 
-<div id="s4" class="screen" style="display:none;opacity:1">
-<div class="timer"><div class="timer-label">⏰ Осталось времени на оплату</div><div class="timer-display" id="timer">10:00</div></div>
-<div class="header"><h1>📱 Отсканируйте QR код</h1><p>Отправьте точную сумму на адрес</p></div>
+<!-- Экран 5: QR-код и оплата -->
+<div id="s5" class="screen">
+<div class="progress-bar"><div class="progress-fill" style="width:100%"></div></div>
+<div class="step-indicator">
+<div class="step"></div>
+<div class="step"></div>
+<div class="step"></div>
+<div class="step"></div>
+<div class="step active"></div>
+</div>
+<button class="back-btn" onclick="go(4)">
+<svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+<path d="M10 12L6 8L10 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+Назад к сетям
+</button>
+<div class="timer">
+<div class="timer-label">⏰ Осталось времени на оплату</div>
+<div class="timer-display" id="timer">10:00</div>
+</div>
+<div class="header">
+<h1>📱 Отсканируйте QR-код</h1>
+<p>Отправьте точную сумму на адрес</p>
+</div>
 <div class="qr-box">
 <div class="qr-code" id="qr"></div>
 <div class="wallet" id="addr">Загрузка адреса...</div>
-<button class="btn" onclick="copy()">📋 Копировать адрес</button>
+<button class="btn btn-secondary" onclick="copy()">
+📋 Копировать адрес
+</button>
 <div class="status">
 <div class="icon checking" id="ico">🔄</div>
-<div style="font-size:16px;font-weight:600;margin-bottom:8px" id="txt">Проверяем блокчейн...</div>
+<div style="font-size:16px;font-weight:600;margin-bottom:8px" id="txt">Ожидание платежа...</div>
 <div style="font-size:13px;opacity:0.8">Проверка каждые 10 секунд</div>
 <div style="margin-top:16px;font-size:28px;font-weight:800;color:#4facfe" id="amt">$0</div>
 </div>
 </div>
 </div>
 
-<div id="s5" class="screen" style="display:none;opacity:1">
+<!-- Экран 6: Подтверждение оплаты -->
+<div id="s6" class="screen">
 <div style="text-align:center;padding:40px 20px">
 <div class="panda-mascot">
 <svg viewBox="0 0 120 120">
@@ -186,7 +289,7 @@ body::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;backgrou
 <text x="90" y="58" font-size="18" text-anchor="middle" fill="#fff" font-weight="bold">✓</text>
 </svg>
 </div>
-<div style="font-size:100px;margin:20px 0">✅</div>
+<div style="font-size:100px;margin:20px 0;animation:scaleUp 0.5s ease-out">✅</div>
 <div style="font-size:32px;font-weight:800;margin-bottom:12px">Оплата подтверждена!</div>
 <div style="font-size:16px;opacity:0.9;margin-bottom:24px">Ваш заказ принят и будет обработан в течение 1-2 часов</div>
 <div class="success-box">
@@ -227,8 +330,52 @@ var timer = 600;
 var timerInt;
 var checkInt;
 var checkCount = 0;
+var currentScreen = 1;
 
-// Данные кошельков и сетей
+// Данные сетей для каждой криптовалюты
+var nets = {
+    usdt: [
+        {id: 'trc20', n: 'TRC20 (TRON)', d: 'Быстрая сеть', f: 'Комиссия: ~$1'},
+        {id: 'erc20', n: 'ERC20 (Ethereum)', d: 'Надежная сеть', f: 'Комиссия: ~$15'},
+        {id: 'bep20', n: 'BEP20 (BSC)', d: 'Экономичная сеть', f: 'Комиссия: ~$0.5'}
+    ],
+    usdc: [
+        {id: 'erc20', n: 'ERC20 (Ethereum)', d: 'Основная сеть', f: 'Комиссия: ~$15'},
+        {id: 'polygon', n: 'Polygon', d: 'Быстрая и дешевая', f: 'Комиссия: ~$0.1'}
+    ],
+    dai: [
+        {id: 'erc20', n: 'ERC20 (Ethereum)', d: 'Основная сеть', f: 'Комиссия: ~$15'}
+    ],
+    busd: [
+        {id: 'bep20', n: 'BEP20 (BSC)', d: 'Сеть Binance', f: 'Комиссия: ~$0.5'}
+    ],
+    btc: [
+        {id: 'bitcoin', n: 'Bitcoin Network', d: 'Основная сеть BTC', f: 'Комиссия: ~$2-5'}
+    ],
+    eth: [
+        {id: 'ethereum', n: 'Ethereum Network', d: 'Основная сеть ETH', f: 'Комиссия: ~$10-20'}
+    ],
+    ton: [
+        {id: 'ton', n: 'TON Network', d: 'The Open Network', f: 'Комиссия: ~$0.01'}
+    ],
+    ltc: [
+        {id: 'litecoin', n: 'Litecoin Network', d: 'Основная сеть LTC', f: 'Комиссия: ~$0.1'}
+    ],
+    trx: [
+        {id: 'tron', n: 'TRON Network', d: 'Основная сеть TRX', f: 'Комиссия: ~$1'}
+    ],
+    bnb: [
+        {id: 'bep20', n: 'BEP20 (BSC)', d: 'Сеть Binance', f: 'Комиссия: ~$0.5'}
+    ],
+    xrp: [
+        {id: 'ripple', n: 'XRP Ledger', d: 'Сеть Ripple', f: 'Комиссия: ~$0.001'}
+    ],
+    doge: [
+        {id: 'dogecoin', n: 'Dogecoin Network', d: 'Сеть Dogecoin', f: 'Комиссия: ~$0.1'}
+    ]
+};
+
+// Данные кошельков
 var wallets = {
     'usdt-trc20': 'TXm6gEHhZXjFhzPHpHKVGYHqXeDvXxXxXx',
     'usdt-erc20': '0x742d35Cc6634C0532925a3b844Bc9e7595f0f0f0',
@@ -247,55 +394,13 @@ var wallets = {
     'doge-dogecoin': 'DDogeAddressExample123456789'
 };
 
-var nets = {
-    usdt: [
-        {id: 'trc20', n: 'TRC20 (TRON)', d: 'Низкая комиссия ~$1'},
-        {id: 'erc20', n: 'ERC20 (Ethereum)', d: 'Высокая комиссия ~$15'},
-        {id: 'bep20', n: 'BEP20 (BSC)', d: 'Низкая комиссия ~$0.5'}
-    ],
-    usdc: [
-        {id: 'erc20', n: 'ERC20 (Ethereum)', d: 'Основная сеть'},
-        {id: 'polygon', n: 'Polygon', d: 'Очень дешево'}
-    ],
-    dai: [
-        {id: 'erc20', n: 'ERC20 (Ethereum)', d: 'Основная сеть'}
-    ],
-    busd: [
-        {id: 'bep20', n: 'BEP20 (BSC)', d: 'Binance Smart Chain'}
-    ],
-    btc: [
-        {id: 'bitcoin', n: 'Bitcoin', d: 'Основная сеть BTC'}
-    ],
-    eth: [
-        {id: 'ethereum', n: 'Ethereum', d: 'Основная сеть ETH'}
-    ],
-    ton: [
-        {id: 'ton', n: 'TON', d: 'The Open Network'}
-    ],
-    ltc: [
-        {id: 'litecoin', n: 'Litecoin', d: 'Основная сеть LTC'}
-    ],
-    trx: [
-        {id: 'tron', n: 'TRON', d: 'Основная сеть TRX'}
-    ],
-    bnb: [
-        {id: 'bep20', n: 'BEP20 (BSC)', d: 'Binance Smart Chain'}
-    ],
-    xrp: [
-        {id: 'ripple', n: 'XRP Ledger', d: 'Ripple Network'}
-    ],
-    doge: [
-        {id: 'dogecoin', n: 'Dogecoin', d: 'DOGE Network'}
-    ]
-};
-
 // Функция выбора биржи
 function selectExchange(exId, exName) {
     console.log('Exchange selected:', exId, exName);
     d.ex = exId;
     d.exName = exName;
     document.getElementById('exName').textContent = exName;
-    go(2);
+    animateTransition(2);
 }
 
 // Функция выбора услуги
@@ -304,8 +409,9 @@ function selectService(srvId, srvName, price) {
     d.srv = srvId;
     d.srvName = srvName;
     d.price = price;
+    
     setTimeout(function() {
-        go(3);
+        animateTransition(3);
     }, 300);
 }
 
@@ -314,139 +420,145 @@ function selectCrypto(cryptoId, cryptoName) {
     console.log('Crypto selected:', cryptoId, cryptoName);
     d.crypto = cryptoId;
     d.cryptoName = cryptoName;
-    showNets();
+    
+    // Показываем выбор сети
+    showNetworkSelection();
 }
 
-// Функция показа сетей
-function showNets() {
-    var list = document.getElementById('netList');
-    list.innerHTML = '';
+// Функция показа выбора сети
+function showNetworkSelection() {
+    // Обновляем заголовок
+    document.getElementById('selectedCryptoName').textContent = d.cryptoName;
     
-    if (!nets[d.crypto]) {
-        console.error('No networks found for crypto:', d.crypto);
+    // Очищаем список сетей
+    var networkList = document.getElementById('networkList');
+    networkList.innerHTML = '';
+    
+    // Проверяем, есть ли сети для выбранной криптовалюты
+    if (!nets[d.crypto] || nets[d.crypto].length === 0) {
+        networkList.innerHTML = '<div style="text-align:center;padding:40px;color:rgba(255,255,255,0.5)">Нет доступных сетей для этой валюты</div>';
         return;
     }
     
-    nets[d.crypto].forEach(function(x) {
-        var div = document.createElement('div');
-        div.className = 'card';
-        div.style.marginBottom = '10px';
-        div.innerHTML = '<div class="name">' + x.n + '</div><div style="font-size:12px;opacity:0.8;margin-top:4px">' + x.d + '</div>';
-        div.onclick = function() {
-            var allNets = document.querySelectorAll('#netList .card');
-            for (var i = 0; i < allNets.length; i++) {
-                allNets[i].classList.remove('selected');
-            }
+    // Добавляем сети с анимацией
+    nets[d.crypto].forEach(function(network, index) {
+        var card = document.createElement('div');
+        card.className = 'network-card';
+        card.style.animationDelay = (index * 0.1) + 's';
+        card.innerHTML = `
+            <div class="network-name">${network.n}</div>
+            <div class="network-desc">${network.d}</div>
+            <div class="network-fee">${network.f}</div>
+        `;
+        
+        card.onclick = function() {
+            // Снимаем выделение со всех карточек
+            document.querySelectorAll('.network-card').forEach(function(c) {
+                c.classList.remove('selected');
+            });
+            
+            // Выделяем выбранную карточку
             this.classList.add('selected');
-            d.net = x.id;
-            d.netName = x.n;
-            showSummary();
+            
+            // Сохраняем выбранную сеть
+            d.net = network.id;
+            d.netName = network.n;
+            
+            // Активируем кнопку продолжения
+            document.getElementById('continueBtn').disabled = false;
         };
-        list.appendChild(div);
+        
+        networkList.appendChild(card);
     });
     
-    var networkSection = document.getElementById('networks');
-    networkSection.style.display = 'block';
+    // Переходим на экран выбора сети
+    animateTransition(4);
 }
 
-// Функция показа итоговой информации
-function showSummary() {
-    document.getElementById('sumEx').textContent = d.exName;
-    document.getElementById('sumSrv').textContent = d.srvName;
-    document.getElementById('sumCrypto').textContent = d.cryptoName;
-    document.getElementById('sumNet').textContent = d.netName;
-    document.getElementById('sumPrice').textContent = '$' + d.price;
+// Функция перехода к оплате
+function proceedToPayment() {
+    if (!d.net) {
+        tg.showAlert('❌ Пожалуйста, выберите сеть');
+        return;
+    }
     
-    var summaryBox = document.getElementById('summary');
-    summaryBox.style.display = 'block';
-    summaryBox.scrollIntoView({behavior: 'smooth', block: 'nearest'});
-    
-    tg.MainButton.setText('💳 Оплатить $' + d.price);
-    tg.MainButton.show();
+    // Показываем сводку перед оплатой
+    showPaymentSummary();
 }
 
-// Функция переключения экранов
+// Функция показа сводки и генерации QR
+function showPaymentSummary() {
+    // Генерируем QR-код и переходим к оплате
+    generateQRCode();
+    animateTransition(5);
+    
+    // Запускаем таймер
+    startPaymentTimer();
+}
+
+// Функция анимированного перехода
+function animateTransition(targetScreen) {
+    var currentScreenElement = document.getElementById('s' + currentScreen);
+    var targetScreenElement = document.getElementById('s' + targetScreen);
+    
+    if (!currentScreenElement || !targetScreenElement) {
+        console.error('Screen not found');
+        return;
+    }
+    
+    // Анимация выхода текущего экрана
+    currentScreenElement.classList.remove('active', 'entering');
+    currentScreenElement.classList.add('exiting');
+    
+    // После анимации выхода скрываем текущий экран и показываем целевой
+    setTimeout(function() {
+        currentScreenElement.classList.remove('exiting');
+        targetScreenElement.classList.remove('exiting');
+        targetScreenElement.classList.add('entering');
+        
+        // Обновляем текущий экран
+        currentScreen = targetScreen;
+        
+        // Обновляем кнопку "Назад" в Telegram
+        updateTelegramBackButton();
+        
+        // Прокручиваем наверх
+        window.scrollTo(0, 0);
+    }, 400);
+    
+    // Через 50ms активируем целевой экран для плавного перехода
+    setTimeout(function() {
+        targetScreenElement.classList.add('active');
+    }, 450);
+}
+
+// Функция простого перехода (без анимации)
 function go(s) {
-    console.log('Going to screen:', s);
     var allScreens = document.getElementsByClassName('screen');
     for (var i = 0; i < allScreens.length; i++) {
-        allScreens[i].style.display = 'none';
+        allScreens[i].classList.remove('active', 'entering', 'exiting');
     }
     
     var target = document.getElementById('s' + s);
     if (target) {
-        target.style.display = 'block';
-        console.log('Screen s' + s + ' shown');
+        target.classList.add('active');
+        currentScreen = s;
+        updateTelegramBackButton();
+        window.scrollTo(0, 0);
+    }
+}
+
+// Функция обновления кнопки "Назад" в Telegram
+function updateTelegramBackButton() {
+    if (currentScreen === 1) {
+        tg.BackButton.hide();
     } else {
-        console.error('Screen s' + s + ' not found!');
+        tg.BackButton.show();
     }
-    
-    window.scrollTo(0, 0);
-    if (s < 4) {
-        tg.MainButton.hide();
-    }
-}
-
-// Таймер оплаты
-function startTimer() {
-    timerInt = setInterval(function() {
-        timer--;
-        var m = Math.floor(timer / 60);
-        var sec = timer % 60;
-        var display = m + ':' + (sec < 10 ? '0' : '') + sec;
-        document.getElementById('timer').textContent = display;
-        
-        if (timer < 120) {
-            document.getElementById('timer').classList.add('warning');
-        }
-        
-        if (timer <= 0) {
-            clearInterval(timerInt);
-            clearInterval(checkInt);
-            tg.showAlert('⏰ Время истекло! Попробуйте снова.');
-            go(1);
-        }
-    }, 1000);
-}
-
-// Проверка платежа
-function checkPayment() {
-    checkInt = setInterval(function() {
-        checkCount++;
-        document.getElementById('txt').textContent = 'Проверка платежа #' + checkCount + '...';
-        document.getElementById('ico').textContent = '🔍';
-        
-        if (checkCount >= 6) {
-            clearInterval(checkInt);
-            clearInterval(timerInt);
-            paymentConfirmed();
-        }
-    }, 10000);
-}
-
-// Подтверждение платежа
-function paymentConfirmed() {
-    document.getElementById('ico').className = 'icon';
-    document.getElementById('ico').textContent = '✅';
-    document.getElementById('txt').textContent = 'Платеж получен!';
-    
-    setTimeout(function() {
-        go(5);
-        document.getElementById('oid').textContent = d.oid;
-        document.getElementById('oex').textContent = d.exName;
-        document.getElementById('osrv').textContent = d.srvName;
-        document.getElementById('ocrypto').textContent = d.cryptoName + ' (' + d.netName + ')';
-        document.getElementById('oprice').textContent = '$' + d.price;
-        
-        tg.sendData(JSON.stringify(d));
-        setTimeout(function() {
-            tg.close();
-        }, 8000);
-    }, 2000);
 }
 
 // Генерация QR-кода
-function genQR() {
+function generateQRCode() {
     d.oid = 'ORD-' + Date.now();
     var walletKey = d.crypto + '-' + d.net;
     
@@ -456,21 +568,141 @@ function genQR() {
     }
     
     d.addr = wallets[walletKey];
-    document.getElementById('qr').innerHTML = '';
     
-    new QRCode(document.getElementById('qr'), {
+    // Очищаем контейнер QR-кода
+    var qrContainer = document.getElementById('qr');
+    qrContainer.innerHTML = '';
+    
+    // Генерируем новый QR-код
+    new QRCode(qrContainer, {
         text: d.addr,
         width: 240,
         height: 240,
         colorDark: '#000',
-        colorLight: '#fff'
+        colorLight: '#fff',
+        correctLevel: QRCode.CorrectLevel.H
     });
     
+    // Показываем адрес и сумму
     document.getElementById('addr').textContent = d.addr;
     document.getElementById('amt').textContent = '$' + d.price;
     
-    startTimer();
-    checkPayment();
+    // Запускаем проверку платежа
+    startPaymentCheck();
+}
+
+// Таймер оплаты (10 минут)
+function startPaymentTimer() {
+    timer = 600; // 10 минут в секундах
+    clearInterval(timerInt);
+    
+    timerInt = setInterval(function() {
+        timer--;
+        var minutes = Math.floor(timer / 60);
+        var seconds = timer % 60;
+        var display = minutes + ':' + (seconds < 10 ? '0' : '') + seconds;
+        document.getElementById('timer').textContent = display;
+        
+        // Меняем цвет при малом времени
+        var timerElement = document.getElementById('timer');
+        if (timer < 120) { // 2 минуты
+            timerElement.classList.add('warning');
+        } else {
+            timerElement.classList.remove('warning');
+        }
+        
+        // Время истекло
+        if (timer <= 0) {
+            clearInterval(timerInt);
+            clearInterval(checkInt);
+            tg.showAlert('⏰ Время истекло! Попробуйте снова.');
+            go(1); // Возвращаем на первый экран
+            resetSelection();
+        }
+    }, 1000);
+}
+
+// Проверка платежа
+function startPaymentCheck() {
+    checkCount = 0;
+    clearInterval(checkInt);
+    
+    checkInt = setInterval(function() {
+        checkCount++;
+        var statusText = document.getElementById('txt');
+        var iconElement = document.getElementById('ico');
+        
+        // Меняем текст проверки
+        statusText.textContent = 'Проверка платежа #' + checkCount + '...';
+        
+        // Анимация иконки
+        iconElement.textContent = '🔄';
+        iconElement.classList.add('checking');
+        
+        // Имитация успешного платежа через 3 проверки (30 секунд)
+        if (checkCount >= 3) {
+            paymentConfirmed();
+        }
+    }, 10000); // Проверка каждые 10 секунд
+}
+
+// Подтверждение платежа
+function paymentConfirmed() {
+    clearInterval(checkInt);
+    clearInterval(timerInt);
+    
+    var iconElement = document.getElementById('ico');
+    var statusText = document.getElementById('txt');
+    
+    // Меняем иконку и текст
+    iconElement.classList.remove('checking');
+    iconElement.textContent = '✅';
+    statusText.textContent = 'Платеж получен!';
+    
+    // Плавный переход на экран подтверждения
+    setTimeout(function() {
+        animateTransition(6);
+        
+        // Заполняем информацию о заказе
+        document.getElementById('oid').textContent = d.oid;
+        document.getElementById('oex').textContent = d.exName;
+        document.getElementById('osrv').textContent = d.srvName;
+        document.getElementById('ocrypto').textContent = d.cryptoName + ' (' + d.netName + ')';
+        document.getElementById('oprice').textContent = '$' + d.price;
+        
+        // Отправляем данные в Telegram бот
+        tg.sendData(JSON.stringify(d));
+        
+        // Автоматическое закрытие через 8 секунд
+        setTimeout(function() {
+            tg.close();
+        }, 8000);
+    }, 2000);
+}
+
+// Сброс выбора
+function resetSelection() {
+    d = {
+        ex: null,
+        exName: null,
+        srv: null,
+        srvName: null,
+        price: null,
+        crypto: null,
+        cryptoName: null,
+        net: null,
+        netName: null,
+        addr: null,
+        oid: null
+    };
+    
+    // Сбрасываем выделение на всех экранах
+    document.querySelectorAll('.card.selected, .service-card.selected, .network-card.selected').forEach(function(el) {
+        el.classList.remove('selected');
+    });
+    
+    // Сбрасываем кнопку
+    document.getElementById('continueBtn').disabled = true;
 }
 
 // Копирование адреса
@@ -482,46 +714,36 @@ function copy() {
     
     navigator.clipboard.writeText(d.addr).then(function() {
         tg.showAlert('✅ Адрес успешно скопирован в буфер обмена!');
-    }).catch(function() {
+    }).catch(function(err) {
+        console.error('Copy failed:', err);
         tg.showAlert('❌ Не удалось скопировать адрес');
     });
 }
 
-// Обработчики кнопок Telegram
-tg.MainButton.onClick(function() {
-    if (d.ex && d.srv && d.crypto && d.net) {
-        go(4);
-        tg.MainButton.hide();
-        genQR();
-    } else {
-        tg.showAlert('❌ Пожалуйста, заполните все поля');
-    }
-});
-
+// Обработчик кнопки "Назад" в Telegram
 tg.BackButton.onClick(function() {
-    var visibleScreen = Array.from(document.querySelectorAll('.screen')).find(function(screen) {
-        return screen.style.display === 'block' || screen.style.display === '';
-    });
-    
-    if (!visibleScreen) return;
-    
-    var cur = visibleScreen.id;
-    if (cur === 's1') {
-        tg.close();
-    } else if (cur === 's2') {
+    if (currentScreen === 2) {
         go(1);
-    } else if (cur === 's3') {
+    } else if (currentScreen === 3) {
         go(2);
-    } else if (cur === 's4') {
+    } else if (currentScreen === 4) {
+        go(3);
+    } else if (currentScreen === 5) {
         clearInterval(timerInt);
         clearInterval(checkInt);
         timer = 600;
         checkCount = 0;
-        go(3);
-        tg.MainButton.show();
-    } else if (cur === 's5') {
+        go(4);
+    } else if (currentScreen === 6) {
         tg.close();
+    } else {
+        go(1);
     }
+});
+
+// Инициализация при загрузке
+document.addEventListener('DOMContentLoaded', function() {
+    updateTelegramBackButton();
 });
 </script>
 </body>
