@@ -22,63 +22,82 @@ body::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;background:
 .screen.exiting{opacity:0;transform:translateX(-30px)}
 .screen.entering{opacity:1;transform:translateX(0)}
 .screen-content{max-width:600px;margin:0 auto;width:100%;padding:20px 16px;padding-bottom:100px}
-.top-progress{position:fixed;top:0;left:0;width:100%;z-index:100;background:rgba(15,15,30,0.95);backdrop-filter:blur(10px);padding:15px 20px;border-bottom:1px solid rgba(255,255,255,0.1)}
-.progress-bar{height:4px;background:rgba(255,255,255,0.1);border-radius:2px;margin:0 auto 10px;overflow:hidden;max-width:600px}
-.progress-fill{height:100%;background:linear-gradient(90deg,#667eea,#764ba2);width:0%;transition:width 0.5s ease}
-.step-indicator{display:flex;justify-content:center;gap:8px}
-.step{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,0.2);transition:all 0.3s}
-.step.active{background:#667eea;transform:scale(1.3)}
-.panda-mascot{text-align:center;margin-bottom:20px;margin-top:80px;animation:float 3s ease-in-out infinite}
+.top-progress{position:fixed;top:0;left:0;width:100%;z-index:100;background:linear-gradient(180deg, rgba(15,15,30,0.98) 0%, rgba(15,15,30,0.85) 100%);backdrop-filter:blur(15px);padding:12px 20px;border-bottom:1px solid rgba(255,255,255,0.15);box-shadow:0 2px 20px rgba(0,0,0,0.2);height:65px}
+.progress-bar{height:6px;background:rgba(255,255,255,0.15);border-radius:3px;margin:0 auto 8px;overflow:hidden;max-width:600px;position:relative}
+.progress-fill{height:100%;background:linear-gradient(90deg,#667eea,#764ba2,#4facfe);width:0%;transition:width 0.5s ease;border-radius:3px;position:relative;overflow:hidden}
+.progress-fill::after{content:'';position:absolute;top:0;left:0;right:0;bottom:0;background:linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);animation:shimmer 2s infinite}
+.step-indicator{display:flex;justify-content:center;gap:10px}
+.step{width:10px;height:10px;border-radius:50%;background:rgba(255,255,255,0.2);transition:all 0.4s cubic-bezier(0.4, 0, 0.2, 1);position:relative}
+.step.active{background:#667eea;transform:scale(1.4);box-shadow:0 0 15px rgba(102,126,234,0.7)}
+.step.active::after{content:'';position:absolute;top:-3px;left:-3px;right:-3px;bottom:-3px;border:2px solid #667eea;border-radius:50%;animation:pulse 2s infinite}
+.panda-mascot{text-align:center;margin-bottom:20px;margin-top:85px;animation:float 3s ease-in-out infinite}
 .panda-mascot svg{width:120px;height:120px;filter:drop-shadow(0 10px 30px rgba(0,0,0,0.5))}
 .header{text-align:center;margin-bottom:32px}
-.header h1{font-size:32px;font-weight:800;margin-bottom:8px;text-shadow:0 2px 20px rgba(255,255,255,0.3)}
+.header h1{font-size:32px;font-weight:800;margin-bottom:8px;text-shadow:0 2px 20px rgba(255,255,255,0.3);background:linear-gradient(135deg,#667eea,#764ba2,#4facfe);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
 .header p{color:rgba(255,255,255,0.8);font-size:16px}
-.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
-.card{background:rgba(255,255,255,0.1);backdrop-filter:blur(20px);border-radius:20px;padding:24px 16px;cursor:pointer;border:2px solid rgba(255,255,255,0.2);text-align:center;transition:all .3s;position:relative;overflow:hidden;user-select:none;-webkit-user-select:none;-webkit-tap-highlight-color:transparent;animation:fadeInScale 0.5s ease-out backwards}
-.card::before{content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.3),transparent);transition:left .5s}
-.card:hover::before{left:100%}
-.card:active{transform:scale(.95)}
-.card.selected{border-color:#667eea;background:rgba(102,126,234,0.3);box-shadow:0 0 30px rgba(102,126,234,0.5)}
-.logo{width:56px;height:56px;margin:0 auto 12px;background:rgba(255,255,255,0.9);border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:32px}
-.name{font-size:16px;font-weight:700;color:#fff}
-.back-btn{background:rgba(255,255,255,0.15);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,0.3);border-radius:12px;padding:12px 20px;font-size:15px;font-weight:600;color:#fff;cursor:pointer;margin-bottom:20px;border:none;transition:all .3s;display:inline-flex;align-items:center;gap:8px;margin-top:10px}
-.back-btn:hover{background:rgba(255,255,255,0.2)}
-.back-btn:active{transform:scale(.95)}
-.service-card{background:rgba(255,255,255,0.1);backdrop-filter:blur(20px);border-radius:20px;padding:20px;cursor:pointer;border:2px solid rgba(255,255,255,0.2);transition:all .3s;margin-bottom:12px;animation:fadeInScale 0.5s ease-out backwards}
-.service-card.selected{border-color:#667eea;background:rgba(102,126,234,0.3);box-shadow:0 0 30px rgba(102,126,234,0.5)}
-.service-top{display:flex;gap:16px;margin-bottom:12px}
-.service-icon{font-size:40px}
-.service-title{font-size:18px;font-weight:700;margin-bottom:6px}
-.service-desc{font-size:14px;opacity:0.8}
-.service-bottom{display:flex;justify-content:space-between;align-items:center;margin-top:12px;padding-top:12px;border-top:1px solid rgba(255,255,255,0.2)}
-.service-price{font-size:24px;font-weight:800;background:linear-gradient(135deg,#4facfe,#00f2fe);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-.service-badge{background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;padding:6px 12px;border-radius:10px;font-size:12px;font-weight:700}
-.section-title{font-size:20px;font-weight:800;margin:24px 0 16px;text-shadow:0 2px 10px rgba(255,255,255,0.3)}
-.timer{background:rgba(255,255,255,0.1);backdrop-filter:blur(20px);border-radius:16px;padding:16px;margin:20px 0;text-align:center;border:2px solid rgba(255,255,255,0.2)}
-.timer-label{font-size:14px;margin-bottom:8px;opacity:0.8}
-.timer-display{font-size:48px;font-weight:800;color:#4facfe;font-family:monospace;text-shadow:0 0 20px rgba(79,172,254,0.5)}
-.timer-display.warning{color:#ff3b30;animation:pulse 1s infinite}
-.qr-box{background:rgba(255,255,255,0.1);backdrop-filter:blur(20px);border-radius:20px;padding:24px;margin:20px 0;border:2px solid rgba(255,255,255,0.2)}
-.qr-code{width:280px;height:280px;margin:20px auto;padding:20px;background:#fff;border-radius:20px;box-shadow:0 10px 40px rgba(0,0,0,0.3)}
-.wallet{background:rgba(255,255,255,0.15);backdrop-filter:blur(10px);padding:16px;border-radius:12px;margin:16px 0;word-break:break-all;font-family:monospace;font-size:13px;border:1px solid rgba(255,255,255,0.3)}
-.btn{background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;border:none;padding:14px 28px;border-radius:12px;font-size:16px;font-weight:700;cursor:pointer;margin-top:12px;box-shadow:0 4px 20px rgba(102,126,234,0.4);transition:all .3s;width:100%;display:flex;align-items:center;justify-content:center;gap:10px}
-.btn:active{transform:scale(.95)}
-.btn:disabled{opacity:0.6;cursor:not-allowed}
-.btn-secondary{background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.3)}
-.status{text-align:center;padding:20px;margin-top:20px;background:rgba(255,255,255,0.1);backdrop-filter:blur(20px);border-radius:16px;border:2px solid rgba(255,255,255,0.2)}
-.icon{font-size:64px;margin-bottom:12px}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:15px}
+.card{background:rgba(255,255,255,0.08);backdrop-filter:blur(20px);border-radius:18px;padding:22px 16px;cursor:pointer;border:1px solid rgba(255,255,255,0.15);text-align:center;transition:all .4s cubic-bezier(0.4, 0, 0.2, 1);position:relative;overflow:hidden;user-select:none;-webkit-user-select:none;-webkit-tap-highlight-color:transparent;animation:fadeInScale 0.5s ease-out backwards}
+.card::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;background:linear-gradient(135deg,rgba(102,126,234,0.1),rgba(118,75,162,0.1));opacity:0;transition:opacity 0.3s}
+.card:hover{transform:translateY(-5px);border-color:rgba(102,126,234,0.5);box-shadow:0 10px 30px rgba(102,126,234,0.2)}
+.card:hover::before{opacity:1}
+.card:active{transform:translateY(-2px) scale(0.98)}
+.card.selected{border-color:#667eea;background:linear-gradient(135deg,rgba(102,126,234,0.25),rgba(118,75,162,0.25));box-shadow:0 0 40px rgba(102,126,234,0.4)}
+.card.selected .logo{border-color:#667eea;box-shadow:0 0 20px rgba(102,126,234,0.4)}
+.logo{width:60px;height:60px;margin:0 auto 14px;background:rgba(255,255,255,0.95);border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:28px;border:2px solid rgba(255,255,255,0.3);transition:all .3s;overflow:hidden}
+.logo img{width:100%;height:100%;object-fit:contain;border-radius:14px}
+.name{font-size:17px;font-weight:700;color:#fff;margin-bottom:6px}
+.card:hover .name{color:#667eea}
+.back-btn{background:rgba(255,255,255,0.1);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,0.2);border-radius:14px;padding:14px 22px;font-size:15px;font-weight:600;color:#fff;cursor:pointer;margin-bottom:25px;border:none;transition:all .3s;display:inline-flex;align-items:center;gap:10px;margin-top:15px}
+.back-btn:hover{background:rgba(255,255,255,0.15);transform:translateX(-3px)}
+.back-btn:active{transform:translateX(-1px) scale(0.98)}
+.service-card{background:rgba(255,255,255,0.08);backdrop-filter:blur(20px);border-radius:18px;padding:22px;cursor:pointer;border:1px solid rgba(255,255,255,0.15);transition:all .4s cubic-bezier(0.4, 0, 0.2, 1);margin-bottom:15px;animation:fadeInScale 0.5s ease-out backwards;position:relative;overflow:hidden}
+.service-card::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;background:linear-gradient(135deg,rgba(102,126,234,0.1),rgba(118,75,162,0.1));opacity:0;transition:opacity 0.3s}
+.service-card:hover{transform:translateY(-5px);border-color:rgba(102,126,234,0.5);box-shadow:0 10px 30px rgba(102,126,234,0.2)}
+.service-card:hover::before{opacity:1}
+.service-card.selected{border-color:#667eea;background:linear-gradient(135deg,rgba(102,126,234,0.25),rgba(118,75,162,0.25));box-shadow:0 0 40px rgba(102,126,234,0.4)}
+.service-top{display:flex;gap:18px;margin-bottom:14px}
+.service-icon{font-size:44px;filter:drop-shadow(0 4px 8px rgba(0,0,0,0.3))}
+.service-title{font-size:19px;font-weight:700;margin-bottom:8px;color:#fff}
+.service-desc{font-size:14px;opacity:0.8;line-height:1.5}
+.service-bottom{display:flex;justify-content:space-between;align-items:center;margin-top:16px;padding-top:16px;border-top:1px solid rgba(255,255,255,0.15)}
+.service-price{font-size:26px;font-weight:800;background:linear-gradient(135deg,#4facfe,#00f2fe);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.service-badge{background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;padding:8px 16px;border-radius:12px;font-size:13px;font-weight:700;letter-spacing:0.5px}
+.section-title{font-size:22px;font-weight:800;margin:28px 0 18px;text-shadow:0 2px 10px rgba(255,255,255,0.3);color:#fff;position:relative;padding-left:12px}
+.section-title::before{content:'';position:absolute;left:0;top:50%;transform:translateY(-50%);width:4px;height:24px;background:linear-gradient(135deg,#667eea,#764ba2);border-radius:2px}
+.timer{background:rgba(255,255,255,0.08);backdrop-filter:blur(20px);border-radius:18px;padding:20px;margin:25px 0;text-align:center;border:1px solid rgba(255,255,255,0.15);position:relative;overflow:hidden}
+.timer::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;background:linear-gradient(135deg,rgba(102,126,234,0.1),rgba(118,75,162,0.1))}
+.timer-label{font-size:15px;margin-bottom:10px;opacity:0.8;position:relative;z-index:1}
+.timer-display{font-size:52px;font-weight:800;color:#4facfe;font-family:monospace;text-shadow:0 0 25px rgba(79,172,254,0.6);position:relative;z-index:1;letter-spacing:2px}
+.timer-display.warning{color:#ff3b30;animation:pulse 1.2s infinite}
+.qr-box{background:rgba(255,255,255,0.08);backdrop-filter:blur(20px);border-radius:18px;padding:28px;margin:25px 0;border:1px solid rgba(255,255,255,0.15);position:relative;overflow:hidden}
+.qr-box::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;background:linear-gradient(135deg,rgba(102,126,234,0.1),rgba(118,75,162,0.1))}
+.qr-code{width:280px;height:280px;margin:20px auto;padding:20px;background:#fff;border-radius:20px;box-shadow:0 15px 50px rgba(0,0,0,0.4);position:relative;z-index:1}
+.wallet{background:rgba(255,255,255,0.12);backdrop-filter:blur(10px);padding:18px;border-radius:14px;margin:18px 0;word-break:break-all;font-family:monospace;font-size:14px;border:1px solid rgba(255,255,255,0.2);position:relative;z-index:1}
+.btn{background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;border:none;padding:16px 32px;border-radius:14px;font-size:17px;font-weight:700;cursor:pointer;margin-top:15px;box-shadow:0 6px 25px rgba(102,126,234,0.4);transition:all .3s;width:100%;display:flex;align-items:center;justify-content:center;gap:12px;position:relative;z-index:1;letter-spacing:0.5px}
+.btn:hover{transform:translateY(-3px);box-shadow:0 10px 30px rgba(102,126,234,0.6)}
+.btn:active{transform:translateY(-1px) scale(0.98)}
+.btn:disabled{opacity:0.6;cursor:not-allowed;transform:none !important;box-shadow:0 4px 15px rgba(102,126,234,0.2) !important}
+.btn-secondary{background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.2);box-shadow:0 4px 15px rgba(0,0,0,0.2)}
+.btn-secondary:hover{background:rgba(255,255,255,0.15);box-shadow:0 6px 20px rgba(0,0,0,0.3)}
+.status{text-align:center;padding:25px;margin-top:25px;background:rgba(255,255,255,0.08);backdrop-filter:blur(20px);border-radius:18px;border:1px solid rgba(255,255,255,0.15);position:relative;overflow:hidden}
+.status::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;background:linear-gradient(135deg,rgba(102,126,234,0.1),rgba(118,75,162,0.1))}
+.icon{font-size:68px;margin-bottom:15px;position:relative;z-index:1;filter:drop-shadow(0 4px 8px rgba(0,0,0,0.3))}
 .icon.checking{animation:spin 2s linear infinite}
-.summary{background:rgba(255,255,255,0.1);backdrop-filter:blur(20px);border-radius:20px;padding:24px;margin-top:24px;border:2px solid rgba(255,255,255,0.2)}
-.summary-row{display:flex;justify-content:space-between;margin-bottom:10px;font-size:15px}
-.summary-row:last-child{margin-top:16px;padding-top:16px;border-top:2px solid rgba(255,255,255,0.3);font-size:22px;font-weight:800;color:#4facfe}
-.success-box{background:rgba(255,255,255,0.1);backdrop-filter:blur(20px);border-radius:20px;padding:24px;margin-top:24px;border:2px solid rgba(255,255,255,0.2)}
-.network-card{background:rgba(255,255,255,0.1);backdrop-filter:blur(20px);border-radius:16px;padding:20px;cursor:pointer;border:2px solid rgba(255,255,255,0.2);transition:all .3s;margin-bottom:12px;animation:fadeInUp 0.5s ease-out backwards}
-.network-card:hover{border-color:#667eea}
-.network-card.selected{border-color:#667eea;background:rgba(102,126,234,0.3);box-shadow:0 0 30px rgba(102,126,234,0.5)}
-.network-name{font-size:18px;font-weight:700;margin-bottom:4px}
-.network-desc{font-size:14px;opacity:0.8;margin-bottom:8px}
-.network-fee{font-size:12px;color:#4facfe;font-weight:600}
-.continue-btn{margin-top:40px;margin-bottom:40px}
+.summary{background:rgba(255,255,255,0.08);backdrop-filter:blur(20px);border-radius:18px;padding:28px;margin-top:28px;border:1px solid rgba(255,255,255,0.15);position:relative;overflow:hidden}
+.summary::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;background:linear-gradient(135deg,rgba(102,126,234,0.1),rgba(118,75,162,0.1))}
+.summary-row{display:flex;justify-content:space-between;margin-bottom:12px;font-size:16px;position:relative;z-index:1}
+.summary-row:last-child{margin-top:20px;padding-top:20px;border-top:2px solid rgba(255,255,255,0.25);font-size:24px;font-weight:800;color:#4facfe}
+.success-box{background:rgba(255,255,255,0.08);backdrop-filter:blur(20px);border-radius:18px;padding:28px;margin-top:28px;border:1px solid rgba(255,255,255,0.15);position:relative;overflow:hidden}
+.success-box::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;background:linear-gradient(135deg,rgba(52,199,89,0.1),rgba(102,126,234,0.1))}
+.network-card{background:rgba(255,255,255,0.08);backdrop-filter:blur(20px);border-radius:16px;padding:22px;cursor:pointer;border:1px solid rgba(255,255,255,0.15);transition:all .4s cubic-bezier(0.4, 0, 0.2, 1);margin-bottom:15px;animation:fadeInUp 0.5s ease-out backwards;position:relative;overflow:hidden}
+.network-card::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;background:linear-gradient(135deg,rgba(102,126,234,0.1),rgba(118,75,162,0.1));opacity:0;transition:opacity 0.3s}
+.network-card:hover{border-color:rgba(102,126,234,0.5);transform:translateY(-5px);box-shadow:0 10px 30px rgba(102,126,234,0.2)}
+.network-card:hover::before{opacity:1}
+.network-card.selected{border-color:#667eea;background:linear-gradient(135deg,rgba(102,126,234,0.25),rgba(118,75,162,0.25));box-shadow:0 0 40px rgba(102,126,234,0.4);transform:translateY(-3px)}
+.network-name{font-size:19px;font-weight:700;margin-bottom:6px;color:#fff;position:relative;z-index:1}
+.network-desc{font-size:14px;opacity:0.8;margin-bottom:10px;position:relative;z-index:1}
+.network-fee{font-size:13px;color:#4facfe;font-weight:600;position:relative;z-index:1}
+.continue-btn{margin-top:50px;margin-bottom:50px;position:relative;z-index:1}
 @keyframes fadeIn{from{opacity:0}to{opacity:1}}
 @keyframes slideInUp{from{opacity:0;transform:translateY(50px)}to{opacity:1;transform:translateY(0)}}
 @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-20px)}}
@@ -87,6 +106,7 @@ body::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;background:
 @keyframes scaleUp{0%{opacity:0;transform:scale(0.8)}100%{opacity:1;transform:scale(1)}}
 @keyframes fadeInScale{0%{opacity:0;transform:scale(0.9)}100%{opacity:1;transform:scale(1)}}
 @keyframes fadeInUp{0%{opacity:0;transform:translateY(20px)}100%{opacity:1;transform:translateY(0)}}
+@keyframes shimmer{0%{transform:translateX(-100%)}100%{transform:translateX(100%)}}
 </style>
 </head>
 <body>
@@ -132,15 +152,62 @@ body::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;background:
 <p>Выберите криптобиржу</p>
 </div>
 <div class="grid" style="animation:slideInUp 1.2s ease-out">
-<div class="card" onclick="selectExchange('binance','Binance')"><div class="logo">🟡</div><div class="name">Binance</div></div>
-<div class="card" onclick="selectExchange('bybit','Bybit')"><div class="logo">🟠</div><div class="name">Bybit</div></div>
-<div class="card" onclick="selectExchange('okx','OKX')"><div class="logo">⚫</div><div class="name">OKX</div></div>
-<div class="card" onclick="selectExchange('kraken','Kraken')"><div class="logo">🟣</div><div class="name">Kraken</div></div>
-<div class="card" onclick="selectExchange('gateio','Gate.io')"><div class="logo">🟢</div><div class="name">Gate.io</div></div>
-<div class="card" onclick="selectExchange('mexc','MEXC')"><div class="logo">🔵</div><div class="name">MEXC</div></div>
-<div class="card" onclick="selectExchange('bingx','BingX')"><div class="logo">🔷</div><div class="name">BingX</div></div>
-<div class="card" onclick="selectExchange('bitget','Bitget')"><div class="logo">💠</div><div class="name">Bitget</div></div>
-<div class="card" onclick="selectExchange('kucoin','KuCoin')"><div class="logo">🟩</div><div class="name">KuCoin</div></div>
+<!-- Карточки бирж с поддержкой логотипов -->
+<div class="card" onclick="selectExchange('binance','Binance')">
+    <div class="logo" id="binance-logo">
+        <!-- Смайлик как запасной вариант -->
+        🟡
+    </div>
+    <div class="name">Binance</div>
+</div>
+<div class="card" onclick="selectExchange('bybit','Bybit')">
+    <div class="logo" id="bybit-logo">
+        🟠
+    </div>
+    <div class="name">Bybit</div>
+</div>
+<div class="card" onclick="selectExchange('okx','OKX')">
+    <div class="logo" id="okx-logo">
+        ⚫
+    </div>
+    <div class="name">OKX</div>
+</div>
+<div class="card" onclick="selectExchange('kraken','Kraken')">
+    <div class="logo" id="kraken-logo">
+        🟣
+    </div>
+    <div class="name">Kraken</div>
+</div>
+<div class="card" onclick="selectExchange('gateio','Gate.io')">
+    <div class="logo" id="gateio-logo">
+        🟢
+    </div>
+    <div class="name">Gate.io</div>
+</div>
+<div class="card" onclick="selectExchange('mexc','MEXC')">
+    <div class="logo" id="mexc-logo">
+        🔵
+    </div>
+    <div class="name">MEXC</div>
+</div>
+<div class="card" onclick="selectExchange('bingx','BingX')">
+    <div class="logo" id="bingx-logo">
+        🔷
+    </div>
+    <div class="name">BingX</div>
+</div>
+<div class="card" onclick="selectExchange('bitget','Bitget')">
+    <div class="logo" id="bitget-logo">
+        💠
+    </div>
+    <div class="name">Bitget</div>
+</div>
+<div class="card" onclick="selectExchange('kucoin','KuCoin')">
+    <div class="logo" id="kucoin-logo">
+        🟩
+    </div>
+    <div class="name">KuCoin</div>
+</div>
 </div>
 </div>
 </div>
@@ -320,6 +387,47 @@ var timerInt;
 var checkInt;
 var checkCount = 0;
 var currentScreen = 1;
+
+// Данные логотипов бирж (можно заменить на реальные ссылки)
+var exchangeLogos = {
+    'binance': '🟡', // Можно заменить на URL логотипа Binance
+    'bybit': '🟠',
+    'okx': '⚫',
+    'kraken': '🟣',
+    'gateio': '🟢',
+    'mexc': '🔵',
+    'bingx': '🔷',
+    'bitget': '💠',
+    'kucoin': '🟩'
+};
+
+// Функция для загрузки логотипов бирж
+function loadExchangeLogos() {
+    // Пример как можно загрузить настоящие логотипы:
+    /*
+    var logoData = {
+        'binance': 'https://cryptologos.cc/logos/binance-coin-bnb-logo.png',
+        'bybit': 'https://cryptologos.cc/logos/bybit-token-byt-logo.png',
+        'okx': 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/8a/OKX_logo.svg/1200px-OKX_logo.svg.png',
+        // Добавьте остальные логотипы...
+    };
+    
+    for (var exchange in logoData) {
+        var logoElement = document.getElementById(exchange + '-logo');
+        if (logoElement) {
+            var img = document.createElement('img');
+            img.src = logoData[exchange];
+            img.alt = exchange;
+            img.onerror = function() {
+                // Если логотип не загрузился, показываем смайлик
+                this.parentElement.innerHTML = exchangeLogos[exchange];
+            };
+            logoElement.innerHTML = '';
+            logoElement.appendChild(img);
+        }
+    }
+    */
+}
 
 // Данные сетей для каждой криптовалюты
 var nets = {
@@ -783,6 +891,7 @@ tg.BackButton.onClick(function() {
 document.addEventListener('DOMContentLoaded', function() {
     updateTelegramBackButton();
     updateProgress();
+    loadExchangeLogos(); // Загружаем логотипы
     
     // Блокируем скролл на body
     document.body.style.overflow = 'hidden';
