@@ -62,6 +62,8 @@ body::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;backgrou
 @keyframes spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
 @keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.5;transform:scale(1.05)}}
 @keyframes gradientMove{0%,100%{opacity:1}50%{opacity:0.8}}
+@keyframes scaleUp{from{opacity:0;transform:scale(0.5)}to{opacity:1;transform:scale(1)}}
+.exchange-card{cursor:pointer;user-select:none;-webkit-tap-highlight-color:transparent}
 </style>
 </head>
 <body>
@@ -71,7 +73,33 @@ body::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;backgrou
 <div class="shape shape3"></div>
 </div>
 
-<div id="s1" class="screen">
+<div id="s0" class="screen" style="display:flex;align-items:center;justify-content:center;opacity:1">
+<div style="text-align:center">
+<div class="panda-mascot" style="animation:scaleUp 1s ease-out">
+<svg viewBox="0 0 200 200">
+<ellipse cx="100" cy="120" rx="50" ry="60" fill="#fff"/>
+<circle cx="100" cy="70" r="45" fill="#fff"/>
+<ellipse cx="70" cy="40" rx="20" ry="25" fill="#000"/>
+<ellipse cx="130" cy="40" rx="20" ry="25" fill="#000"/>
+<ellipse cx="85" cy="65" rx="18" ry="22" fill="#000"/>
+<circle cx="88" cy="68" r="6" fill="#fff"/>
+<ellipse cx="115" cy="65" rx="18" ry="22" fill="#000"/>
+<circle cx="118" cy="68" r="6" fill="#fff"/>
+<ellipse cx="100" cy="85" rx="8" ry="6" fill="#000"/>
+<circle cx="140" cy="110" r="18" fill="#FFD700"/>
+<text x="140" y="118" font-size="20" text-anchor="middle" fill="#000" font-weight="bold">₿</text>
+</svg>
+</div>
+<div style="font-size:42px;font-weight:800;margin:20px 0;animation:fadeIn 1s ease-out">🐼 Panda Shop</div>
+<div style="font-size:18px;opacity:0.8;animation:fadeIn 1.5s ease-out">Криптоуслуги для бирж</div>
+<div style="margin-top:40px">
+<div class="icon" style="font-size:40px;animation:spin 1.5s linear infinite">⚡</div>
+<div style="font-size:14px;opacity:0.6;margin-top:12px">Загрузка...</div>
+</div>
+</div>
+</div>
+
+<div id="s1" class="screen hidden">
 <div class="panda-mascot">
 <svg viewBox="0 0 200 200">
 <ellipse cx="100" cy="120" rx="50" ry="60" fill="#fff"/>
@@ -88,16 +116,16 @@ body::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;backgrou
 </svg>
 </div>
 <div class="header"><h1>🐼 Panda Shop</h1><p>Выберите криптобиржу</p></div>
-<div class="grid">
-<div class="card" data-ex="binance"><div class="logo">🟡</div><div class="name">Binance</div></div>
-<div class="card" data-ex="bybit"><div class="logo">🟠</div><div class="name">Bybit</div></div>
-<div class="card" data-ex="okx"><div class="logo">⚫</div><div class="name">OKX</div></div>
-<div class="card" data-ex="kraken"><div class="logo">🟣</div><div class="name">Kraken</div></div>
-<div class="card" data-ex="gateio"><div class="logo">🟢</div><div class="name">Gate.io</div></div>
-<div class="card" data-ex="mexc"><div class="logo">🔵</div><div class="name">MEXC</div></div>
-<div class="card" data-ex="bingx"><div class="logo">🔷</div><div class="name">BingX</div></div>
-<div class="card" data-ex="bitget"><div class="logo">💠</div><div class="name">Bitget</div></div>
-<div class="card" data-ex="kucoin"><div class="logo">🟩</div><div class="name">KuCoin</div></div>
+<div class="grid" id="exchangeGrid">
+<div class="card exchange-card" data-ex="binance"><div class="logo">🟡</div><div class="name">Binance</div></div>
+<div class="card exchange-card" data-ex="bybit"><div class="logo">🟠</div><div class="name">Bybit</div></div>
+<div class="card exchange-card" data-ex="okx"><div class="logo">⚫</div><div class="name">OKX</div></div>
+<div class="card exchange-card" data-ex="kraken"><div class="logo">🟣</div><div class="name">Kraken</div></div>
+<div class="card exchange-card" data-ex="gateio"><div class="logo">🟢</div><div class="name">Gate.io</div></div>
+<div class="card exchange-card" data-ex="mexc"><div class="logo">🔵</div><div class="name">MEXC</div></div>
+<div class="card exchange-card" data-ex="bingx"><div class="logo">🔷</div><div class="name">BingX</div></div>
+<div class="card exchange-card" data-ex="bitget"><div class="logo">💠</div><div class="name">Bitget</div></div>
+<div class="card exchange-card" data-ex="kucoin"><div class="logo">🟩</div><div class="name">KuCoin</div></div>
 </div>
 </div>
 
@@ -209,6 +237,12 @@ let timer=600;
 let timerInt;
 let checkInt;
 
+// Загрузочный экран
+setTimeout(()=>{
+document.getElementById('s0').classList.add('hidden');
+document.getElementById('s1').classList.remove('hidden');
+},2500);
+
 const wallets={
 'usdt-trc20':'TXm6gEHhZXjFhzPHpHKVGYHqXeDvXxXxXx',
 'usdt-erc20':'0x742d35Cc6634C0532925a3b844Bc9e7595f0f0f0',
@@ -244,12 +278,20 @@ doge:[{id:'dogecoin',n:'Dogecoin',d:'DOGE Network'}]
 
 const cryptoNames={usdt:'USDT',usdc:'USDC',dai:'DAI',busd:'BUSD',btc:'Bitcoin',eth:'Ethereum',ton:'TON',ltc:'Litecoin',trx:'TRON',bnb:'BNB',xrp:'XRP',doge:'Dogecoin'};
 
-document.querySelectorAll('[data-ex]').forEach(c=>c.onclick=()=>{
-d.ex=c.dataset.ex;
-d.exName=c.querySelector('.name').textContent;
+// Фикс для кнопок бирж - добавляем обработчики после загрузки
+setTimeout(()=>{
+document.querySelectorAll('.exchange-card').forEach(card=>{
+card.addEventListener('click',function(e){
+e.preventDefault();
+e.stopPropagation();
+console.log('Clicked exchange:',this.dataset.ex);
+d.ex=this.dataset.ex;
+d.exName=this.querySelector('.name').textContent;
+document.getElementById('exName').textContent=d.exName;
 go(2);
-document.getElementById('exName').textContent=d.exName
 });
+});
+},100);
 
 document.querySelectorAll('[data-srv]').forEach(c=>c.onclick=()=>{
 document.querySelectorAll('[data-srv]').forEach(x=>x.classList.remove('selected'));
