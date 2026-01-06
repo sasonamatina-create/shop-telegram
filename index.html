@@ -15,7 +15,7 @@ body::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;backgrou
 .shape1{width:300px;height:300px;background:linear-gradient(135deg,#667eea,#764ba2);top:10%;left:10%;animation:float 20s infinite ease-in-out}
 .shape2{width:200px;height:200px;background:linear-gradient(135deg,#f093fb,#f5576c);top:60%;right:10%;animation:float 25s infinite ease-in-out;animation-delay:5s}
 .shape3{width:150px;height:150px;background:linear-gradient(135deg,#4facfe,#00f2fe);bottom:20%;left:30%;animation:float 30s infinite ease-in-out;animation-delay:10s}
-.screen{min-height:100vh;padding:20px 16px 100px;opacity:0;animation:fadeIn .5s ease forwards;position:relative;z-index:1}
+.screen{min-height:100vh;padding:20px 16px 100px;position:relative;z-index:1;transition:opacity 0.3s ease}
 .panda-mascot{text-align:center;margin-bottom:20px;animation:float 3s ease-in-out infinite}
 .panda-mascot svg{width:120px;height:120px;filter:drop-shadow(0 10px 30px rgba(0,0,0,0.5))}
 .header{text-align:center;margin-bottom:32px}
@@ -205,11 +205,11 @@ tg.MainButton.hide();
 <div class="card" onclick="selectCrypto('xrp','XRP')"><div class="logo">✕</div><div class="name">XRP</div></div>
 <div class="card" onclick="selectCrypto('doge','Dogecoin')"><div class="logo">🐕</div><div class="name">Dogecoin</div></div>
 </div>
-<div id="networks" class="hidden" style="margin-top:20px;display:none">
+<div id="networks" style="margin-top:20px;display:none">
 <div class="section-title">⚡ Выберите сеть</div>
 <div id="netList"></div>
 </div>
-<div class="summary hidden" id="summary" style="display:none">
+<div class="summary" id="summary" style="display:none">
 <div style="font-size:18px;font-weight:700;margin-bottom:16px;color:#4facfe">📋 Итого</div>
 <div class="summary-row"><span>Биржа:</span><span id="sumEx"></span></div>
 <div class="summary-row"><span>Услуга:</span><span id="sumSrv"></span></div>
