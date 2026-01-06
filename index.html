@@ -155,8 +155,9 @@ body::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;background:
 <!-- Карточки бирж с поддержкой логотипов -->
 <div class="card" onclick="selectExchange('binance','Binance')">
     <div class="logo" id="binance-logo">
-        <!-- Смайлик как запасной вариант -->
-        🟡
+        <img src="https://cryptologos.cc/logos/binance-coin-bnb-logo.png" 
+             alt="Binance" 
+             onerror="this.parentElement.innerHTML='🟡'">
     </div>
     <div class="name">Binance</div>
 </div>
@@ -899,3 +900,4 @@ document.addEventListener('DOMContentLoaded', function() {
 </script>
 </body>
 </html>
+
