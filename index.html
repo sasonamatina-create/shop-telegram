@@ -73,7 +73,7 @@ body::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;backgrou
 <div class="shape shape3"></div>
 </div>
 
-<div id="s0" class="screen" style="display:flex;align-items:center;justify-content:center;opacity:1">
+<div id="s0" class="screen" style="display:flex;align-items:center;justify-content:center;opacity:1;animation:none">
 <div style="text-align:center">
 <div class="panda-mascot" style="animation:scaleUp 1s ease-out">
 <svg viewBox="0 0 200 200">
@@ -237,11 +237,35 @@ let timer=600;
 let timerInt;
 let checkInt;
 
-// Загрузочный экран
+// Загрузочный экран - показываем меню через 2 секунды
+window.addEventListener('load',function(){
 setTimeout(()=>{
-document.getElementById('s0').classList.add('hidden');
+document.getElementById('s0').style.display='none';
 document.getElementById('s1').classList.remove('hidden');
-},2500);
+document.getElementById('s1').style.display='block';
+initExchangeButtons();
+},2000);
+});
+
+// Инициализация кнопок бирж
+function initExchangeButtons(){
+document.querySelectorAll('.exchange-card').forEach(card=>{
+card.addEventListener('click',function(e){
+e.preventDefault();
+e.stopPropagation();
+d.ex=this.dataset.ex;
+d.exName=this.querySelector('.name').textContent;
+document.getElementById('exName').textContent=d.exName;
+go(2);
+});
+card.addEventListener('touchstart',function(e){
+this.style.transform='scale(0.95)';
+});
+card.addEventListener('touchend',function(e){
+this.style.transform='scale(1)';
+});
+});
+}
 
 const wallets={
 'usdt-trc20':'TXm6gEHhZXjFhzPHpHKVGYHqXeDvXxXxXx',
@@ -277,21 +301,6 @@ doge:[{id:'dogecoin',n:'Dogecoin',d:'DOGE Network'}]
 };
 
 const cryptoNames={usdt:'USDT',usdc:'USDC',dai:'DAI',busd:'BUSD',btc:'Bitcoin',eth:'Ethereum',ton:'TON',ltc:'Litecoin',trx:'TRON',bnb:'BNB',xrp:'XRP',doge:'Dogecoin'};
-
-// Фикс для кнопок бирж - добавляем обработчики после загрузки
-setTimeout(()=>{
-document.querySelectorAll('.exchange-card').forEach(card=>{
-card.addEventListener('click',function(e){
-e.preventDefault();
-e.stopPropagation();
-console.log('Clicked exchange:',this.dataset.ex);
-d.ex=this.dataset.ex;
-d.exName=this.querySelector('.name').textContent;
-document.getElementById('exName').textContent=d.exName;
-go(2);
-});
-});
-},100);
 
 document.querySelectorAll('[data-srv]').forEach(c=>c.onclick=()=>{
 document.querySelectorAll('[data-srv]').forEach(x=>x.classList.remove('selected'));
