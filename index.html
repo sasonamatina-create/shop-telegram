@@ -2,7 +2,7 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>EPIC KYC Shop</title>
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
@@ -36,11 +36,12 @@ body::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;background:
 
 .app-container{position:fixed;top:0;left:0;width:100%;height:100%;overflow:hidden}
 
-/* Улучшенное нижнее меню */
-.bottom-nav{position:fixed;bottom:0;left:0;right:0;z-index:100;background:rgba(15,15,30,0.98);backdrop-filter:blur(25px);border-top:1px solid rgba(102,126,234,0.4);padding:12px 0 8px;display:flex;justify-content:space-around;box-shadow:0 -5px 30px rgba(0,0,0,0.4);height:65px}
+/* Улучшенное нижнее меню для iPhone */
+.bottom-nav{position:fixed;bottom:0;left:0;right:0;z-index:100;background:rgba(15,15,30,0.98);backdrop-filter:blur(25px);border-top:1px solid rgba(102,126,234,0.4);padding:12px 0 max(8px, env(safe-area-inset-bottom, 8px));display:flex;justify-content:space-around;box-shadow:0 -5px 30px rgba(0,0,0,0.4);height:auto;min-height:65px}
 .nav-item{display:flex;flex-direction:column;align-items:center;justify-content:center;flex:1;padding:6px 5px;cursor:pointer;transition:all .4s cubic-bezier(0.4, 0, 0.2, 1);opacity:0.6;position:relative}
 .nav-item.active{opacity:1}
-.nav-icon{font-size:22px;margin-bottom:4px;transition:all .4s cubic-bezier(0.4, 0, 0.2, 1);position:relative;z-index:1}
+.nav-icon{font-size:22px;margin-bottom:4px;transition:all .4s cubic-bezier(0.4, 0, 0.2, 1);position:relative;z-index:1;display:flex;align-items:center;justify-content:center}
+.custom-icon{width:24px;height:24px;display:flex;align-items:center;justify-content:center;font-size:20px}
 .nav-text{font-size:11px;font-weight:600;transition:all .4s cubic-bezier(0.4, 0, 0.2, 1);position:relative;z-index:1;letter-spacing:0.5px}
 .nav-item.active .nav-icon{transform:translateY(-3px) scale(1.2);color:#4facfe;filter:drop-shadow(0 0 10px rgba(79,172,254,0.7))}
 .nav-item.active .nav-text{color:#4facfe;font-weight:700;transform:translateY(-1px)}
@@ -48,6 +49,11 @@ body::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;background:
 .nav-item.active .nav-indicator{opacity:1}
 .nav-bg{position:absolute;top:2px;left:10%;right:10%;height:calc(100% - 4px);background:linear-gradient(135deg,rgba(102,126,234,0.15),rgba(79,172,254,0.15));opacity:0;border-radius:12px;transition:opacity .3s}
 .nav-item.active .nav-bg{opacity:1}
+
+/* Особые стили для Главной кнопки (центральной) */
+.nav-item:nth-child(1) .nav-bg{background:linear-gradient(135deg,rgba(79,172,254,0.25),rgba(0,242,254,0.25))}
+.nav-item:nth-child(1).active .nav-icon::after{content:'';position:absolute;top:-5px;left:-5px;right:-5px;bottom:-5px;border-radius:50%;background:rgba(79,172,254,0.2);z-index:-1;animation:pulse 2s infinite}
+.nav-item:nth-child(1).active .nav-text{font-weight:800;text-shadow:0 0 10px rgba(79,172,254,0.5)}
 
 /* Главный экран */
 .screen{position:absolute;top:0;left:0;width:100%;height:100%;padding:0;overflow-y:auto;overflow-x:hidden;z-index:1;transition:transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1);opacity:0;transform:translateX(30px);pointer-events:none;background:transparent;-webkit-overflow-scrolling:touch;padding-bottom:75px}
@@ -60,7 +66,9 @@ body::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;background:
 .hero-title{font-size:36px;font-weight:900;margin-bottom:8px;background:linear-gradient(135deg,#667eea,#4facfe,#00f2fe);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;text-shadow:0 5px 30px rgba(102,126,234,0.3)}
 .hero-subtitle{font-size:14px;opacity:0.9;max-width:280px;margin:0 auto;line-height:1.4}
 .logo-container{width:100px;height:100px;margin:20px auto;background:linear-gradient(135deg,rgba(102,126,234,0.2),rgba(79,172,254,0.2));border-radius:50%;display:flex;align-items:center;justify-content:center;border:2px solid rgba(79,172,254,0.3);box-shadow:0 15px 40px rgba(79,172,254,0.2);animation:float 4s ease-in-out infinite}
-.logo-container .emoji{font-size:40px}
+.logo-container .custom-icon{font-size:40px;color:#4facfe}
+.down-arrow{width:40px;height:40px;position:relative}
+.down-arrow::before{content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:20px;height:20px;border-right:3px solid #4facfe;border-bottom:3px solid #4facfe;transform:translate(-50%,-30%) rotate(45deg);animation:bounce 2s infinite}
 
 /* Улучшенные карточки бирж */
 .exchange-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
@@ -197,6 +205,13 @@ body::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;background:
 
 .emoji{font-family:"Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji","Android Emoji","EmojiSymbols","EmojiOne Mozilla","Twemoji Mozilla","Segoe UI Symbol","Noto Color Emoji Compat","emoji","symbols";}
 
+/* Кастомные иконки для навигации */
+.home-icon{color:#4facfe}
+.referral-icon{color:#f5576c}
+.purchases-icon{color:#34c759}
+.faq-icon{color:#ff9500}
+.contacts-icon{color:#9d4edd}
+
 /* Анимации */
 @keyframes splashAppear{0%{opacity:0;transform:scale(0.95)}100%{opacity:1;transform:scale(1)}}
 @keyframes fadeIn{from{opacity:0}to{opacity:1}}
@@ -208,6 +223,7 @@ body::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;background:
 @keyframes textGlow{0%,100%{filter:drop-shadow(0 0 10px rgba(102,126,234,0.3))}50%{filter:drop-shadow(0 0 20px rgba(79,172,254,0.5))}}
 @keyframes progressFill{0%{width:0%}100%{width:100%}}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:0.5}}
+@keyframes bounce{0%,100%{transform:translate(-50%,-30%) rotate(45deg)}50%{transform:translate(-50%,-20%) rotate(45deg)}}
 </style>
 </head>
 <body>
@@ -244,11 +260,10 @@ body::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;background:
 <p class="hero-subtitle">Выберите криптобиржу для верификации</p>
 </div>
 <div class="logo-container">
-<span class="emoji">✅</span>
+<div class="down-arrow"></div>
 </div>
 <div class="exchange-grid">
 <div class="exchange-card" onclick="selectExchange('binance','Binance')">
-    <div class="exchange-tag">⭐⭐⭐⭐⭐</div>
     <div class="exchange-logo">
         <img src="https://cryptologos.cc/logos/binance-coin-bnb-logo.png" 
              alt="Binance" 
@@ -270,7 +285,6 @@ body::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;background:
     <div class="exchange-desc">Быстрая KYC</div>
 </div>
 <div class="exchange-card" onclick="selectExchange('okx','OKX')">
-    <div class="exchange-tag">⚡ Fast</div>
     <div class="exchange-logo">
         <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/0a/Logo-OKX.png/960px-Logo-OKX.png?20220311165658" 
              alt="OKX" 
@@ -281,7 +295,6 @@ body::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;background:
     <div class="exchange-desc">Торговый аккаунт</div>
 </div>
 <div class="exchange-card" onclick="selectExchange('kraken','Kraken')">
-    <div class="exchange-tag">🔒 Safe</div>
     <div class="exchange-logo">
         <img src="https://logos-world.net/wp-content/uploads/2021/02/Kraken-Logo-700x394.png" 
              alt="Kraken" 
@@ -292,7 +305,6 @@ body::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;background:
     <div class="exchange-desc">Для ЕС/USA</div>
 </div>
 <div class="exchange-card" onclick="selectExchange('gateio','Gate.io')">
-    <div class="exchange-tag">🌍 Global</div>
     <div class="exchange-logo">
         <img src="https://altcoinsbox.com/wp-content/uploads/2023/01/gate.io-logo-300x300.webp" 
              alt="Gate.io" 
@@ -303,7 +315,7 @@ body::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;background:
     <div class="exchange-desc">Много фьючерсов</div>
 </div>
 <div class="exchange-card" onclick="selectExchange('mexc','MEXC')">
-    <div class="exchange-tag">🚀 Fast Kyc</div>
+    <div class="exchange-tag">🚀 Fast</div>
     <div class="exchange-logo">
         <img src="https://cdn.brandfetch.io/idCHi7bZkV/w/1245/h/771/idaAdCngb8.png?c=1dxbfHSJFAPEGdCLU4o5B" 
              alt="MEXC" 
@@ -314,7 +326,6 @@ body::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;background:
     <div class="exchange-desc">Most Popular</div>
 </div>
 <div class="exchange-card" onclick="selectExchange('weex','Weex')">
-    <div class="exchange-tag">🆕 New</div>
     <div class="exchange-logo">
         <img src="https://assets.coingecko.com/markets/images/1289/small/weex.png" 
              alt="Weex" 
@@ -325,7 +336,6 @@ body::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;background:
     <div class="exchange-desc">Молодая биржа</div>
 </div>
 <div class="exchange-card" onclick="selectExchange('bingx','BingX')">
-    <div class="exchange-tag">💎 Premium</div>
     <div class="exchange-logo">
         <img src="https://logosandtypes.com/wp-content/uploads/2022/04/bingx.svg" 
              alt="BingX" 
@@ -336,7 +346,6 @@ body::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;background:
     <div class="exchange-desc">Копитрейдинг</div>
 </div>
 <div class="exchange-card" onclick="selectExchange('bitget','Bitget')">
-    <div class="exchange-tag">📈 Growth</div>
     <div class="exchange-logo">
         <img src="https://cryptologos.cc/logos/bitget-token-new-bgb-logo.png?v=040" 
              alt="Bitget" 
@@ -553,7 +562,7 @@ body::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;background:
 <p class="hero-subtitle" id="countrySubtitle">Цена зависит от страны верификации</p>
 </div>
 
-<div id="generalCountries">
+<div id="generalCountries" style="display:none;">
 <div class="section-title">🇺🇸 Европа и США</div>
 <div class="country-card" onclick="selectCountry('usa','🇺🇸 США','$80')">
 <div class="country-info">
@@ -615,7 +624,7 @@ body::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;background:
 </div>
 </div>
 
-<div id="ukraineOnly" style="display:none;">
+<div id="ukraineOnly">
 <div class="country-card" onclick="selectCountry('ukraine','🇺🇦 Украина','$15')">
 <div class="country-info">
 <div class="country-flag">🇺🇦</div>
@@ -626,7 +635,7 @@ body::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;background:
 </div>
 
 <div style="margin-top:30px">
-<button class="btn" id="continueToCryptoBtn" onclick="proceedToCrypto()" disabled>
+<button class="btn" id="continueToCryptoBtn" onclick="proceedToCrypto()">
 <span class="emoji">💳</span> Перейти к оплате
 </button>
 </div>
@@ -776,31 +785,69 @@ body::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;background:
 <div class="nav-item active" onclick="switchScreen(1)">
     <div class="nav-bg"></div>
     <div class="nav-indicator"></div>
-    <div class="nav-icon"><span class="emoji">🏠</span></div>
+    <div class="nav-icon">
+        <div class="custom-icon home-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                <path d="M3 9L12 2L21 9V20C21 20.5304 20.7893 21.0391 20.4142 21.4142C20.0391 21.7893 19.5304 22 19 22H5C4.46957 22 3.96086 21.7893 3.58579 21.4142C3.21071 21.0391 3 20.5304 3 20V9Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M9 22V12H15V22" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+        </div>
+    </div>
     <div class="nav-text">Главная</div>
 </div>
 <div class="nav-item" onclick="switchScreen(2)">
     <div class="nav-bg"></div>
     <div class="nav-indicator"></div>
-    <div class="nav-icon"><span class="emoji">🤝</span></div>
+    <div class="nav-icon">
+        <div class="custom-icon referral-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                <path d="M17 21V19C17 17.9391 16.5786 16.9217 15.8284 16.1716C15.0783 15.4214 14.0609 15 13 15H5C3.93913 15 2.92172 15.4214 2.17157 16.1716C1.42143 16.9217 1 17.9391 1 19V21" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M9 11C11.2091 11 13 9.20914 13 7C13 4.79086 11.2091 3 9 3C6.79086 3 5 4.79086 5 7C5 9.20914 6.79086 11 9 11Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M23 21V19C22.9993 18.1137 22.7044 17.2528 22.1614 16.5523C21.6184 15.8519 20.8581 15.3516 20 15.13" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M16 3.13C16.8604 3.35031 17.623 3.85071 18.1676 4.55232C18.7122 5.25392 19.0078 6.11683 19.0078 7.005C19.0078 7.89318 18.7122 8.75608 18.1676 9.45769C17.623 10.1593 16.8604 10.6597 16 10.88" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+        </div>
+    </div>
     <div class="nav-text">Рефералы</div>
 </div>
 <div class="nav-item" onclick="switchScreen(3)">
     <div class="nav-bg"></div>
     <div class="nav-indicator"></div>
-    <div class="nav-icon"><span class="emoji">📦</span></div>
+    <div class="nav-icon">
+        <div class="custom-icon purchases-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                <path d="M6 2L3 6V20C3 20.5304 3.21071 21.0391 3.58579 21.4142C3.96086 21.7893 4.46957 22 5 22H19C19.5304 22 20.0391 21.7893 20.4142 21.4142C20.7893 21.0391 21 20.5304 21 20V6L18 2H6Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M3 6H21" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M16 10C16 11.0609 15.5786 12.0783 14.8284 12.8284C14.0783 13.5786 13.0609 14 12 14C10.9391 14 9.92172 13.5786 9.17157 12.8284C8.42143 12.0783 8 11.0609 8 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+        </div>
+    </div>
     <div class="nav-text">Покупки</div>
 </div>
 <div class="nav-item" onclick="switchScreen(4)">
     <div class="nav-bg"></div>
     <div class="nav-indicator"></div>
-    <div class="nav-icon"><span class="emoji">❓</span></div>
+    <div class="nav-icon">
+        <div class="custom-icon faq-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M9.09 9C9.3251 8.33167 9.78915 7.76811 10.4 7.40913C11.0108 7.05016 11.7289 6.91894 12.4272 7.03871C13.1255 7.15849 13.7588 7.52152 14.2151 8.06353C14.6713 8.60553 14.9211 9.29152 14.92 10C14.92 12 11.92 13 11.92 13" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M12 17H12.01" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+        </div>
+    </div>
     <div class="nav-text">FAQ</div>
 </div>
 <div class="nav-item" onclick="switchScreen(5)">
     <div class="nav-bg"></div>
     <div class="nav-indicator"></div>
-    <div class="nav-icon"><span class="emoji">📞</span></div>
+    <div class="nav-icon">
+        <div class="custom-icon contacts-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                <path d="M21 11.5C21.0034 12.8199 20.6951 14.1219 20.1 15.3C19.3944 16.7118 18.3098 17.8992 16.9674 18.7293C15.6251 19.5594 14.0782 19.9994 12.5 20C11.1801 20.0035 9.87812 19.6951 8.7 19.1L3 21L4.9 15.3C4.30493 14.1219 3.99656 12.8199 4 11.5C4.00061 9.92179 4.44061 8.37488 5.27072 7.03258C6.10083 5.69028 7.28825 4.6056 8.7 3.90003C9.87812 3.30496 11.1801 2.99659 12.5 3.00003H13C15.0843 3.11502 17.053 3.99479 18.5291 5.47089C20.0052 6.94699 20.885 8.91568 21 11V11.5Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+        </div>
+    </div>
     <div class="nav-text">Контакты</div>
 </div>
 </div>
@@ -816,9 +863,9 @@ var d = {
     srv: null,
     srvName: null,
     price: null,
-    country: null,
-    countryName: null,
-    countryPrice: null,
+    country: 'ukraine',
+    countryName: '🇺🇦 Украина',
+    countryPrice: '$15',
     crypto: null,
     cryptoName: null,
     net: null,
@@ -924,29 +971,9 @@ function selectService(srvId, srvName, basePrice) {
     
     // Для всех услуг MEXC и KYC других бирж показываем выбор страны
     if (srvId === 'kyc' || srvId === 'risk' || srvId === 'withdraw') {
-        // Для KYC и услуг MEXC показываем выбор страны
-        showCountrySelection(srvId);
-        switchScreen(8);
-    } else {
-        // Для других услуг (если будут) сразу переходим к выбору крипты
-        switchScreen(9);
-    }
-}
-
-// Функция отображения выбора страны
-function showCountrySelection(serviceId) {
-    console.log('showCountrySelection вызвана для:', serviceId, 'биржа:', d.ex);
-    
-    var countrySubtitle = document.getElementById('countrySubtitle');
-    var generalCountries = document.getElementById('generalCountries');
-    var ukraineOnly = document.getElementById('ukraineOnly');
-    
-    if (d.ex === 'mexc') {
-        // Для MEXC показываем только Украину за $15
-        console.log('Показываем только Украину для MEXC');
-        countrySubtitle.textContent = 'Только для граждан Украины - $15';
-        generalCountries.style.display = 'none';
-        ukraineOnly.style.display = 'block';
+        // Всегда показываем только Украину
+        document.getElementById('generalCountries').style.display = 'none';
+        document.getElementById('ukraineOnly').style.display = 'block';
         
         // Автоматически выбираем Украину
         setTimeout(function() {
@@ -956,26 +983,20 @@ function showCountrySelection(serviceId) {
                 d.country = 'ukraine';
                 d.countryName = '🇺🇦 Украина';
                 d.countryPrice = '$15';
+                d.price = 15;
                 document.getElementById('continueToCryptoBtn').disabled = false;
-                console.log('Украина автоматически выбрана');
+                console.log('Украина автоматически выбрана, цена:', d.price);
             }
         }, 100);
-    } else {
-        // Для других бирж показываем все страны
-        console.log('Показываем все страны для биржи:', d.ex);
-        countrySubtitle.textContent = 'Цена зависит от страны верификации';
-        generalCountries.style.display = 'block';
-        ukraineOnly.style.display = 'none';
         
-        // Сбрасываем выбор страны
-        document.querySelectorAll('.country-card').forEach(function(card) {
-            card.classList.remove('selected');
-        });
-        document.getElementById('continueToCryptoBtn').disabled = true;
+        switchScreen(8);
+    } else {
+        // Для других услуг (если будут) сразу переходим к выбору крипты
+        switchScreen(9);
     }
 }
 
-// Функция выбора страны
+// Функция выбора страны (оставляем для обратной совместимости)
 function selectCountry(countryId, countryName, countryPrice) {
     console.log('Выбрана страна:', countryId, countryName, countryPrice);
     
@@ -1022,14 +1043,16 @@ function proceedToCrypto() {
     console.log('proceedToCrypto вызвана');
     console.log('Данные:', d);
     
-    if (!d.country && (d.srv === 'kyc' || d.srv === 'risk' || d.srv === 'withdraw')) {
-        tg.showAlert('❌ Пожалуйста, выберите страну');
-        return;
-    }
+    // Всегда используем Украину
+    d.country = 'ukraine';
+    d.countryName = '🇺🇦 Украина';
+    d.countryPrice = '$15';
     
-    if (d.ex === 'mexc' && d.country !== 'ukraine') {
-        tg.showAlert('❌ Для MEXC доступна только Украина');
-        return;
+    // Устанавливаем цену в зависимости от биржи
+    if (d.ex === 'mexc') {
+        d.price = 15;
+    } else {
+        d.price = 50; // Для других бирж KYC стоит $50
     }
     
     switchScreen(9);
@@ -1188,7 +1211,7 @@ function paymentConfirmed() {
         document.getElementById('orderId').textContent = d.oid;
         document.getElementById('orderExchange').textContent = d.exName;
         document.getElementById('orderService').textContent = d.srvName;
-        document.getElementById('orderCountry').textContent = d.countryName || 'Не указана';
+        document.getElementById('orderCountry').textContent = d.countryName || '🇺🇦 Украина';
         var totalAmount = d.price + d.networkFee;
         document.getElementById('orderPrice').textContent = '$' + totalAmount.toFixed(2);
         
@@ -1265,9 +1288,9 @@ function resetSelection() {
         srv: null,
         srvName: null,
         price: null,
-        country: null,
-        countryName: null,
-        countryPrice: null,
+        country: 'ukraine',
+        countryName: '🇺🇦 Украина',
+        countryPrice: '$15',
         crypto: null,
         cryptoName: null,
         net: null,
@@ -1284,6 +1307,11 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Обновляем кнопку "Назад" в Telegram
     updateTelegramBackButton();
+    
+    // Устанавливаем стандартные значения страны
+    d.country = 'ukraine';
+    d.countryName = '🇺🇦 Украина';
+    d.countryPrice = '$15';
 });
 
 </script>
