@@ -2,14 +2,14 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
 <title>EPIC KYC Shop</title>
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-html, body{width:100%;height:100%;overflow:hidden}
-body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#0a0a1a;color:#fff;min-height:100vh;position:relative}
+html, body{width:100%;height:100%;overflow:hidden;touch-action:pan-y}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#0a0a1a;color:#fff;min-height:100vh;position:relative;-webkit-text-size-adjust:100%}
 body::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;background:radial-gradient(circle at 20% 30%,rgba(102,126,234,0.3) 0%,transparent 50%),radial-gradient(circle at 80% 70%,rgba(118,75,162,0.3) 0%,transparent 50%),radial-gradient(circle at 40% 80%,rgba(79,172,254,0.2) 0%,transparent 40%);z-index:-1}
 .bg-shapes{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;overflow:hidden;pointer-events:none}
 .shape{position:absolute;border-radius:50%;opacity:0.08}
@@ -56,22 +56,22 @@ body::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;background:
 .nav-item:nth-child(1).active .nav-icon::after{content:'';position:absolute;top:-5px;left:-5px;right:-5px;bottom:-5px;border-radius:50%;background:rgba(79,172,254,0.2);z-index:-1;animation:pulse 2s infinite}
 .nav-item:nth-child(1).active .nav-text{font-weight:800;text-shadow:0 0 10px rgba(79,172,254,0.5)}
 
-/* Главный экран */
-.screen{position:absolute;top:0;left:0;width:100%;height:100%;padding:0;overflow-y:auto;overflow-x:hidden;z-index:1;transition:transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1);opacity:0;transform:translateX(30px);pointer-events:none;background:transparent;-webkit-overflow-scrolling:touch;padding-bottom:75px}
+/* Главный экран - УВЕЛИЧЕННЫЙ padding-bottom для лучшего скролла */
+.screen{position:absolute;top:0;left:0;width:100%;height:100%;padding:0;overflow-y:auto;overflow-x:hidden;z-index:1;transition:transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1);opacity:0;transform:translateX(30px);pointer-events:none;background:transparent;-webkit-overflow-scrolling:touch;padding-bottom:85px}
 .screen.active{opacity:1;transform:translateX(0);pointer-events:auto}
 .screen.exiting{opacity:0;transform:translateX(-30px)}
 .screen.entering{opacity:1;transform:translateX(0)}
-.screen-content{max-width:600px;margin:0 auto;width:100%;padding:20px 16px}
+.screen-content{max-width:600px;margin:0 auto;width:100%;padding:20px 16px;padding-bottom:25px}
 
 .hero-section{text-align:center;margin-bottom:20px;margin-top:20px}
 .hero-title{font-size:36px;font-weight:900;margin-bottom:8px;background:linear-gradient(135deg,#667eea,#4facfe,#00f2fe);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;text-shadow:0 5px 30px rgba(102,126,234,0.3)}
 .hero-subtitle{font-size:14px;opacity:0.9;max-width:280px;margin:0 auto;line-height:1.4}
 .logo-container{width:100px;height:100px;margin:20px auto;background:linear-gradient(135deg,rgba(102,126,234,0.2),rgba(79,172,254,0.2));border-radius:50%;display:flex;align-items:center;justify-content:center;border:2px solid rgba(79,172,254,0.3);box-shadow:0 15px 40px rgba(79,172,254,0.2);animation:float 4s ease-in-out infinite}
 .logo-container .custom-icon{font-size:40px;color:#4facfe}
-/* ИСПРАВЛЕННАЯ СТРЕЛОЧКА */
+/* УБРАНА АНИМАЦИЯ СТРЕЛОЧКИ */
 .down-arrow{width:60px;height:60px;position:relative;display:flex;align-items:center;justify-content:center}
-.down-arrow::before{content:'↓';position:absolute;font-size:40px;color:#4facfe;animation:arrowFloat 2s infinite ease-in-out;filter:drop-shadow(0 0 15px rgba(79,172,254,0.7));z-index:2}
-.down-arrow::after{content:'';position:absolute;width:60px;height:60px;border-radius:50%;background:radial-gradient(circle, rgba(79,172,254,0.2) 0%, transparent 70%);animation:arrowPulse 2s infinite ease-in-out;z-index:1}
+.down-arrow::before{content:'👇';position:absolute;font-size:36px;z-index:2}
+.down-arrow::after{content:'';position:absolute;width:60px;height:60px;border-radius:50%;background:radial-gradient(circle, rgba(79,172,254,0.2) 0%, transparent 70%);z-index:1}
 
 /* Улучшенные карточки бирж */
 .exchange-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
@@ -92,7 +92,7 @@ body::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;background:
 .exchange-tag{display:none}
 
 /* Кнопка Другие верификации */
-.other-verifications-btn{background:rgba(255,255,255,0.07);backdrop-filter:blur(25px);border-radius:16px;padding:18px;cursor:pointer;border:2px dashed rgba(79,172,254,0.4);text-align:center;transition:all .3s;margin-top:10px}
+.other-verifications-btn{background:rgba(255,255,255,0.07);backdrop-filter:blur(25px);border-radius:16px;padding:18px;cursor:pointer;border:2px dashed rgba(79,172,254,0.4);text-align:center;transition:all .3s;margin-top:15px;margin-bottom:10px}
 .other-verifications-btn:hover{background:rgba(79,172,254,0.1);border-color:rgba(79,172,254,0.7);transform:translateY(-3px)}
 .other-verifications-btn-content{display:flex;align-items:center;justify-content:center;gap:10px}
 .other-verifications-btn .plus-icon{width:24px;height:24px;background:rgba(79,172,254,0.2);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;color:#4facfe}
@@ -115,7 +115,6 @@ body::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;background:
 /* УЛУЧШЕННЫЙ экран выбора количества KYC - УБРАНА "СЭКОНОМИТЕ" */
 .quantity-screen{background:rgba(255,255,255,0.07);backdrop-filter:blur(25px);border-radius:20px;padding:24px;margin:20px 0;border:1px solid rgba(102,126,234,0.2)}
 .quantity-title{font-size:22px;font-weight:800;margin-bottom:25px;text-align:center;color:#fff;display:flex;align-items:center;justify-content:center;gap:10px}
-.quantity-title::before{content:'🔢';font-size:28px}
 .price-comparison{display:flex;justify-content:center;align-items:center;gap:20px;margin-bottom:30px;flex-wrap:wrap}
 .original-price{font-size:20px;text-decoration:line-through;opacity:0.6;color:#ccc}
 .final-price{font-size:32px;font-weight:800;background:linear-gradient(135deg,#4facfe,#00f2fe);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;text-shadow:0 0 20px rgba(79,172,254,0.5)}
@@ -246,9 +245,6 @@ body::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;background:
 @keyframes scaleIn{0%{transform:scale(0.9);opacity:0}100%{transform:scale(1);opacity:1}}
 @keyframes textGlow{0%,100%{filter:drop-shadow(0 0 10px rgba(102,126,234,0.3))}50%{filter:drop-shadow(0 0 20px rgba(79,172,254,0.5))}}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:0.5}}
-/* ИСПРАВЛЕННЫЕ АНИМАЦИИ СТРЕЛОЧКИ */
-@keyframes arrowFloat{0%,100%{transform:translateY(0) rotate(0deg)}50%{transform:translateY(-15px) rotate(0deg)}}
-@keyframes arrowPulse{0%,100%{opacity:0.3;transform:scale(1)}50%{opacity:0.6;transform:scale(1.2)}}
 </style>
 </head>
 <body>
@@ -280,7 +276,7 @@ body::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;background:
 
 <div class="app-container">
 <!-- Главный экран -->
-<div id="s1" class="screen">
+<div id="s1" class="screen active">
 <div class="screen-content">
 <div class="hero-section">
 <h1 class="hero-title">EPIC KYC</h1>
@@ -290,7 +286,7 @@ body::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;background:
 <div class="down-arrow"></div>
 </div>
 <div class="exchange-grid">
-<div class="exchange-card" onclick="selectExchange('binance','Binance')">
+<div class="exchange-card" data-exchange="binance" data-name="Binance">
     <div class="exchange-logo">
         <img src="https://cryptologos.cc/logos/binance-coin-bnb-logo.png" 
              alt="Binance" 
@@ -299,7 +295,7 @@ body::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;background:
     <div class="exchange-name">Binance</div>
     <div class="exchange-badge">★★★★★</div>
 </div>
-<div class="exchange-card" onclick="selectExchange('bybit','Bybit')">
+<div class="exchange-card" data-exchange="bybit" data-name="Bybit">
     <div class="exchange-hot">HOT</div>
     <div class="exchange-logo">
         <img src="https://altcoinsbox.com/wp-content/uploads/2022/10/bybit-logo-white-300x300.webp" 
@@ -309,7 +305,7 @@ body::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;background:
     <div class="exchange-name">Bybit</div>
     <div class="exchange-badge">★★★★☆</div>
 </div>
-<div class="exchange-card" onclick="selectExchange('okx','OKX')">
+<div class="exchange-card" data-exchange="okx" data-name="OKX">
     <div class="exchange-logo">
         <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/0a/Logo-OKX.png/960px-Logo-OKX.png?20220311165658" 
              alt="OKX" 
@@ -318,7 +314,7 @@ body::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;background:
     <div class="exchange-name">OKX</div>
     <div class="exchange-badge">★★★★☆</div>
 </div>
-<div class="exchange-card" onclick="selectExchange('kucoin','KuCoin')">
+<div class="exchange-card" data-exchange="kucoin" data-name="KuCoin">
     <div class="exchange-logo">
         <img src="https://cryptologos.cc/logos/kucoin-ktoken-kcs-logo.png" 
              alt="KuCoin" 
@@ -327,7 +323,7 @@ body::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;background:
     <div class="exchange-name">KuCoin</div>
     <div class="exchange-badge">★★★★☆</div>
 </div>
-<div class="exchange-card" onclick="selectExchange('gateio','Gate.io')">
+<div class="exchange-card" data-exchange="gateio" data-name="Gate.io">
     <div class="exchange-logo">
         <img src="https://altcoinsbox.com/wp-content/uploads/2023/01/gate.io-logo-300x300.webp" 
              alt="Gate.io" 
@@ -336,7 +332,7 @@ body::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;background:
     <div class="exchange-name">Gate.io</div>
     <div class="exchange-badge">★★★★☆</div>
 </div>
-<div class="exchange-card" onclick="selectExchange('mexc','MEXC')">
+<div class="exchange-card" data-exchange="mexc" data-name="MEXC">
     <div class="exchange-hot">HOT</div>
     <div class="exchange-logo">
         <img src="https://cdn.brandfetch.io/idCHi7bZkV/w/1245/h/771/idaAdCngb8.png?c=1dxbfHSJFAPEGdCLU4o5B" 
@@ -346,7 +342,7 @@ body::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;background:
     <div class="exchange-name">MEXC</div>
     <div class="exchange-badge">★★★★★</div>
 </div>
-<div class="exchange-card" onclick="selectExchange('weex','Weex')">
+<div class="exchange-card" data-exchange="weex" data-name="Weex">
     <div class="exchange-logo">
         <img src="https://assets.coingecko.com/markets/images/1289/small/weex.png" 
              alt="Weex" 
@@ -355,7 +351,7 @@ body::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;background:
     <div class="exchange-name">Weex</div>
     <div class="exchange-badge">★★★★☆</div>
 </div>
-<div class="exchange-card" onclick="selectExchange('bingx','BingX')">
+<div class="exchange-card" data-exchange="bingx" data-name="BingX">
     <div class="exchange-logo">
         <img src="https://logosandtypes.com/wp-content/uploads/2022/04/bingx.svg" 
              alt="BingX" 
@@ -364,7 +360,7 @@ body::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;background:
     <div class="exchange-name">BingX</div>
     <div class="exchange-badge">★★★★☆</div>
 </div>
-<div class="exchange-card" onclick="selectExchange('bitget','Bitget')">
+<div class="exchange-card" data-exchange="bitget" data-name="Bitget">
     <div class="exchange-logo">
         <img src="https://cryptologos.cc/logos/bitget-token-new-bgb-logo.png?v=040" 
              alt="Bitget" 
@@ -376,7 +372,7 @@ body::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;background:
 </div>
 
 <!-- Кнопка Другие верификации -->
-<div class="other-verifications-btn" onclick="showOtherVerifications()">
+<div class="other-verifications-btn" id="otherVerificationsBtn">
 <div class="other-verifications-btn-content">
 <div class="plus-icon">+</div>
 <div class="other-verifications-btn-text">Другие верификации</div>
@@ -439,9 +435,9 @@ body::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;background:
 </div>
 <div class="purchase-item">
     <div class="purchase-info">
-        <div class="purchase-title">Снятие риск контроля</div>
+        <div class="purchase-title">Снятие риск контроля MEXC</div>
         <div class="purchase-details">14.01.2024 • $15 • USDC (BSC)</div>
-    </div>
+</div>
     <div class="purchase-status status-pending">⏳ В обработке</div>
 </div>
 <div class="purchase-item">
@@ -453,7 +449,7 @@ body::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;background:
 </div>
 <div class="purchase-item">
     <div class="purchase-info">
-        <div class="purchase-title">KYC Верификация Kraken</div>
+        <div class="purchase-title">KYC Верификация KuCoin</div>
         <div class="purchase-details">10.01.2024 • $50 • USDT (TRC20)</div>
     </div>
     <div class="purchase-status status-cancelled">❌ Отменено</div>
@@ -550,7 +546,7 @@ body::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;background:
 <p class="hero-subtitle">Выберите услугу для этой биржи</p>
 </div>
 
-<div class="service-card" onclick="selectService('kyc','KYC Верификация','50')">
+<div class="service-card" data-service="kyc" data-name="KYC Верификация" data-price="15">
 <div class="service-top">✅<div><div class="service-title">KYC Верификация</div><div class="service-desc">Полное прохождение верификации аккаунта</div></div></div>
 <div class="service-bottom"><div class="service-badge">Популярно</div></div>
 </div>
@@ -566,7 +562,7 @@ body::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;background:
 </div>
 </div>
 
-<!-- Экран выбора услуги для MEXC - ТОЛЬКО KYC -->
+<!-- ОБНОВЛЕННЫЙ Экран выбора услуги для MEXC -->
 <div id="s15" class="screen">
 <div class="screen-content">
 <div class="hero-section">
@@ -574,9 +570,22 @@ body::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;background:
 <p class="hero-subtitle">Выберите услугу для MEXC</p>
 </div>
 
-<div class="service-card" onclick="selectMexcService('kyc','KYC Верификация MEXC','15')">
-<div class="service-top">✅<div><div class="service-title">KYC Верификация MEXC</div><div class="service-desc">Полная верификация аккаунта MEXC</div></div></div>
-<div class="service-bottom"><div class="service-badge">Популярно</div></div>
+<!-- KYC Верификация MEXC с выбором количества -->
+<div class="service-card" data-service="kyc" data-name="KYC Верификация MEXC" data-price="15">
+<div class="service-top">✅<div><div class="service-title">KYC Верификация MEXC</div><div class="service-desc">Полная верификация аккаунта MEXC с выбором количества</div></div></div>
+<div class="service-bottom"><div class="service-badge">С выбором количества</div></div>
+</div>
+
+<!-- Снятие риск контроля с выбором количества -->
+<div class="service-card" data-service="risk" data-name="Снятие риск контроля MEXC" data-price="15">
+<div class="service-top">🛡️<div><div class="service-title">Снятие риск контроля</div><div class="service-desc">Устранение ограничений и блокировок на бирже MEXC</div></div></div>
+<div class="service-bottom"><div class="service-badge">С выбором количества</div></div>
+</div>
+
+<!-- Вывод средств с MEXC с выбором количества -->
+<div class="service-card" data-service="withdraw" data-name="Вывод средств с MEXC" data-price="15">
+<div class="service-top">💸<div><div class="service-title">Вывод средств с MEXC</div><div class="service-desc">Разблокировка вывода для украинцев с биржи MEXC</div></div></div>
+<div class="service-bottom"><div class="service-badge">С выбором количества</div></div>
 </div>
 
 <div class="back-btn-container">
@@ -590,7 +599,7 @@ body::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;background:
 </div>
 </div>
 
-<!-- Экран выбора страны для KYC -->
+<!-- Экран выбора страны для обычных KYC (биржам кроме MEXC) -->
 <div id="s8" class="screen">
 <div class="screen-content">
 <div class="hero-section">
@@ -599,7 +608,7 @@ body::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;background:
 </div>
 
 <div id="ukraineOnly">
-<div class="country-card" onclick="selectCountry('ukraine','🇺🇦 Украина','$15')">
+<div class="country-card" data-country="ukraine" data-name="🇺🇦 Украина" data-price="15">
 <div class="country-info">
 <div class="country-flag">🇺🇦</div>
 <div class="country-name">Украина</div>
@@ -624,7 +633,7 @@ body::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;background:
 </div>
 </div>
 
-<!-- Экран выбора страны для MEXC услуг (без количества) -->
+<!-- Экран выбора страны для MEXC услуг -->
 <div id="s16" class="screen">
 <div class="screen-content">
 <div class="hero-section">
@@ -633,7 +642,7 @@ body::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;background:
 </div>
 
 <div id="ukraineOnlyMexc">
-<div class="country-card" onclick="selectCountryMexc('ukraine','🇺🇦 Украина','$15')">
+<div class="country-card" data-country="ukraine" data-name="🇺🇦 Украина" data-price="15">
 <div class="country-info">
 <div class="country-flag">🇺🇦</div>
 <div class="country-name">Украина</div>
@@ -643,8 +652,8 @@ body::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;background:
 </div>
 
 <div style="margin-top:30px">
-<button class="btn" id="continueToCryptoMexcBtn" onclick="proceedToCryptoMexc()" disabled>
-💳 Перейти к оплате
+<button class="btn" id="continueToNextMexcBtn" onclick="proceedFromCountryMexc()" disabled>
+Далее
 </button>
 </div>
 <div class="back-btn-container">
@@ -653,6 +662,71 @@ body::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;background:
 <path d="M10 12L6 8L10 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
 </svg>
 Назад к услугам MEXC
+</button>
+</div>
+</div>
+</div>
+
+<!-- Экран выбора количества для MEXC KYC -->
+<div id="s20" class="screen">
+<div class="screen-content">
+<div class="hero-section">
+<h1 class="hero-title">🔢 Выберите количество</h1>
+<p class="hero-subtitle" id="mexcQuantitySubtitle">Получите скидку за несколько KYC</p>
+</div>
+
+<div class="quantity-screen">
+<div class="quantity-title" id="mexcServiceTitle">KYC Верификация MEXC</div>
+<div class="price-comparison">
+<div class="original-price" id="originalPriceMexc">$15</div>
+<div class="final-price" id="finalPriceMexc">$15</div>
+<div class="discount-badge-large" id="discountBadgeMexc">Без скидки</div>
+</div>
+
+<div class="quantity-options">
+<div class="quantity-option" data-quantity="1">
+<div class="option-qty">1</div>
+<div class="option-price">$15</div>
+</div>
+<div class="quantity-option" data-quantity="2">
+<div class="option-qty">2</div>
+<div class="option-price">$27</div>
+</div>
+<div class="quantity-option" data-quantity="3">
+<div class="option-qty">3</div>
+<div class="option-price">$38.25</div>
+</div>
+<div class="quantity-option" data-quantity="5">
+<div class="option-qty">5</div>
+<div class="option-price">$60</div>
+</div>
+</div>
+
+<!-- ИТОГОВАЯ ИНФОРМАЦИЯ ДЛЯ MEXC ПОСЛЕ ВЫБОРА КОЛИЧЕСТВА -->
+<div style="text-align:center;margin-top:25px;padding:20px;background:rgba(255,255,255,0.05);border-radius:12px">
+<div style="font-size:14px;opacity:0.8;margin-bottom:10px">📋 Итоговая информация для MEXC</div>
+<div style="display:flex;justify-content:space-between;margin-bottom:5px;font-size:13px"><span>Биржа:</span><span style="font-weight:600">MEXC</span></div>
+<div style="display:flex;justify-content:space-between;margin-bottom:5px;font-size:13px"><span>Страна:</span><span style="font-weight:600">🇺🇦 Украина</span></div>
+<div style="display:flex;justify-content:space-between;margin-bottom:5px;font-size:13px"><span>Количество:</span><span id="mexcSummaryQuantity" style="font-weight:600">1 шт.</span></div>
+<div style="display:flex;justify-content:space-between;margin-top:10px;padding-top:10px;border-top:1px solid rgba(255,255,255,0.15);font-size:14px;font-weight:800"><span>Итого к оплате:</span><span id="mexcSummaryPrice" style="color:#34c759">$15</span></div>
+</div>
+
+<div style="text-align:center;margin-top:20px;font-size:12px;opacity:0.6">
+* Цены указаны для 🇺🇦 Украина
+</div>
+</div>
+
+<div style="margin-top:30px">
+<button class="btn" id="confirmQuantityMexcBtn" onclick="proceedToCryptoMexc()" disabled>
+💳 Перейти к оплате
+</button>
+</div>
+<div class="back-btn-container">
+<button class="back-btn" onclick="switchScreen(16)">
+<svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+<path d="M10 12L6 8L10 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+Назад к странам
 </button>
 </div>
 </div>
@@ -669,39 +743,47 @@ body::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;background:
 <div class="quantity-screen">
 <div class="quantity-title">KYC Верификация</div>
 <div class="price-comparison">
-<div class="original-price" id="originalPrice">$50</div>
-<div class="final-price" id="finalPrice">$50</div>
+<div class="original-price" id="originalPrice">$15</div>
+<div class="final-price" id="finalPrice">$15</div>
 <div class="discount-badge-large" id="discountBadge">Без скидки</div>
 </div>
 
 <div class="quantity-options">
-<div class="quantity-option" onclick="selectQuantityOption(1)">
+<div class="quantity-option" data-quantity="1">
 <div class="option-qty">1</div>
-<div class="option-price">$50</div>
+<div class="option-price">$15</div>
 </div>
-<div class="quantity-option" onclick="selectQuantityOption(2)">
+<div class="quantity-option" data-quantity="2">
 <div class="option-qty">2</div>
-<div class="option-price">$90</div>
+<div class="option-price">$27</div>
 </div>
-<div class="quantity-option" onclick="selectQuantityOption(3)">
+<div class="quantity-option" data-quantity="3">
 <div class="option-qty">3</div>
-<div class="option-price">$127.5</div>
+<div class="option-price">$38.25</div>
 </div>
-<div class="quantity-option" onclick="selectQuantityOption(5)">
+<div class="quantity-option" data-quantity="5">
 <div class="option-qty">5</div>
-<div class="option-price">$200</div>
+<div class="option-price">$60</div>
 </div>
 </div>
 
-<div style="text-align:center;margin-top:25px;padding:15px;background:rgba(255,255,255,0.05);border-radius:12px">
-<div style="font-size:14px;opacity:0.8;margin-bottom:5px">Выберите количество для получения выгодной скидки</div>
-<div style="font-size:12px;opacity:0.6">* Цены указаны для 🇺🇦 Украина</div>
+<!-- ИТОГОВАЯ ИНФОРМАЦИЯ ДЛЯ ОБЫЧНЫХ БИРЖ ПОСЛЕ ВЫБОРА КОЛИЧЕСТВА -->
+<div style="text-align:center;margin-top:25px;padding:20px;background:rgba(255,255,255,0.05);border-radius:12px">
+<div style="font-size:14px;opacity:0.8;margin-bottom:10px">📋 Итоговая информация</div>
+<div style="display:flex;justify-content:space-between;margin-bottom:5px;font-size:13px"><span>Биржа:</span><span id="normalSummaryExchange" style="font-weight:600">Binance</span></div>
+<div style="display:flex;justify-content:space-between;margin-bottom:5px;font-size:13px"><span>Страна:</span><span style="font-weight:600">🇺🇦 Украина</span></div>
+<div style="display:flex;justify-content:space-between;margin-bottom:5px;font-size:13px"><span>Количество:</span><span id="normalSummaryQuantity" style="font-weight:600">1 шт.</span></div>
+<div style="display:flex;justify-content:space-between;margin-top:10px;padding-top:10px;border-top:1px solid rgba(255,255,255,0.15);font-size:14px;font-weight:800"><span>Итого к оплате:</span><span id="normalSummaryPrice" style="color:#34c759">$15</span></div>
+</div>
+
+<div style="text-align:center;margin-top:20px;font-size:12px;opacity:0.6">
+* Цены указаны для 🇺🇦 Украина
 </div>
 </div>
 
 <div style="margin-top:30px">
-<button class="btn" id="confirmQuantityBtn" onclick="proceedToSummary()" disabled>
-✅ Подтвердить
+<button class="btn" id="confirmQuantityBtn" onclick="proceedToCrypto()" disabled>
+💳 Перейти к оплате
 </button>
 </div>
 <div class="back-btn-container">
@@ -753,7 +835,7 @@ body::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;background:
 </div>
 </div>
 
-<!-- Экран выбора криптовалюты -->
+<!-- Экран выбора криптовалюты для обычных KYC -->
 <div id="s9" class="screen">
 <div class="screen-content">
 <div class="hero-section">
@@ -761,7 +843,7 @@ body::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;background:
 <p class="hero-subtitle">Выберите криптовалюту для оплаты</p>
 </div>
 <div class="crypto-grid">
-<div class="crypto-card" onclick="selectCrypto('usdt','USDT')">
+<div class="crypto-card" data-crypto="usdt" data-name="USDT">
     <div class="crypto-logo">
         <img src="https://cryptologos.cc/logos/tether-usdt-logo.png" 
              alt="USDT" 
@@ -770,7 +852,7 @@ body::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;background:
     <div class="crypto-name">USDT</div>
     <div class="crypto-desc">Stablecoin</div>
 </div>
-<div class="crypto-card" onclick="selectCrypto('usdc','USDC')">
+<div class="crypto-card" data-crypto="usdc" data-name="USDC">
     <div class="crypto-logo">
         <img src="https://cryptologos.cc/logos/usd-coin-usdc-logo.png" 
              alt="USDC" 
@@ -791,7 +873,7 @@ body::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;background:
 </div>
 </div>
 
-<!-- Экран выбора криптовалюты для MEXC -->
+<!-- Экран выбора криптовалюты для MEXC услуг (снятие риска и вывод) -->
 <div id="s17" class="screen">
 <div class="screen-content">
 <div class="hero-section">
@@ -799,7 +881,7 @@ body::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;background:
 <p class="hero-subtitle">Выберите криптовалюту для оплаты</p>
 </div>
 <div class="crypto-grid">
-<div class="crypto-card" onclick="selectCryptoMexc('usdt','USDT')">
+<div class="crypto-card" data-crypto="usdt" data-name="USDT">
     <div class="crypto-logo">
         <img src="https://cryptologos.cc/logos/tether-usdt-logo.png" 
              alt="USDT" 
@@ -808,7 +890,7 @@ body::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;background:
     <div class="crypto-name">USDT</div>
     <div class="crypto-desc">Stablecoin</div>
 </div>
-<div class="crypto-card" onclick="selectCryptoMexc('usdc','USDC')">
+<div class="crypto-card" data-crypto="usdc" data-name="USDC">
     <div class="crypto-logo">
         <img src="https://cryptologos.cc/logos/usd-coin-usdc-logo.png" 
              alt="USDC" 
@@ -819,17 +901,17 @@ body::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;background:
 </div>
 </div>
 <div class="back-btn-container">
-<button class="back-btn" onclick="switchScreen(16)">
+<button class="back-btn" onclick="goBackFromMexcCrypto()">
 <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
 <path d="M10 12L6 8L10 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
 </svg>
-Назад к странам
+Назад
 </button>
 </div>
 </div>
 </div>
 
-<!-- Экран выбора сети -->
+<!-- Экран выбора сети для обычных KYC -->
 <div id="s10" class="screen">
 <div class="screen-content">
 <div class="hero-section">
@@ -853,7 +935,7 @@ body::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;background:
 </div>
 </div>
 
-<!-- Экран выбора сети для MEXC -->
+<!-- Экран выбора сети для MEXC услуг -->
 <div id="s18" class="screen">
 <div class="screen-content">
 <div class="hero-section">
@@ -910,11 +992,11 @@ body::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;background:
 <div style="font-size:28px;font-weight:800" id="paymentAmount">$50</div>
 </div>
 <div class="back-btn-container">
-<button class="back-btn" onclick="switchScreen(10)">
+<button class="back-btn" onclick="goBackFromPayment()">
 <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
 <path d="M10 12L6 8L10 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
 </svg>
-Назад к сетям
+Назад
 </button>
 </div>
 </div>
@@ -957,7 +1039,7 @@ body::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;background:
 <div style="font-size:15px;opacity:0.9;line-height:1.6;margin-bottom:25px">
 Свяжитесь с нашим менеджером в Telegram для уточнения деталей, стоимости и сроков выполнения других услуг верификации.
 </div>
-<button class="btn" onclick="openTelegram('@epic_kyc_manager')" style="margin-top:20px">
+<button class="btn" onclick="openTelegramLink('@epic_kyc_manager')" style="margin-top:20px">
 👨‍💼 Написать менеджеру
 </button>
 </div>
@@ -982,7 +1064,7 @@ body::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;background:
 
 <!-- Улучшенное нижнее меню -->
 <div class="bottom-nav">
-<div class="nav-item active" onclick="switchScreen(1)">
+<div class="nav-item active" data-screen="1">
     <div class="nav-bg"></div>
     <div class="nav-icon">
         <div class="custom-icon home-icon">
@@ -994,7 +1076,7 @@ body::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;background:
     </div>
     <div class="nav-text">Главная</div>
 </div>
-<div class="nav-item" onclick="switchScreen(2)">
+<div class="nav-item" data-screen="2">
     <div class="nav-bg"></div>
     <div class="nav-icon">
         <div class="custom-icon referral-icon">
@@ -1008,7 +1090,7 @@ body::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;background:
     </div>
     <div class="nav-text">Рефералы</div>
 </div>
-<div class="nav-item" onclick="switchScreen(3)">
+<div class="nav-item" data-screen="3">
     <div class="nav-bg"></div>
     <div class="nav-icon">
         <div class="custom-icon purchases-icon">
@@ -1021,7 +1103,7 @@ body::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;background:
     </div>
     <div class="nav-text">Мои покупки</div>
 </div>
-<div class="nav-item" onclick="switchScreen(4)">
+<div class="nav-item" data-screen="4">
     <div class="nav-bg"></div>
     <div class="nav-icon">
         <div class="custom-icon faq-icon">
@@ -1034,7 +1116,7 @@ body::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;background:
     </div>
     <div class="nav-text">FAQ</div>
 </div>
-<div class="nav-item" onclick="switchScreen(5)">
+<div class="nav-item" data-screen="5">
     <div class="nav-bg"></div>
     <div class="nav-icon">
         <div class="custom-icon contacts-icon">
@@ -1085,11 +1167,24 @@ var discounts = {
     5: 0.20
 };
 
-// Цены за 1 KYC для разных бирж
+// Цены за 1 KYC для Украины на всех биржах
 var basePrices = {
     'mexc': 15,
-    'default': 50
+    'binance': 15,
+    'bybit': 15,
+    'okx': 15,
+    'kucoin': 15,
+    'gateio': 15,
+    'weex': 15,
+    'bingx': 15,
+    'bitget': 15,
+    'default': 15
 };
+
+// Все услуги MEXC теперь имеют выбор количества
+function isMexcServiceWithQuantity(serviceId) {
+    return serviceId === 'kyc' || serviceId === 'risk' || serviceId === 'withdraw';
+}
 
 // Сети без комиссий
 var nets = {
@@ -1109,6 +1204,136 @@ var wallets = {
     'usdc-solana': 'So11111111111111111111111111111111111111112',
     'usdc-bsc': '0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174'
 };
+
+// Функция для открытия Telegram ссылки
+function openTelegramLink(username) {
+    var cleanUsername = username.replace('@', '');
+    var url = 'https://t.me/' + cleanUsername;
+    
+    if (tg && tg.openTelegramLink) {
+        tg.openTelegramLink(url);
+    } else {
+        window.open(url, '_blank');
+    }
+}
+
+// Инициализация обработчиков событий
+function initEventListeners() {
+    // Обработчики для карточек бирж
+    document.querySelectorAll('.exchange-card').forEach(function(card) {
+        card.addEventListener('click', function() {
+            var exchangeId = this.getAttribute('data-exchange');
+            var exchangeName = this.getAttribute('data-name');
+            selectExchange(exchangeId, exchangeName);
+        });
+    });
+
+    // Обработчики для карточек услуг (обычные биржи)
+    document.querySelectorAll('#s7 .service-card').forEach(function(card) {
+        card.addEventListener('click', function() {
+            var serviceId = this.getAttribute('data-service');
+            var serviceName = this.getAttribute('data-name');
+            var price = this.getAttribute('data-price');
+            selectService(serviceId, serviceName, price);
+        });
+    });
+
+    // Обработчики для карточек услуг (MEXC)
+    document.querySelectorAll('#s15 .service-card').forEach(function(card) {
+        card.addEventListener('click', function() {
+            var serviceId = this.getAttribute('data-service');
+            var serviceName = this.getAttribute('data-name');
+            var price = this.getAttribute('data-price');
+            selectMexcService(serviceId, serviceName, price);
+        });
+    });
+
+    // Обработчики для стран (обычные)
+    document.querySelectorAll('#s8 .country-card').forEach(function(card) {
+        card.addEventListener('click', function() {
+            var countryId = this.getAttribute('data-country');
+            var countryName = this.getAttribute('data-name');
+            var countryPrice = this.getAttribute('data-price');
+            selectCountry(countryId, countryName, countryPrice);
+        });
+    });
+
+    // Обработчики для стран (MEXC)
+    document.querySelectorAll('#s16 .country-card').forEach(function(card) {
+        card.addEventListener('click', function() {
+            var countryId = this.getAttribute('data-country');
+            var countryName = this.getAttribute('data-name');
+            var countryPrice = this.getAttribute('data-price');
+            selectCountryMexc(countryId, countryName, countryPrice);
+        });
+    });
+
+    // Обработчики для выбора количества (обычные)
+    document.querySelectorAll('#s14 .quantity-option').forEach(function(option) {
+        option.addEventListener('click', function() {
+            var quantity = parseInt(this.getAttribute('data-quantity'));
+            selectQuantityOption(quantity);
+        });
+    });
+
+    // Обработчики для выбора количества (MEXC)
+    document.querySelectorAll('#s20 .quantity-option').forEach(function(option) {
+        option.addEventListener('click', function() {
+            var quantity = parseInt(this.getAttribute('data-quantity'));
+            selectQuantityOptionMexc(quantity);
+        });
+    });
+
+    // Обработчики для выбора криптовалюты (обычные)
+    document.querySelectorAll('#s9 .crypto-card').forEach(function(card) {
+        card.addEventListener('click', function() {
+            var cryptoId = this.getAttribute('data-crypto');
+            var cryptoName = this.getAttribute('data-name');
+            selectCrypto(cryptoId, cryptoName);
+        });
+    });
+
+    // Обработчики для выбора криптовалюты (MEXC)
+    document.querySelectorAll('#s17 .crypto-card').forEach(function(card) {
+        card.addEventListener('click', function() {
+            var cryptoId = this.getAttribute('data-crypto');
+            var cryptoName = this.getAttribute('data-name');
+            selectCryptoMexc(cryptoId, cryptoName);
+        });
+    });
+
+    // Обработчик для кнопки "Другие верификации"
+    document.getElementById('otherVerificationsBtn').addEventListener('click', function() {
+        showOtherVerifications();
+    });
+
+    // Обработчики для нижнего меню
+    document.querySelectorAll('.nav-item').forEach(function(item) {
+        item.addEventListener('click', function() {
+            var screenNum = this.getAttribute('data-screen');
+            if (screenNum) {
+                switchScreen(parseInt(screenNum));
+            }
+        });
+    });
+
+    // Обработчики для кнопок контактов в экране контактов
+    document.querySelectorAll('#s5 .contact-btn').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+            var username = '';
+            if (this.parentElement.querySelector('.contact-value').textContent.includes('@epic_kyc_manager')) {
+                username = '@epic_kyc_manager';
+            } else if (this.parentElement.querySelector('.contact-value').textContent.includes('@epic_kyc_support')) {
+                username = '@epic_kyc_support';
+            } else if (this.parentElement.querySelector('.contact-value').textContent.includes('@epic_kyc_partners')) {
+                username = '@epic_kyc_partners';
+            }
+            if (username) {
+                openTelegramLink(username);
+            }
+        });
+    });
+}
 
 // Функция запуска приложения
 function startApp() {
@@ -1161,6 +1386,11 @@ function selectExchange(exId, exName) {
     // Определяем базовую цену в зависимости от биржи
     d.basePrice = basePrices[exId] || basePrices['default'];
 
+    // Для обычных бирж обновляем информацию в итоговом блоке
+    if (exId !== 'mexc') {
+        document.getElementById('normalSummaryExchange').textContent = exName;
+    }
+
     // Для MEXC показываем отдельный экран услуг
     if (exId === 'mexc') {
         switchScreen(15);
@@ -1177,6 +1407,20 @@ function selectService(srvId, srvName, basePrice) {
     d.srv = srvId;
     d.srvName = srvName;
 
+    // Автоматически выбираем Украину для обычных бирж
+    d.country = 'ukraine';
+    d.countryName = '🇺🇦 Украина';
+    d.countryPrice = '$' + d.basePrice;
+
+    // Показываем экран выбора страны
+    setTimeout(function() {
+        var ukraineCard = document.querySelector('#ukraineOnly .country-card');
+        if (ukraineCard) {
+            ukraineCard.classList.add('selected');
+            document.getElementById('continueToQuantityBtn').disabled = false;
+        }
+    }, 100);
+
     switchScreen(8);
 }
 
@@ -1188,7 +1432,20 @@ function selectMexcService(srvId, srvName, basePrice) {
     d.srvName = srvName;
     d.basePrice = parseInt(basePrice);
 
-    // Для MEXC услуг убираем выбор количества
+    // Для MEXC услуг автоматически выбираем Украину
+    d.country = 'ukraine';
+    d.countryName = '🇺🇦 Украина';
+    d.countryPrice = '$' + d.basePrice;
+
+    // Показываем экран выбора страны для MEXC
+    setTimeout(function() {
+        var ukraineCard = document.querySelector('#ukraineOnlyMexc .country-card');
+        if (ukraineCard) {
+            ukraineCard.classList.add('selected');
+            document.getElementById('continueToNextMexcBtn').disabled = false;
+        }
+    }, 100);
+
     switchScreen(16);
 }
 
@@ -1197,7 +1454,7 @@ function selectCountry(countryId, countryName, countryPrice) {
     console.log('Выбрана страна:', countryId, countryName, countryPrice);
 
     // Снимаем выделение со всех стран
-    document.querySelectorAll('.country-card').forEach(function(card) {
+    document.querySelectorAll('#s8 .country-card').forEach(function(card) {
         card.classList.remove('selected');
     });
 
@@ -1223,7 +1480,7 @@ function selectCountryMexc(countryId, countryName, countryPrice) {
     console.log('Выбрана страна для MEXC:', countryId, countryName, countryPrice);
 
     // Снимаем выделение со всех стран
-    document.querySelectorAll('.country-card').forEach(function(card) {
+    document.querySelectorAll('#s16 .country-card').forEach(function(card) {
         card.classList.remove('selected');
     });
 
@@ -1241,7 +1498,7 @@ function selectCountryMexc(countryId, countryName, countryPrice) {
     }
 
     // Активируем кнопку продолжения
-    document.getElementById('continueToCryptoMexcBtn').disabled = false;
+    document.getElementById('continueToNextMexcBtn').disabled = false;
 }
 
 // Назад из страны для обычных KYC
@@ -1253,25 +1510,20 @@ function goBackFromCountry() {
     }
 }
 
-// Переход к выбору количества
+// Переход к выбору количества для обычных KYC
 function proceedToQuantity() {
     console.log('proceedToQuantity вызвана');
     console.log('Данные:', d);
 
-    // Всегда используем Украину
-    d.country = 'ukraine';
-    d.countryName = '🇺🇦 Украина';
-    d.countryPrice = '$' + d.basePrice;
-
     // Устанавливаем количество по умолчанию
     d.quantity = 1;
 
-    // Обновляем отображение цен
+    // Обновляем отображение цен и итоговую информацию
     updateQuantityDisplay();
 
     // Выбираем первую опцию
     setTimeout(function() {
-        var firstOption = document.querySelector('.quantity-option');
+        var firstOption = document.querySelector('#s14 .quantity-option');
         if (firstOption) {
             firstOption.classList.add('selected');
             document.getElementById('confirmQuantityBtn').disabled = false;
@@ -1281,14 +1533,58 @@ function proceedToQuantity() {
     switchScreen(14);
 }
 
-// Функция выбора количества (новый экран)
+// Переход от страны для MEXC услуг
+function proceedFromCountryMexc() {
+    console.log('proceedFromCountryMexc вызвана');
+    console.log('Данные MEXC:', d);
+
+    // Для всех услуг MEXC показываем выбор количества
+    if (isMexcServiceWithQuantity(d.srv)) {
+        // Устанавливаем количество по умолчанию
+        d.quantity = 1;
+
+        // Обновляем заголовок в зависимости от услуги
+        var serviceTitle = '';
+        var subtitle = '';
+        
+        if (d.srv === 'kyc') {
+            serviceTitle = 'KYC Верификация MEXC';
+            subtitle = 'Получите скидку за несколько KYC';
+        } else if (d.srv === 'risk') {
+            serviceTitle = 'Снятие риск контроля MEXC';
+            subtitle = 'Получите скидку за несколько услуг';
+        } else if (d.srv === 'withdraw') {
+            serviceTitle = 'Вывод средств с MEXC';
+            subtitle = 'Получите скидку за несколько услуг';
+        }
+        
+        document.getElementById('mexcServiceTitle').textContent = serviceTitle;
+        document.getElementById('mexcQuantitySubtitle').textContent = subtitle;
+
+        // Обновляем отображение цен для MEXC
+        updateQuantityDisplayMexc();
+
+        // Выбираем первую опцию
+        setTimeout(function() {
+            var firstOption = document.querySelector('#s20 .quantity-option');
+            if (firstOption) {
+                firstOption.classList.add('selected');
+                document.getElementById('confirmQuantityMexcBtn').disabled = false;
+            }
+        }, 100);
+
+        switchScreen(20);
+    }
+}
+
+// Функция выбора количества для обычных KYC
 function selectQuantityOption(qty) {
     console.log('Выбрано количество:', qty);
 
     d.quantity = qty;
 
     // Снимаем выделение со всех опций
-    document.querySelectorAll('.quantity-option').forEach(function(option) {
+    document.querySelectorAll('#s14 .quantity-option').forEach(function(option) {
         option.classList.remove('selected');
     });
 
@@ -1302,7 +1598,28 @@ function selectQuantityOption(qty) {
     document.getElementById('confirmQuantityBtn').disabled = false;
 }
 
-// Обновление отображения цен при выборе количества
+// Функция выбора количества для MEXC услуг
+function selectQuantityOptionMexc(qty) {
+    console.log('Выбрано количество MEXC:', qty);
+
+    d.quantity = qty;
+
+    // Снимаем выделение со всех опций
+    document.querySelectorAll('#s20 .quantity-option').forEach(function(option) {
+        option.classList.remove('selected');
+    });
+
+    // Выделяем выбранную опцию
+    event.currentTarget.classList.add('selected');
+
+    // Обновляем отображение цен для MEXC
+    updateQuantityDisplayMexc();
+
+    // Активируем кнопку подтверждения
+    document.getElementById('confirmQuantityMexcBtn').disabled = false;
+}
+
+// Обновление отображения цен при выборе количества для обычных KYC
 function updateQuantityDisplay() {
     if (!d.basePrice) return;
 
@@ -1327,6 +1644,10 @@ function updateQuantityDisplay() {
         discountBadgeElement.textContent = 'Без скидки';
     }
 
+    // Обновляем итоговую информацию
+    document.getElementById('normalSummaryQuantity').textContent = d.quantity + ' шт.';
+    document.getElementById('normalSummaryPrice').textContent = '$' + d.price.toFixed(2);
+
     // Обновляем цены в опциях
     var optionPrices = {
         1: d.basePrice,
@@ -1337,7 +1658,7 @@ function updateQuantityDisplay() {
 
     // Обновляем все опции
     for (var qty in optionPrices) {
-        var option = document.querySelector('.quantity-option:nth-child(' + qty + ')');
+        var option = document.querySelector('#s14 .quantity-option[data-quantity="' + qty + '"]');
         if (option) {
             var priceElement = option.querySelector('.option-price');
             if (priceElement) {
@@ -1349,7 +1670,58 @@ function updateQuantityDisplay() {
     console.log('Рассчитанная цена:', d.price, 'Базовая:', d.basePrice, 'Количество:', d.quantity, 'Скидка:', discount);
 }
 
-// Переход к итоговой странице после выбора количества
+// Обновление отображения цен для MEXC услуг
+function updateQuantityDisplayMexc() {
+    if (!d.basePrice) return;
+
+    var discount = discounts[d.quantity] || 0;
+    var total = d.basePrice * d.quantity;
+    var discountedTotal = total * (1 - discount);
+    d.price = Math.round(discountedTotal * 100) / 100;
+
+    // Обновляем цены на экране MEXC
+    var originalPriceElement = document.getElementById('originalPriceMexc');
+    var finalPriceElement = document.getElementById('finalPriceMexc');
+    var discountBadgeElement = document.getElementById('discountBadgeMexc');
+
+    var originalTotal = d.basePrice * d.quantity;
+    originalPriceElement.textContent = '$' + originalTotal;
+    finalPriceElement.textContent = '$' + d.price.toFixed(2);
+
+    if (discount > 0) {
+        var discountPercent = discount * 100;
+        discountBadgeElement.textContent = '-' + discountPercent + '%';
+    } else {
+        discountBadgeElement.textContent = 'Без скидки';
+    }
+
+    // Обновляем итоговую информацию для MEXC
+    document.getElementById('mexcSummaryQuantity').textContent = d.quantity + ' шт.';
+    document.getElementById('mexcSummaryPrice').textContent = '$' + d.price.toFixed(2);
+
+    // Обновляем цены в опциях MEXC
+    var optionPrices = {
+        1: d.basePrice,
+        2: d.basePrice * 2 * (1 - discounts[2]),
+        3: d.basePrice * 3 * (1 - discounts[3]),
+        5: d.basePrice * 5 * (1 - discounts[5])
+    };
+
+    // Обновляем все опции MEXC
+    for (var qty in optionPrices) {
+        var option = document.querySelector('#s20 .quantity-option[data-quantity="' + qty + '"]');
+        if (option) {
+            var priceElement = option.querySelector('.option-price');
+            if (priceElement) {
+                priceElement.textContent = '$' + optionPrices[qty].toFixed(2);
+            }
+        }
+    }
+
+    console.log('Рассчитанная цена MEXC:', d.price, 'Базовая:', d.basePrice, 'Количество:', d.quantity, 'Скидка:', discount);
+}
+
+// Переход к итоговой странице после выбора количества для обычных KYC
 function proceedToSummary() {
     console.log('proceedToSummary вызвана');
     console.log('Данные для итога:', d);
@@ -1364,28 +1736,6 @@ function proceedToSummary() {
     switchScreen(19);
 }
 
-// Функция выбора другой услуги
-function selectOtherService(srvId, srvName, basePrice) {
-    console.log('Выбрана другая услуга:', srvId, srvName, basePrice);
-
-    d.srv = srvId;
-    d.srvName = srvName;
-    d.basePrice = parseInt(basePrice);
-    d.ex = 'other';
-    d.exName = 'Другая услуга';
-
-    // Сбрасываем количество для других услуг
-    d.quantity = 1;
-
-    // Прям переходим к оплате для других услуг
-    d.crypto = 'usdt';
-    d.cryptoName = 'USDT';
-    d.net = 'bsc';
-    d.netName = 'BNB Smart Chain';
-
-    proceedToPayment();
-}
-
 // Функция копирования реферального кода
 function copyRefCode() {
     var link = 'https://t.me/epic_kyc_bot?start=ref_user123';
@@ -1395,11 +1745,6 @@ function copyRefCode() {
         console.error('Copy failed:', err);
         tg.showAlert('❌ Не удалось скопировать ссылку');
     });
-}
-
-// Функция открытия Telegram
-function openTelegram(username) {
-    tg.openTelegramLink('https://t.me/' + username.replace('@', ''));
 }
 
 // Функция показа других верификаций
@@ -1412,33 +1757,56 @@ function proceedToCrypto() {
     console.log('proceedToCrypto вызвана');
     console.log('Данные:', d);
 
-    // Пересчитываем цену перед переходом
-    var discount = discounts[d.quantity] || 0;
-    var total = d.basePrice * d.quantity;
-    var discountedTotal = total * (1 - discount);
-    d.price = Math.round(discountedTotal * 100) / 100;
-
-    switchScreen(9);
+    // Для обычных бирж переходим сразу к выбору крипты
+    if (d.ex !== 'mexc') {
+        // Пересчитываем цену перед переходом
+        var discount = discounts[d.quantity] || 0;
+        var total = d.basePrice * d.quantity;
+        var discountedTotal = total * (1 - discount);
+        d.price = Math.round(discountedTotal * 100) / 100;
+        
+        switchScreen(9);
+    }
 }
 
-// Функция перехода к выбору крипты для MEXC
+// Функция перехода к выбору крипты для MEXC услуг
 function proceedToCryptoMexc() {
     console.log('proceedToCryptoMexc вызвана');
     console.log('Данные MEXC:', d);
 
-    // Для MEXC цена фиксированная
-    d.price = d.basePrice;
-    d.quantity = 1;
-
+    // Для всех услуг MEXC теперь есть выбор количества
+    // Цена уже рассчитана в updateQuantityDisplayMexc()
     switchScreen(17);
 }
 
-// Назад из крипты
+// Назад из крипты для обычных KYC
 function goBackFromCrypto() {
     if (d.ex === 'mexc') {
-        switchScreen(16);
+        if (isMexcServiceWithQuantity(d.srv)) {
+            switchScreen(20);
+        } else {
+            switchScreen(16);
+        }
     } else {
-        switchScreen(19); // Возвращаемся к итоговой странице
+        switchScreen(14);
+    }
+}
+
+// Назад из крипты для MEXC
+function goBackFromMexcCrypto() {
+    if (isMexcServiceWithQuantity(d.srv)) {
+        switchScreen(20);
+    } else {
+        switchScreen(16);
+    }
+}
+
+// Назад из оплаты
+function goBackFromPayment() {
+    if (d.ex === 'mexc') {
+        switchScreen(18);
+    } else {
+        switchScreen(10);
     }
 }
 
@@ -1476,7 +1844,7 @@ function selectCrypto(cryptoId, cryptoName) {
         card.onclick = function() {
             console.log('Выбрана сеть:', network.id, network.n);
 
-            document.querySelectorAll('.network-card').forEach(function(c) {
+            document.querySelectorAll('#s10 .network-card').forEach(function(c) {
                 c.classList.remove('selected');
             });
             this.classList.add('selected');
@@ -1533,7 +1901,7 @@ function selectCryptoMexc(cryptoId, cryptoName) {
         card.onclick = function() {
             console.log('Выбрана сеть для MEXC:', network.id, network.n);
 
-            document.querySelectorAll('.network-card').forEach(function(c) {
+            document.querySelectorAll('#s18 .network-card').forEach(function(c) {
                 c.classList.remove('selected');
             });
             this.classList.add('selected');
@@ -1556,7 +1924,7 @@ function selectCryptoMexc(cryptoId, cryptoName) {
     switchScreen(18);
 }
 
-// Функция перехода к оплате для обычных KYC
+// Функция перехода к оплате
 function proceedToPayment() {
     console.log('proceedToPayment вызвана');
     console.log('Данные перед оплатой:', d);
@@ -1760,21 +2128,31 @@ tg.BackButton.onClick(function() {
     } else if (screenId === 's19') {
         switchScreen(14);
     } else if (screenId === 's9') {
-        switchScreen(19); // Возвращаемся к итоговой странице
+        switchScreen(14);
     } else if (screenId === 's10') {
         switchScreen(9);
     } else if (screenId === 's11') {
         clearInterval(timerInt);
         clearInterval(checkInt);
-        switchScreen(10);
+        if (d.ex === 'mexc') {
+            switchScreen(18);
+        } else {
+            switchScreen(10);
+        }
     } else if (screenId === 's12') {
         switchScreen(1);
     } else if (screenId === 's16') {
         switchScreen(15);
     } else if (screenId === 's17') {
-        switchScreen(16);
+        if (isMexcServiceWithQuantity(d.srv)) {
+            switchScreen(20);
+        } else {
+            switchScreen(16);
+        }
     } else if (screenId === 's18') {
         switchScreen(17);
+    } else if (screenId === 's20') {
+        switchScreen(16);
     } else if (screenId !== 's1') {
         switchScreen(1);
     } else {
@@ -1813,6 +2191,9 @@ document.addEventListener('DOMContentLoaded', function() {
     d.country = 'ukraine';
     d.countryName = '🇺🇦 Украина';
     d.countryPrice = '$15';
+
+    // Инициализируем обработчики событий
+    initEventListeners();
 });
 
 </script>
