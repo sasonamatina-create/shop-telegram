@@ -7,6 +7,15 @@
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <style>
+    .hero-title .hero-emoji {
+    display: inline-block;
+    margin-right: 8px;
+    -webkit-background-clip: initial;
+    -webkit-text-fill-color: initial;
+    background-clip: initial;
+    color: inherit;
+    font-style: normal;
+}
 *{margin:0;padding:0;box-sizing:border-box}
 html, body{width:100%;height:100%;overflow:hidden;touch-action:pan-y}
 body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#0a0a1a;color:#fff;min-height:100vh;position:relative;-webkit-text-size-adjust:100%}
@@ -316,7 +325,7 @@ body::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;background:
 </div>
 <div class="exchange-card" data-exchange="kucoin" data-name="KuCoin">
     <div class="exchange-logo">
-        <img src="https://cryptologos.cc/logos/kucoin-ktoken-kcs-logo.png" 
+        <img src="https://altcoinsbox.com/wp-content/uploads/2023/01/kucoin-logo.webp" 
              alt="KuCoin" 
              onerror="this.parentElement.innerHTML='<div style=\'font-size:24px;color:#00D1C1\'>K</div>'">
     </div>
@@ -344,7 +353,7 @@ body::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;background:
 </div>
 <div class="exchange-card" data-exchange="weex" data-name="Weex">
     <div class="exchange-logo">
-        <img src="https://assets.coingecko.com/markets/images/1289/small/weex.png" 
+        <img src="https://www.weex.com/assets/images/aboutWeex/logo_yellow3.png" 
              alt="Weex" 
              onerror="this.parentElement.innerHTML='<div style=\'font-size:24px;color:#0088FF\'>W</div>'">
     </div>
@@ -385,7 +394,7 @@ body::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;background:
 <div id="s2" class="screen">
 <div class="screen-content">
 <div class="hero-section">
-<h1 class="hero-title">🤝 Реферальная система</h1>
+<h1 class="hero-title"><span class="hero-emoji">🤝</span>Реферальная система</h1>
 <p class="hero-subtitle">Приглашайте друзей и получайте бонусы</p>
 </div>
 <div class="referral-stats">
@@ -422,7 +431,7 @@ body::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;background:
 <div id="s3" class="screen">
 <div class="screen-content">
 <div class="hero-section">
-<h1 class="hero-title">📦 Мои покупки</h1>
+<h1 class="hero-title"><span class="hero-emoji">📦</span>Мои покупки</h1>
 <p class="hero-subtitle">История ваших заказов</p>
 </div>
 <div class="purchases-container">
@@ -466,7 +475,7 @@ body::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;background:
 <div id="s4" class="screen">
 <div class="screen-content">
 <div class="hero-section">
-<h1 class="hero-title">❓ Частые вопросы</h1>
+<h1 class="hero-title"><span class="hero-emoji">❓</span>Частые вопросы</h1>
 <p class="hero-subtitle">Ответы на популярные вопросы</p>
 </div>
 <div class="faq-container">
@@ -498,7 +507,7 @@ body::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;background:
 <div id="s5" class="screen">
 <div class="screen-content">
 <div class="hero-section">
-<h1 class="hero-title">📞 Контакты</h1>
+<h1 class="hero-title"><span class="hero-emoji">📞</span>Контакты</h1>
 <p class="hero-subtitle">Свяжитесь с нашей поддержкой</p>
 </div>
 <div class="contacts-container">
@@ -524,7 +533,7 @@ body::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;background:
     <div class="contact-icon">🤝</div>
     <div class="contact-info">
         <div class="contact-title">Партнерская программа</div>
-        <div class="contact-value">@epic_kyc_partners</div>
+        <div class="contact-value">@lize071</div>
         <div style="font-size:11px;opacity:0.6;margin-top:2px">Для сотрудничества и партнерства</div>
     </div>
     <div class="contact-btn" onclick="openTelegram('@epic_kyc_partners')">Написать</div>
@@ -533,7 +542,6 @@ body::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;background:
 <div style="background:rgba(255,255,255,0.07);backdrop-filter:blur(25px);border-radius:16px;padding:20px;margin:20px 0;text-align:center">
 <div style="font-size:16px;font-weight:700;margin-bottom:8px;color:#4facfe">⏰ Время работы</div>
 <div style="font-size:14px;opacity:0.9">Круглосуточно, 24/7</div>
-<div style="font-size:12px;opacity:0.7;margin-top:6px">Среднее время ответа: 5-15 минут</div>
 </div>
 </div>
 </div>
@@ -603,7 +611,7 @@ body::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;background:
 <div id="s8" class="screen">
 <div class="screen-content">
 <div class="hero-section">
-<h1 class="hero-title">🌍 Выберите страну</h1>
+<h1 class="hero-title"><span class="hero-emoji">🌍</span>Выберите страну</h1>
 <p class="hero-subtitle" id="countrySubtitle">Цена зависит от страны верификации</p>
 </div>
 
@@ -637,7 +645,7 @@ body::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;background:
 <div id="s16" class="screen">
 <div class="screen-content">
 <div class="hero-section">
-<h1 class="hero-title">🌍 Выберите страну</h1>
+<h1 class="hero-title"><span class="hero-emoji">🌍</span>Выберите страну</h1>
 <p class="hero-subtitle">Для услуг MEXC</p>
 </div>
 
@@ -667,76 +675,11 @@ body::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;background:
 </div>
 </div>
 
-<!-- Экран выбора количества для MEXC KYC -->
-<div id="s20" class="screen">
-<div class="screen-content">
-<div class="hero-section">
-<h1 class="hero-title">🔢 Выберите количество</h1>
-<p class="hero-subtitle" id="mexcQuantitySubtitle">Получите скидку за несколько KYC</p>
-</div>
-
-<div class="quantity-screen">
-<div class="quantity-title" id="mexcServiceTitle">KYC Верификация MEXC</div>
-<div class="price-comparison">
-<div class="original-price" id="originalPriceMexc">$15</div>
-<div class="final-price" id="finalPriceMexc">$15</div>
-<div class="discount-badge-large" id="discountBadgeMexc">Без скидки</div>
-</div>
-
-<div class="quantity-options">
-<div class="quantity-option" data-quantity="1">
-<div class="option-qty">1</div>
-<div class="option-price">$15</div>
-</div>
-<div class="quantity-option" data-quantity="2">
-<div class="option-qty">2</div>
-<div class="option-price">$27</div>
-</div>
-<div class="quantity-option" data-quantity="3">
-<div class="option-qty">3</div>
-<div class="option-price">$38.25</div>
-</div>
-<div class="quantity-option" data-quantity="5">
-<div class="option-qty">5</div>
-<div class="option-price">$60</div>
-</div>
-</div>
-
-<!-- ИТОГОВАЯ ИНФОРМАЦИЯ ДЛЯ MEXC ПОСЛЕ ВЫБОРА КОЛИЧЕСТВА -->
-<div style="text-align:center;margin-top:25px;padding:20px;background:rgba(255,255,255,0.05);border-radius:12px">
-<div style="font-size:14px;opacity:0.8;margin-bottom:10px">📋 Итоговая информация для MEXC</div>
-<div style="display:flex;justify-content:space-between;margin-bottom:5px;font-size:13px"><span>Биржа:</span><span style="font-weight:600">MEXC</span></div>
-<div style="display:flex;justify-content:space-between;margin-bottom:5px;font-size:13px"><span>Страна:</span><span style="font-weight:600">🇺🇦 Украина</span></div>
-<div style="display:flex;justify-content:space-between;margin-bottom:5px;font-size:13px"><span>Количество:</span><span id="mexcSummaryQuantity" style="font-weight:600">1 шт.</span></div>
-<div style="display:flex;justify-content:space-between;margin-top:10px;padding-top:10px;border-top:1px solid rgba(255,255,255,0.15);font-size:14px;font-weight:800"><span>Итого к оплате:</span><span id="mexcSummaryPrice" style="color:#34c759">$15</span></div>
-</div>
-
-<div style="text-align:center;margin-top:20px;font-size:12px;opacity:0.6">
-* Цены указаны для 🇺🇦 Украина
-</div>
-</div>
-
-<div style="margin-top:30px">
-<button class="btn" id="confirmQuantityMexcBtn" onclick="proceedToCryptoMexc()" disabled>
-💳 Перейти к оплате
-</button>
-</div>
-<div class="back-btn-container">
-<button class="back-btn" onclick="switchScreen(16)">
-<svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-<path d="M10 12L6 8L10 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-</svg>
-Назад к странам
-</button>
-</div>
-</div>
-</div>
-
-<!-- УЛУЧШЕННЫЙ Экран выбора количества KYC -->
+<!-- Экран выбора количества для обычных KYC -->
 <div id="s14" class="screen">
 <div class="screen-content">
 <div class="hero-section">
-<h1 class="hero-title">🔢 Выберите количество</h1>
+<h1 class="hero-title"><span class="hero-emoji">🔢</span>Выберите количество</h1>
 <p class="hero-subtitle">Получите скидку за несколько KYC</p>
 </div>
 
@@ -767,23 +710,11 @@ body::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;background:
 </div>
 </div>
 
-<!-- ИТОГОВАЯ ИНФОРМАЦИЯ ДЛЯ ОБЫЧНЫХ БИРЖ ПОСЛЕ ВЫБОРА КОЛИЧЕСТВА -->
-<div style="text-align:center;margin-top:25px;padding:20px;background:rgba(255,255,255,0.05);border-radius:12px">
-<div style="font-size:14px;opacity:0.8;margin-bottom:10px">📋 Итоговая информация</div>
-<div style="display:flex;justify-content:space-between;margin-bottom:5px;font-size:13px"><span>Биржа:</span><span id="normalSummaryExchange" style="font-weight:600">Binance</span></div>
-<div style="display:flex;justify-content:space-between;margin-bottom:5px;font-size:13px"><span>Страна:</span><span style="font-weight:600">🇺🇦 Украина</span></div>
-<div style="display:flex;justify-content:space-between;margin-bottom:5px;font-size:13px"><span>Количество:</span><span id="normalSummaryQuantity" style="font-weight:600">1 шт.</span></div>
-<div style="display:flex;justify-content:space-between;margin-top:10px;padding-top:10px;border-top:1px solid rgba(255,255,255,0.15);font-size:14px;font-weight:800"><span>Итого к оплате:</span><span id="normalSummaryPrice" style="color:#34c759">$15</span></div>
-</div>
-
-<div style="text-align:center;margin-top:20px;font-size:12px;opacity:0.6">
-* Цены указаны для 🇺🇦 Украина
-</div>
 </div>
 
 <div style="margin-top:30px">
-<button class="btn" id="confirmQuantityBtn" onclick="proceedToCrypto()" disabled>
-💳 Перейти к оплате
+<button class="btn" id="confirmQuantityBtn" onclick="proceedToSummary()" disabled>
+📋 Продолжить
 </button>
 </div>
 <div class="back-btn-container">
@@ -797,11 +728,64 @@ body::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;background:
 </div>
 </div>
 
-<!-- НОВЫЙ Экран итоговой информации после выбора количества -->
+<!-- Экран выбора количества для MEXC KYC -->
+<div id="s20" class="screen">
+<div class="screen-content">
+<div class="hero-section">
+<h1 class="hero-title"><span class="hero-emoji">🔢</span>Выберите количество</h1>
+<p class="hero-subtitle" id="mexcQuantitySubtitle">Получите скидку за несколько KYC</p>
+</div>
+
+<div class="quantity-screen">
+<div class="quantity-title" id="mexcServiceTitle">KYC Верификация MEXC</div>
+<div class="price-comparison">
+<div class="original-price" id="originalPriceMexc">$15</div>
+<div class="final-price" id="finalPriceMexc">$15</div>
+<div class="discount-badge-large" id="discountBadgeMexc">Без скидки</div>
+</div>
+
+<div class="quantity-options">
+<div class="quantity-option" data-quantity="1">
+<div class="option-qty">1</div>
+<div class="option-price">$15</div>
+</div>
+<div class="quantity-option" data-quantity="2">
+<div class="option-qty">2</div>
+<div class="option-price">$27</div>
+</div>
+<div class="quantity-option" data-quantity="3">
+<div class="option-qty">3</div>
+<div class="option-price">$38.25</div>
+</div>
+<div class="quantity-option" data-quantity="5">
+<div class="option-qty">5</div>
+<div class="option-price">$60</div>
+</div>
+</div>
+
+</div>
+
+<div style="margin-top:30px">
+<button class="btn" id="confirmQuantityMexcBtn" onclick="proceedToMexcSummary()" disabled>
+📋 Продолжить
+</button>
+</div>
+<div class="back-btn-container">
+<button class="back-btn" onclick="switchScreen(16)">
+<svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+<path d="M10 12L6 8L10 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+Назад к странам
+</button>
+</div>
+</div>
+</div>
+
+<!-- НОВЫЙ Экран итоговой информации после выбора количества для обычных KYC -->
 <div id="s19" class="screen">
 <div class="screen-content">
 <div class="hero-section">
-<h1 class="hero-title">📋 Ваш заказ</h1>
+<h1 class="hero-title"><span class="hero-emoji">📋</span>Ваш заказ</h1>
 <p class="hero-subtitle">Проверьте информацию перед оплатой</p>
 </div>
 
@@ -811,7 +795,7 @@ body::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;background:
 <div style="display:flex;justify-content:space-between;margin-bottom:10px;font-size:14px"><span>Услуга:</span><span id="summaryService" style="font-weight:600">KYC Верификация</span></div>
 <div style="display:flex;justify-content:space-between;margin-bottom:10px;font-size:14px"><span>Количество:</span><span id="summaryQuantity" style="font-weight:600">1 шт.</span></div>
 <div style="display:flex;justify-content:space-between;margin-bottom:10px;font-size:14px"><span>Страна:</span><span id="summaryCountry" style="font-weight:600">🇺🇦 Украина</span></div>
-<div style="display:flex;justify-content:space-between;margin-top:16px;padding-top:16px;border-top:1px solid rgba(255,255,255,0.15);font-size:18px;font-weight:800"><span>Итого к оплате:</span><span id="summaryPrice" style="color:#34c759">$50</span></div>
+<div style="display:flex;justify-content:space-between;margin-top:16px;padding-top:16px;border-top:1px solid rgba(255,255,255,0.15);font-size:18px;font-weight:800"><span>Итого к оплате:</span><span id="summaryPrice" style="color:#34c759">$15</span></div>
 </div>
 
 <div style="text-align:center;margin:25px 0;padding:20px;background:rgba(255,255,255,0.05);border-radius:12px">
@@ -835,11 +819,49 @@ body::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;background:
 </div>
 </div>
 
+<!-- НОВЫЙ Экран итоговой информации после выбора количества для MEXC -->
+<div id="s21" class="screen">
+<div class="screen-content">
+<div class="hero-section">
+<h1 class="hero-title"><span class="hero-emoji">📋</span>Ваш заказ MEXC</h1>
+<p class="hero-subtitle">Проверьте информацию перед оплатой</p>
+</div>
+
+<div style="background:rgba(255,255,255,0.07);backdrop-filter:blur(25px);border-radius:18px;padding:22px;margin:20px 0;border:1px solid rgba(102,126,234,0.2)">
+<div style="font-size:16px;font-weight:700;margin-bottom:14px;color:#4facfe">📋 Детали заказа</div>
+<div style="display:flex;justify-content:space-between;margin-bottom:10px;font-size:14px"><span>Биржа:</span><span id="mexcSummaryExchange" style="font-weight:600">MEXC</span></div>
+<div style="display:flex;justify-content:space-between;margin-bottom:10px;font-size:14px"><span>Услуга:</span><span id="mexcSummaryService" style="font-weight:600">KYC Верификация MEXC</span></div>
+<div style="display:flex;justify-content:space-between;margin-bottom:10px;font-size:14px"><span>Количество:</span><span id="mexcSummaryQuantity" style="font-weight:600">1 шт.</span></div>
+<div style="display:flex;justify-content:space-between;margin-bottom:10px;font-size:14px"><span>Страна:</span><span id="mexcSummaryCountry" style="font-weight:600">🇺🇦 Украина</span></div>
+<div style="display:flex;justify-content:space-between;margin-top:16px;padding-top:16px;border-top:1px solid rgba(255,255,255,0.15);font-size:18px;font-weight:800"><span>Итого к оплате:</span><span id="mexcSummaryPrice" style="color:#34c759">$15</span></div>
+</div>
+
+<div style="text-align:center;margin:25px 0;padding:20px;background:rgba(255,255,255,0.05);border-radius:12px">
+<div style="font-size:14px;opacity:0.9;margin-bottom:10px">✅ Всё верно? Переходите к оплате</div>
+<div style="font-size:12px;opacity:0.7">После оплаты с вами свяжется наш менеджер</div>
+</div>
+
+<div style="margin-top:30px">
+<button class="btn" onclick="proceedToCryptoMexc()">
+💳 Перейти к оплате
+</button>
+</div>
+<div class="back-btn-container">
+<button class="back-btn" onclick="switchScreen(20)">
+<svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+<path d="M10 12L6 8L10 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+Назад к выбору количества
+</button>
+</div>
+</div>
+</div>
+
 <!-- Экран выбора криптовалюты для обычных KYC -->
 <div id="s9" class="screen">
 <div class="screen-content">
 <div class="hero-section">
-<h1 class="hero-title">💳 Способ оплаты</h1>
+<h1 class="hero-title"><span class="hero-emoji">💳</span>Способ оплаты</h1>
 <p class="hero-subtitle">Выберите криптовалюту для оплаты</p>
 </div>
 <div class="crypto-grid">
@@ -877,7 +899,7 @@ body::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;background:
 <div id="s17" class="screen">
 <div class="screen-content">
 <div class="hero-section">
-<h1 class="hero-title">💳 Способ оплаты</h1>
+<h1 class="hero-title"><span class="hero-emoji">💳</span>Способ оплаты</h1>
 <p class="hero-subtitle">Выберите криптовалюту для оплаты</p>
 </div>
 <div class="crypto-grid">
@@ -915,7 +937,7 @@ body::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;background:
 <div id="s10" class="screen">
 <div class="screen-content">
 <div class="hero-section">
-<h1 class="hero-title">⚡ Выберите сеть</h1>
+<h1 class="hero-title"><span class="hero-emoji">⚡</span>Выберите сеть</h1>
 <p class="hero-subtitle" id="selectedCryptoName">USDT</p>
 </div>
 <div class="network-grid" id="networkList"></div>
@@ -939,7 +961,7 @@ body::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;background:
 <div id="s18" class="screen">
 <div class="screen-content">
 <div class="hero-section">
-<h1 class="hero-title">⚡ Выберите сеть</h1>
+<h1 class="hero-title"><span class="hero-emoji">⚡</span>Выберите сеть</h1>
 <p class="hero-subtitle" id="selectedCryptoNameMexc">USDT</p>
 </div>
 <div class="network-grid" id="networkListMexc"></div>
@@ -963,7 +985,7 @@ body::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;background:
 <div id="s11" class="screen">
 <div class="screen-content">
 <div class="hero-section">
-<h1 class="hero-title">📱 Оплата</h1>
+<h1 class="hero-title"><span class="hero-emoji">📱</span>Оплата</h1>
 <p class="hero-subtitle">Отправьте точную сумму на адрес</p>
 </div>
 <div class="timer-box">
@@ -1029,7 +1051,7 @@ body::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;background:
 <div id="s13" class="screen">
 <div class="screen-content">
 <div class="hero-section">
-<h1 class="hero-title">🔧 Другие верификации</h1>
+<h1 class="hero-title"><span class="hero-emoji">🔧</span>Другие верификации</h1>
 <p class="hero-subtitle">Свяжитесь с менеджером для уточнения деталей</p>
 </div>
 
@@ -1042,11 +1064,6 @@ body::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;background:
 <button class="btn" onclick="openTelegramLink('@epic_kyc_manager')" style="margin-top:20px">
 👨‍💼 Написать менеджеру
 </button>
-</div>
-
-<div style="margin-top:30px;padding:20px;background:rgba(255,255,255,0.05);border-radius:12px">
-<div style="font-size:14px;opacity:0.9;margin-bottom:10px;text-align:center">📞 Быстрая связь с менеджером</div>
-<div style="font-size:12px;opacity:0.7;text-align:center">Отвечаем в течение 5-15 минут</div>
 </div>
 
 <div class="back-btn-container">
@@ -1386,11 +1403,6 @@ function selectExchange(exId, exName) {
     // Определяем базовую цену в зависимости от биржи
     d.basePrice = basePrices[exId] || basePrices['default'];
 
-    // Для обычных бирж обновляем информацию в итоговом блоке
-    if (exId !== 'mexc') {
-        document.getElementById('normalSummaryExchange').textContent = exName;
-    }
-
     // Для MEXC показываем отдельный экран услуг
     if (exId === 'mexc') {
         switchScreen(15);
@@ -1518,7 +1530,7 @@ function proceedToQuantity() {
     // Устанавливаем количество по умолчанию
     d.quantity = 1;
 
-    // Обновляем отображение цен и итоговую информацию
+    // Обновляем отображение цен
     updateQuantityDisplay();
 
     // Выбираем первую опцию
@@ -1644,10 +1656,6 @@ function updateQuantityDisplay() {
         discountBadgeElement.textContent = 'Без скидки';
     }
 
-    // Обновляем итоговую информацию
-    document.getElementById('normalSummaryQuantity').textContent = d.quantity + ' шт.';
-    document.getElementById('normalSummaryPrice').textContent = '$' + d.price.toFixed(2);
-
     // Обновляем цены в опциях
     var optionPrices = {
         1: d.basePrice,
@@ -1695,10 +1703,6 @@ function updateQuantityDisplayMexc() {
         discountBadgeElement.textContent = 'Без скидки';
     }
 
-    // Обновляем итоговую информацию для MEXC
-    document.getElementById('mexcSummaryQuantity').textContent = d.quantity + ' шт.';
-    document.getElementById('mexcSummaryPrice').textContent = '$' + d.price.toFixed(2);
-
     // Обновляем цены в опциях MEXC
     var optionPrices = {
         1: d.basePrice,
@@ -1734,6 +1738,21 @@ function proceedToSummary() {
     document.getElementById('summaryPrice').textContent = '$' + d.price.toFixed(2);
 
     switchScreen(19);
+}
+
+// Переход к итоговой странице после выбора количества для MEXC
+function proceedToMexcSummary() {
+    console.log('proceedToMexcSummary вызвана');
+    console.log('Данные MEXC для итога:', d);
+
+    // Обновляем данные на итоговой странице MEXC
+    document.getElementById('mexcSummaryExchange').textContent = 'MEXC';
+    document.getElementById('mexcSummaryService').textContent = d.srvName;
+    document.getElementById('mexcSummaryQuantity').textContent = d.quantity + ' шт.';
+    document.getElementById('mexcSummaryCountry').textContent = d.countryName;
+    document.getElementById('mexcSummaryPrice').textContent = '$' + d.price.toFixed(2);
+
+    switchScreen(21);
 }
 
 // Функция копирования реферального кода
@@ -1783,19 +1802,19 @@ function proceedToCryptoMexc() {
 function goBackFromCrypto() {
     if (d.ex === 'mexc') {
         if (isMexcServiceWithQuantity(d.srv)) {
-            switchScreen(20);
+            switchScreen(21);
         } else {
             switchScreen(16);
         }
     } else {
-        switchScreen(14);
+        switchScreen(19);
     }
 }
 
 // Назад из крипты для MEXC
 function goBackFromMexcCrypto() {
     if (isMexcServiceWithQuantity(d.srv)) {
-        switchScreen(20);
+        switchScreen(21);
     } else {
         switchScreen(16);
     }
@@ -2128,7 +2147,7 @@ tg.BackButton.onClick(function() {
     } else if (screenId === 's19') {
         switchScreen(14);
     } else if (screenId === 's9') {
-        switchScreen(14);
+        switchScreen(19);
     } else if (screenId === 's10') {
         switchScreen(9);
     } else if (screenId === 's11') {
@@ -2144,15 +2163,13 @@ tg.BackButton.onClick(function() {
     } else if (screenId === 's16') {
         switchScreen(15);
     } else if (screenId === 's17') {
-        if (isMexcServiceWithQuantity(d.srv)) {
-            switchScreen(20);
-        } else {
-            switchScreen(16);
-        }
+        switchScreen(21);
     } else if (screenId === 's18') {
         switchScreen(17);
     } else if (screenId === 's20') {
         switchScreen(16);
+    } else if (screenId === 's21') {
+        switchScreen(20);
     } else if (screenId !== 's1') {
         switchScreen(1);
     } else {
