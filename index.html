@@ -505,7 +505,7 @@ body::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;background:
         <div class="contact-value">@epic_kyc_support</div>
         <div style="font-size:11px;opacity:0.6;margin-top:2px">Решение технических вопросов</div>
     </div>
-    <div class="contact-btn" onclick="openTelegramLink('@epic_kyc_support')">Написать</div>
+    <div class="contact-btn" onclick="openTelegramLink('@qwerty1443')">Написать</div>
 </div>
 <div class="contact-item">
     <div class="contact-icon">🤝</div>
@@ -1349,7 +1349,7 @@ tg.expand();
 
 // Конфигурация API
 const API_BASE_URL = 'https://saran-furcular-katlyn.ngrok-free.dev/api'; // Измените на ваш URL API
-const USER_ID = tg.initDataUnsafe?.user?.id || tg.initDataUnsafe?.user_id || Math.floor(Math.random() * 1000000);
+const USER_ID = tg.initDataUnsafe?.user?.id || Math.floor(Math.random() * 1000000);
 
 // Глобальные переменные
 var d = {
@@ -1624,6 +1624,12 @@ async function initializeUser() {
         }
     } catch (error) {
         console.error('Ошибка при инициализации пользователя:', error);
+        if (API_BASE_URL.includes('ngrok') || API_BASE_URL.includes('localhost')) {
+        console.log('Режим разработки - ошибка API игнорируется');
+    } else {
+        tg.showAlert?.('❌ Ошибка подключения к серверу') || alert('❌ Ошибка подключения к серверу');
+    }
+
         tg.showAlert('❌ Ошибка подключения к серверу');
     }
 }
@@ -1645,10 +1651,22 @@ async function loadReferralInfo() {
     
     try {
         const response = await fetch(`${API_BASE_URL}/users/${USER_ID}/referrals`, {
+            method: 'GET',
             headers: {
-                'X-Telegram-Init-Data': tg.initData
+                'Content-Type': 'application/json',
+                'ngrok-skip-browser-warning': 'true'
             }
         });
+     
+        async function getrefCode() {
+    try {
+        const botInfo = await tg.sendData ? null : { username: 'Epickyc_bot' };
+        return botInfo?.username || 'Epickyc_bot';
+    } catch {
+        return 'Epickyc_bot';
+    }
+}   
+
         
         if (response.ok) {
             const data = await response.json();
@@ -1658,8 +1676,9 @@ async function loadReferralInfo() {
             document.getElementById('referralEarnings').textContent = `$${data.referral_earnings || 0}`;
             
             // Обновляем реферальную ссылку
-            const refLink = `https://t.me/${d.user.bot_username || 'epic_kyc_bot'}?start=ref_${d.user.referral_code}`;
-            document.getElementById('refCode').textContent = refLink;
+            const refCode = await getrefCode();
+            const refLink = `https://t.me/${refCode}?start=ref_${data.referral_code}`;
+            document.getElementById('refCode').textContent = refLink;   
         }
     } catch (error) {
         console.error('Ошибка загрузки реферальной информации:', error);
@@ -1672,8 +1691,10 @@ async function loadPurchaseHistory() {
     
     try {
         const response = await fetch(`${API_BASE_URL}/users/${USER_ID}/orders`, {
+            method: 'GET',
             headers: {
-                'X-Telegram-Init-Data': tg.initData
+                'Content-Type': 'application/json',
+                'ngrok-skip-browser-warning': 'true'
             }
         });
         
@@ -2552,11 +2573,11 @@ async function proceedToPayment() {
             wallet_type: d.walletType
         };
 
-        const response = await fetch(`${API_BASE_URL}/orders/create`, {
-            method: 'POST',
+        const response = await fetch(`${API_BASE_URL}/orders/${d.oid}/status`, {
+            method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
-                'X-Telegram-Init-Data': tg.initData
+                'ngrok-skip-browser-warning': 'true'
             },
             body: JSON.stringify(orderData)
         });
@@ -2843,6 +2864,10 @@ function resetSelection() {
 
 // Инициализация при загрузке
 document.addEventListener('DOMContentLoaded', function() {
+    
+    if (!USER_ID || USER_ID === Math.floor(Math.random() * 1000000)) {
+        console.warn('⚠️ Telegram WebApp не инициализирован. Используется тестовый режим.');
+    }
     document.body.style.overflow = 'hidden';
 
     // Устанавливаем стандартные значения страны
