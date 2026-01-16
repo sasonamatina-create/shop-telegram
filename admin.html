@@ -1832,8 +1832,6 @@
         
         // Настройка WebSocket
         function setupWebSocket() {
-            console.log('WebSocket отключен для отладки');
-            return; // ВРЕМЕННО отключаем
             try {
                 socket = io(WS_URL, {
                     transports: ['websocket', 'polling'],
@@ -2214,7 +2212,7 @@
                 const response = await fetch(`${API_BASE_URL}/admin/orders/${orderId}`, {
                     headers: {
                         'X-Admin-ID': currentAdmin.id,
-                        'X-Admin-Token': currentAdmin.token
+                        'X-Admin-Token': currentAdmin.token,
                         'ngrok-skip-browser-warning': 'true'
                     }
                 });
@@ -2252,7 +2250,7 @@
                 const response = await fetch(`${API_BASE_URL}/admin/orders/${orderId}`, {
                     headers: {
                         'X-Admin-ID': currentAdmin.id,
-                        'X-Admin-Token': currentAdmin.token
+                        'X-Admin-Token': currentAdmin.token,
                         'ngrok-skip-browser-warning': 'true'
                     }
                 });
@@ -2341,7 +2339,7 @@
                 const response = await fetch(`${API_BASE_URL}/admin/orders/${orderId}/chat`, {
                     headers: {
                         'X-Admin-ID': currentAdmin.id,
-                        'X-Admin-Token': currentAdmin.token
+                        'X-Admin-Token': currentAdmin.token,
                         'ngrok-skip-browser-warning': 'true'
                     }
                 });
@@ -2436,7 +2434,7 @@
                     headers: {
                         'Content-Type': 'application/json',
                         'X-Admin-ID': currentAdmin.id,
-                        'X-Admin-Token': currentAdmin.token
+                        'X-Admin-Token': currentAdmin.token,
                         'ngrok-skip-browser-warning': 'true'
                     },
                     body: JSON.stringify({
@@ -2485,7 +2483,7 @@
                 const response = await fetch(`${API_BASE_URL}/admin/orders/${orderId}/verification-data`, {
                     headers: {
                         'X-Admin-ID': currentAdmin.id,
-                        'X-Admin-Token': currentAdmin.token
+                        'X-Admin-Token': currentAdmin.token,
                         'ngrok-skip-browser-warning': 'true'
                     }
                 });
@@ -2552,7 +2550,7 @@
                 const response = await fetch(`${API_BASE_URL}/admin/orders/${orderId}/history`, {
                     headers: {
                         'X-Admin-ID': currentAdmin.id,
-                        'X-Admin-Token': currentAdmin.token
+                        'X-Admin-Token': currentAdmin.token,
                         'ngrok-skip-browser-warning': 'true'
                     }
                 });
@@ -2649,7 +2647,7 @@
                         headers: {
                             'Content-Type': 'application/json',
                             'X-Admin-ID': currentAdmin.id,
-                            'X-Admin-Token': currentAdmin.token
+                            'X-Admin-Token': currentAdmin.token,
                             'ngrok-skip-browser-warning': 'true'
                         },
                         body: JSON.stringify({
@@ -2684,7 +2682,7 @@
                     headers: {
                         'Content-Type': 'application/json',
                         'X-Admin-ID': currentAdmin.id,
-                        'X-Admin-Token': currentAdmin.token
+                        'X-Admin-Token': currentAdmin.token,
                         'ngrok-skip-browser-warning': 'true'
                     },
                     body: JSON.stringify({
@@ -2719,7 +2717,7 @@
                         headers: {
                             'Content-Type': 'application/json',
                             'X-Admin-ID': currentAdmin.id,
-                            'X-Admin-Token': currentAdmin.token
+                            'X-Admin-Token': currentAdmin.token,
                             'ngrok-skip-browser-warning': 'true'
                         },
                         body: JSON.stringify({
@@ -2757,7 +2755,7 @@
                     headers: {
                         'Content-Type': 'application/json',
                         'X-Admin-ID': currentAdmin.id,
-                        'X-Admin-Token': currentAdmin.token
+                        'X-Admin-Token': currentAdmin.token,
                         'ngrok-skip-browser-warning': 'true'
                     },
                     body: JSON.stringify({
@@ -2793,7 +2791,7 @@
                     headers: {
                         'Content-Type': 'application/json',
                         'X-Admin-ID': currentAdmin.id,
-                        'X-Admin-Token': currentAdmin.token
+                        'X-Admin-Token': currentAdmin.token,
                         'ngrok-skip-browser-warning': 'true'
                     },
                     body: JSON.stringify({
@@ -2828,7 +2826,7 @@
                         headers: {
                             'Content-Type': 'application/json',
                             'X-Admin-ID': currentAdmin.id,
-                            'X-Admin-Token': currentAdmin.token
+                            'X-Admin-Token': currentAdmin.token,
                             'ngrok-skip-browser-warning': 'true'
                         },
                         body: JSON.stringify({
@@ -2969,7 +2967,7 @@
                 const response = await fetch(`${API_BASE_URL}/admin/online`, {
                     headers: {
                         'X-Admin-ID': currentAdmin.id,
-                        'X-Admin-Token': currentAdmin.token
+                        'X-Admin-Token': currentAdmin.token,
                         'ngrok-skip-browser-warning': 'true'
                     }
                 });
@@ -3024,7 +3022,7 @@
                 const response = await fetch(`${API_BASE_URL}/admin/stats/${currentAdmin.id}`, {
                     headers: {
                         'X-Admin-ID': currentAdmin.id,
-                        'X-Admin-Token': currentAdmin.token
+                        'X-Admin-Token': currentAdmin.token,
                         'ngrok-skip-browser-warning': 'true'
                     }
                 });
@@ -3069,6 +3067,7 @@
         
         // Показать раздел
         function showSection(sectionId) {
+            console.log('Switching to section:', sectionId);
             // Скрываем все разделы
             document.querySelectorAll('.section-content').forEach(section => {
                 section.style.display = 'none';
@@ -3085,6 +3084,13 @@
             
             // Активируем выбранный пункт меню
             document.querySelector(`.nav-item[data-section="${sectionId}"]`).classList.add('active');
+
+            const sectionElement = document.getElementById(`${sectionId}Section`);
+            if (sectionElement) {
+                sectionElement.style.display = 'block';
+            } else {
+                console.error(`Section ${sectionId}Section not found!`);
+            }    
             
             // Показываем выбранный раздел
             document.getElementById(`${sectionId}Section`).style.display = 'block';
@@ -3113,7 +3119,7 @@
                 const response = await fetch(`${API_BASE_URL}/admin/dashboard-stats`, {
                     headers: {
                         'X-Admin-ID': currentAdmin.id,
-                        'X-Admin-Token': currentAdmin.token
+                        'X-Admin-Token': currentAdmin.token,
                         'ngrok-skip-browser-warning': 'true'
                     }
                 });
@@ -3388,7 +3394,7 @@
                         headers: {
                             'Content-Type': 'application/json',
                             'X-Admin-ID': currentAdmin.id,
-                            'X-Admin-Token': currentAdmin.token
+                            'X-Admin-Token': currentAdmin.token,
                             'ngrok-skip-browser-warning': 'true'
                         },
                         body: JSON.stringify({
@@ -3495,7 +3501,7 @@
                     method: 'POST',
                     headers: {
                         'X-Admin-ID': currentAdmin.id,
-                        'X-Admin-Token': currentAdmin.token
+                        'X-Admin-Token': currentAdmin.token,
                         'ngrok-skip-browser-warning': 'true'
                     }
                 });
