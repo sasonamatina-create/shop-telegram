@@ -1570,7 +1570,7 @@
     </div>
 
     <!-- Модальное окно деталей заказа -->
-    <div id="orderDetailModal" class="modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.8); z-index: 2000; overflow-y: auto;">
+    <div id="orderDetailModal" class="modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.95); z-index: 2000; overflow-y: auto;">
         <div style="max-width: 1200px; margin: 20px auto; padding: 20px;">
             <div class="order-detail-container">
                 <div class="detail-header">
@@ -3159,9 +3159,53 @@
         
         // Загрузка последних активностей
         async function loadRecentActivities() {
-            // Здесь можно реализовать загрузку последних активностей
-            // Для примера оставим пустым
-        }
+            try {
+                const response = await fetch(`${API_BASE_URL}/admin/recent-activities?limit=10`, {
+                    headers: {
+                        'X-Admin-ID': currentAdmin.id,
+                        'X-Admin-Token': currentAdmin.token,
+                        'ngrok-skip-browser-warning': 'true'
+                  }
+              });
+                if (response.ok) {
+                    const data = await response.json();
+                    if (data.success) {
+                        displayRecentActivities(data.activities);  
+                    }
+                }
+    } catch (error) {
+        console.error('Ошибка загрузки активностей:', error);
+    }
+}
+
+function displayRecentActivities(activities) {
+    const tbody = document.getElementById('activitiesTable');
+    if (!activities || activities.length === 0) {
+        tbody.innerHTML = `
+            <tr>
+                <td colspan="4" style="text-align: center; padding: 40px; opacity: 0.7;">
+                    <i class="fas fa-history" style="font-size: 24px; margin-bottom: 10px; display: block;"></i>
+                    <div>Нет активностей</div>
+                </td>
+            </tr>
+        `;
+        return;
+    }
+    let html = '';
+    activities.forEach(activity => {
+        const time = new Date(activity.created_at).toLocaleString('ru-RU');
+        const actionText = getActionText(activity.action);
+        html += `
+            <tr>
+                <td>${time}</td>
+                <td>${actionText}</td>
+                <td>${activity.order_id ? '#' + activity.order_id.substring(0, 8) : '—'}</td>
+                <td>${activity.nickname || `Админ #${activity.admin_id}`}</td>
+            </tr>
+        `;
+    });
+    tbody.innerHTML = html;
+}
         
         // Применение фильтров
         function applyFilters() {
@@ -3224,21 +3268,24 @@
         function setupSearch() {
             const searchInput = document.getElementById('searchInput');
             let searchTimeout;
-            
+    
             searchInput.addEventListener('input', function() {
-                clearTimeout(searchTimeout);
-                searchTimeout = setTimeout(() => {
-                    const searchTerm = this.value.trim();
-                    if (searchTerm) {
-                        filters.search = searchTerm;
-                    } else {
-                        delete filters.search;
-                    }
-                    currentPage = 1;
-                    loadOrders();
-                }, 500);
-            });
+                if (document.getElementById('ordersSection').style.display === 'none') {
+                    return;
         }
+        clearTimeout(searchTimeout);
+        searchTimeout = setTimeout(() => {
+            const searchTerm = this.value.trim();
+            if (searchTerm) {
+                filters.search = searchTerm;
+            } else {
+                delete filters.search;
+            }
+            currentPage = 1;
+            loadOrders();
+        }, 500);
+    });
+}
         
         // Дебаунс функция
         function debounce(func, wait) {
