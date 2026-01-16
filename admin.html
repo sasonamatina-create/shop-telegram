@@ -1767,7 +1767,7 @@
     <script>
         // Конфигурация
         const API_BASE_URL = 'https://saran-furcular-katlyn.ngrok-free.dev/api';
-        const WS_URL = window.location.origin.replace('http', 'ws');
+        const WS_URL = 'wss://saran-furcular-katlyn.ngrok-free.dev';
         
         // Глобальные переменные
         let currentAdmin = null;
@@ -1832,6 +1832,8 @@
         
         // Настройка WebSocket
         function setupWebSocket() {
+            console.log('WebSocket отключен для отладки');
+            return; // ВРЕМЕННО отключаем
             try {
                 socket = io(WS_URL, {
                     transports: ['websocket', 'polling'],
@@ -1999,6 +2001,7 @@
                     headers: {
                         'X-Admin-ID': currentAdmin.id,
                         'X-Admin-Token': currentAdmin.token
+                        'ngrok-skip-browser-warning': 'true'
                     }
                 });
                 
@@ -2188,6 +2191,7 @@
                     headers: {
                         'X-Admin-ID': currentAdmin.id,
                         'X-Admin-Token': currentAdmin.token
+                        'ngrok-skip-browser-warning': 'true'
                     }
                 });
                 
@@ -2225,6 +2229,7 @@
                     headers: {
                         'X-Admin-ID': currentAdmin.id,
                         'X-Admin-Token': currentAdmin.token
+                        'ngrok-skip-browser-warning': 'true'
                     }
                 });
                 
@@ -2313,6 +2318,7 @@
                     headers: {
                         'X-Admin-ID': currentAdmin.id,
                         'X-Admin-Token': currentAdmin.token
+                        'ngrok-skip-browser-warning': 'true'
                     }
                 });
                 
@@ -2407,6 +2413,7 @@
                         'Content-Type': 'application/json',
                         'X-Admin-ID': currentAdmin.id,
                         'X-Admin-Token': currentAdmin.token
+                        'ngrok-skip-browser-warning': 'true'
                     },
                     body: JSON.stringify({
                         admin_id: parseInt(currentAdmin.id),
@@ -2455,6 +2462,7 @@
                     headers: {
                         'X-Admin-ID': currentAdmin.id,
                         'X-Admin-Token': currentAdmin.token
+                        'ngrok-skip-browser-warning': 'true'
                     }
                 });
                 
@@ -2521,6 +2529,7 @@
                     headers: {
                         'X-Admin-ID': currentAdmin.id,
                         'X-Admin-Token': currentAdmin.token
+                        'ngrok-skip-browser-warning': 'true'
                     }
                 });
                 
@@ -2617,6 +2626,7 @@
                             'Content-Type': 'application/json',
                             'X-Admin-ID': currentAdmin.id,
                             'X-Admin-Token': currentAdmin.token
+                            'ngrok-skip-browser-warning': 'true'
                         },
                         body: JSON.stringify({
                             admin_id: parseInt(currentAdmin.id)
@@ -2651,6 +2661,7 @@
                         'Content-Type': 'application/json',
                         'X-Admin-ID': currentAdmin.id,
                         'X-Admin-Token': currentAdmin.token
+                        'ngrok-skip-browser-warning': 'true'
                     },
                     body: JSON.stringify({
                         admin_id: parseInt(currentAdmin.id)
@@ -2685,6 +2696,7 @@
                             'Content-Type': 'application/json',
                             'X-Admin-ID': currentAdmin.id,
                             'X-Admin-Token': currentAdmin.token
+                            'ngrok-skip-browser-warning': 'true'
                         },
                         body: JSON.stringify({
                             admin_id: parseInt(currentAdmin.id)
@@ -2722,6 +2734,7 @@
                         'Content-Type': 'application/json',
                         'X-Admin-ID': currentAdmin.id,
                         'X-Admin-Token': currentAdmin.token
+                        'ngrok-skip-browser-warning': 'true'
                     },
                     body: JSON.stringify({
                         admin_id: parseInt(currentAdmin.id),
@@ -2757,6 +2770,7 @@
                         'Content-Type': 'application/json',
                         'X-Admin-ID': currentAdmin.id,
                         'X-Admin-Token': currentAdmin.token
+                        'ngrok-skip-browser-warning': 'true'
                     },
                     body: JSON.stringify({
                         admin_id: parseInt(currentAdmin.id)
@@ -2791,6 +2805,7 @@
                             'Content-Type': 'application/json',
                             'X-Admin-ID': currentAdmin.id,
                             'X-Admin-Token': currentAdmin.token
+                            'ngrok-skip-browser-warning': 'true'
                         },
                         body: JSON.stringify({
                             admin_id: parseInt(currentAdmin.id)
@@ -2821,6 +2836,7 @@
                     headers: {
                         'X-Admin-ID': currentAdmin.id,
                         'X-Admin-Token': currentAdmin.token
+                        'ngrok-skip-browser-warning': 'true'
                     }
                 });
                 
@@ -2906,6 +2922,7 @@
                     headers: {
                         'X-Admin-ID': currentAdmin.id,
                         'X-Admin-Token': currentAdmin.token
+                        'ngrok-skip-browser-warning': 'true'
                     }
                 });
                 
@@ -2960,6 +2977,7 @@
                     headers: {
                         'X-Admin-ID': currentAdmin.id,
                         'X-Admin-Token': currentAdmin.token
+                        'ngrok-skip-browser-warning': 'true'
                     }
                 });
                 
@@ -3048,6 +3066,7 @@
                     headers: {
                         'X-Admin-ID': currentAdmin.id,
                         'X-Admin-Token': currentAdmin.token
+                        'ngrok-skip-browser-warning': 'true'
                     }
                 });
                 
@@ -3322,6 +3341,7 @@
                             'Content-Type': 'application/json',
                             'X-Admin-ID': currentAdmin.id,
                             'X-Admin-Token': currentAdmin.token
+                            'ngrok-skip-browser-warning': 'true'
                         },
                         body: JSON.stringify({
                             admin_id: parseInt(currentAdmin.id),
@@ -3428,6 +3448,7 @@
                     headers: {
                         'X-Admin-ID': currentAdmin.id,
                         'X-Admin-Token': currentAdmin.token
+                        'ngrok-skip-browser-warning': 'true'
                     }
                 });
                 
