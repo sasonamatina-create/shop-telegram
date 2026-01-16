@@ -2738,6 +2738,24 @@ function paymentConfirmed() {
         document.getElementById('orderCountry').textContent = d.countryName || '🇺🇦 Украина';
         document.getElementById('orderPrice').textContent = '$' + d.price;
 
+        // Добавляем кнопку для перехода в бота
+        const successScreen = document.getElementById('s12');
+        const btnContainer = successScreen.querySelector('.btn');
+        
+        const newBtn = document.createElement('button');
+        newBtn.className = 'btn';
+        newBtn.style.marginTop = '15px';
+        newBtn.style.background = 'linear-gradient(135deg, #34c759, #30b453)';
+        newBtn.innerHTML = '<i class="fas fa-paper-plane"></i> Отправить данные для верификации';
+        newBtn.onclick = function() {
+            // Открываем бота
+            const botUsername = 'Epickyc_bot'; // Замените на username вашего бота
+            const botUrl = `https://t.me/${botUsername}?start=verify_${d.oid}`;
+            window.open(botUrl, '_blank');
+        };
+        
+        btnContainer.parentNode.insertBefore(newBtn, btnContainer.nextSibling);
+
         // Обновляем историю покупок
         loadPurchaseHistory();
         
