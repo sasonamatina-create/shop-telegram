@@ -1905,22 +1905,43 @@
                     }
                 });
                 
-                socket.on('new_message', function(data) {
-                    console.log('Новое сообщение:', data);
-                    
-                    // Если это сообщение в текущем заказе, добавляем его в чат
-                    if (currentOrder && currentOrder.order_id === data.order_id) {
-                        addMessageToChat(data.message);
-                    }
-                    
-                    // Показываем уведомление
-                    if (shouldShowNotification('newMessages')) {
-                        showNotification('Новое сообщение', `Новое сообщение в заказе #${data.order_id.substring(0, 8)}`, 'info');
-                    }
-                    
-                    // Обновляем счетчик непрочитанных
-                    updateOrdersBadge();
-                });
+socket.on('new_message', function(data) {
+    console.log('Новое сообщение:', data);
+    
+    // Если это сообщение в текущем заказе, добавляем его в чат
+    if (currentOrder && currentOrder.order_id === data.order_id) {
+        // Проверяем, не было ли это сообщение уже добавлено локально
+        const messagesContainer = document.getElementById('detailChatMessages');
+        const existingMessages = messagesContainer.querySelectorAll('.chat-message');
+        const lastMessage = existingMessages[existingMessages.length - 1];
+        
+        let isDuplicate = false;
+        
+        // Проверяем, не дублируется ли последнее сообщение
+        if (lastMessage) {
+            const lastMessageText = lastMessage.querySelector('.message-content')?.textContent || '';
+            const newMessageText = data.message.message_text || '';
+            
+            // Простая проверка на дубликат (можно улучшить с использованием timestamp или ID)
+            if (lastMessageText === newMessageText && 
+                Math.abs(new Date() - new Date(data.message.created_at)) < 5000) { // 5 секунд
+                isDuplicate = true;
+            }
+        }
+        
+        if (!isDuplicate) {
+            addMessageToChat(data.message);
+        }
+    }
+    
+    // Показываем уведомление
+    if (shouldShowNotification('newMessages')) {
+        showNotification('Новое сообщение', `Новое сообщение в заказе #${data.order_id.substring(0, 8)}`, 'info');
+    }
+    
+    // Обновляем счетчик непрочитанных
+    updateOrdersBadge();
+});
                 
                 socket.on('verification_data_submitted', function(data) {
                     console.log('Данные верификации отправлены:', data);
@@ -2431,54 +2452,51 @@
         }
         
         // Отправка сообщения
-        async function sendChatMessage() {
-            if (!currentOrder) return;
-            
-            const input = document.getElementById('detailChatInput');
-            const message = input.value.trim();
-            
-            if (!message) return;
-            
-            try {
-                const response = await fetch(`${API_BASE_URL}/admin/orders/${currentOrder.order_id}/message`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-Admin-ID': currentAdmin.id,
-                        'X-Admin-Token': currentAdmin.token,
-                        'ngrok-skip-browser-warning': 'true'
-                    },
-                    body: JSON.stringify({
-                        admin_id: parseInt(currentAdmin.id),
-                        message: message
-                    })
-                });
-                
-                if (response.ok) {
-                    const data = await response.json();
-                    if (data.success) {
-                        input.value = '';
-                        
-                        // Добавляем сообщение в чат
-                        const newMessage = {
-                            sender_id: currentAdmin.id,
-                            sender_type: 'admin',
-                            sender_name: currentAdmin.nickname,
-                            message_text: message,
-                            created_at: new Date().toISOString()
-                        };
-                        
-                        addMessageToChat(newMessage);
-                    }
-                } else {
-                    const error = await response.json();
-                    showNotification('Ошибка', error.error || 'Не удалось отправить сообщение', 'error');
-                }
-            } catch (error) {
-                console.error('Ошибка отправки сообщения:', error);
-                showNotification('Ошибка', 'Не удалось отправить сообщение', 'error');
+// Отправка сообщения
+// Отправка сообщения - вариант 2 (проще)
+async function sendChatMessage() {
+    if (!currentOrder) return;
+    
+    const input = document.getElementById('detailChatInput');
+    const message = input.value.trim();
+    
+    if (!message) return;
+    
+    input.value = '';
+    
+    try {
+        const response = await fetch(`${API_BASE_URL}/admin/orders/${currentOrder.order_id}/message`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-Admin-ID': currentAdmin.id,
+                'X-Admin-Token': currentAdmin.token,
+                'ngrok-skip-browser-warning': 'true'
+            },
+            body: JSON.stringify({
+                admin_id: parseInt(currentAdmin.id),
+                message: message
+            })
+        });
+        
+        if (response.ok) {
+            const data = await response.json();
+            if (data.success) {
+                // Сообщение будет добавлено через WebSocket event
+                // Не добавляем его локально
             }
+        } else {
+            const error = await response.json();
+            showNotification('Ошибка', error.error || 'Не удалось отправить сообщение', 'error');
+            // Восстанавливаем текст если ошибка
+            input.value = message;
         }
+    } catch (error) {
+        console.error('Ошибка отправки сообщения:', error);
+        showNotification('Ошибка', 'Не удалось отправить сообщение', 'error');
+        input.value = message;
+    }
+}
         
         // Обработчик нажатия клавиши в чате
         function handleChatInputKeydown(event) {
