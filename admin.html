@@ -1983,64 +1983,88 @@
         
         // Загрузка заказов
         async function loadOrders() {
-            try {
-                // Показываем индикатор загрузки
-                document.getElementById('ordersLoading').style.display = 'flex';
-                document.getElementById('noOrdersMessage').style.display = 'none';
-                document.getElementById('ordersGrid').innerHTML = '';
-                document.getElementById('pagination').style.display = 'none';
-                
-                // Формируем параметры запроса
-                const params = new URLSearchParams({
-                    ...filters,
-                    limit: limit,
-                    offset: (currentPage - 1) * limit
-                });
-                
-                const response = await fetch(`${API_BASE_URL}/admin/orders?${params}`, {
-                    headers: {
-                        'X-Admin-ID': currentAdmin.id,
-                        'X-Admin-Token': currentAdmin.token
-                        'ngrok-skip-browser-warning': 'true'
-                    }
-                });
-                
-                if (!response.ok) {
-                    throw new Error('Ошибка загрузки заказов');
-                }
-                
-                const data = await response.json();
-                
-                if (data.success) {
-                    orders = data.orders;
-                    totalPages = Math.ceil(data.total / limit);
-                    
-                    // Отображаем заказы
-                    displayOrders(orders);
-                    
-                    // Обновляем пагинацию
-                    updatePagination();
-                    
-                    // Скрываем индикатор загрузки
-                    document.getElementById('ordersLoading').style.display = 'none';
-                    
-                    // Показываем/скрываем сообщение "Нет заказов"
-                    if (orders.length === 0) {
-                        document.getElementById('noOrdersMessage').style.display = 'block';
-                    } else {
-                        document.getElementById('pagination').style.display = 'flex';
-                    }
-                    
-                    // Обновляем счетчик уведомлений
-                    updateOrdersBadge();
-                }
-            } catch (error) {
-                console.error('Ошибка загрузки заказов:', error);
-                document.getElementById('ordersLoading').style.display = 'none';
-                document.getElementById('noOrdersMessage').style.display = 'block';
-                showNotification('Ошибка', 'Не удалось загрузить заказы', 'error');
+    try {
+        console.log('=== LOADING ORDERS ===');
+        
+        // Показываем индикатор загрузки
+        document.getElementById('ordersLoading').style.display = 'flex';
+        document.getElementById('noOrdersMessage').style.display = 'none';
+        document.getElementById('ordersGrid').innerHTML = '';
+        document.getElementById('pagination').style.display = 'none';
+        
+        // Формируем параметры запроса
+        const params = new URLSearchParams({
+            ...filters,
+            limit: limit,
+            offset: (currentPage - 1) * limit
+        });
+        
+        console.log('Request params:', params.toString());
+        console.log('Admin credentials:', {
+            id: currentAdmin.id,
+            token: currentAdmin.token ? 'exists' : 'missing'
+        });
+        
+        const url = `${API_BASE_URL}/admin/orders?${params}`;
+        console.log('Request URL:', url);
+        
+        const response = await fetch(url, {
+            headers: {
+                'X-Admin-ID': currentAdmin.id,
+                'X-Admin-Token': currentAdmin.token,
+                'ngrok-skip-browser-warning': 'true'
             }
+        });
+        
+        console.log('Response status:', response.status);
+        
+        const text = await response.text();
+        console.log('Response text:', text.substring(0, 200));
+        
+        let data;
+        try {
+            data = JSON.parse(text);
+            console.log('Parsed data:', data);
+        } catch (e) {
+            console.error('JSON parse error:', e);
+            throw new Error('Invalid JSON from API');
         }
+        
+        if (data.success) {
+            orders = data.orders;
+            totalPages = Math.ceil(data.total / limit);
+            
+            console.log('Orders loaded:', orders.length);
+            
+            // Отображаем заказы
+            displayOrders(orders);
+            
+            // Обновляем пагинацию
+            updatePagination();
+            
+            // Скрываем индикатор загрузки
+            document.getElementById('ordersLoading').style.display = 'none';
+            
+            // Показываем/скрываем сообщение "Нет заказов"
+            if (orders.length === 0) {
+                document.getElementById('noOrdersMessage').style.display = 'block';
+            } else {
+                document.getElementById('pagination').style.display = 'flex';
+            }
+            
+            // Обновляем счетчик уведомлений
+            updateOrdersBadge();
+        } else {
+            console.error('API returned error:', data.error);
+            throw new Error(data.error || 'Ошибка загрузки заказов');
+        }
+    } catch (error) {
+        console.error('Load orders error:', error);
+        document.getElementById('ordersLoading').style.display = 'none';
+        document.getElementById('noOrdersMessage').style.display = 'block';
+        showNotification('Ошибка', error.message || 'Не удалось загрузить заказы', 'error');
+    }
+}
         
         // Отображение заказов
         function displayOrders(orders) {
@@ -2831,25 +2855,49 @@
         
         // Загрузка статистики дашборда
         async function loadDashboardStats() {
-            try {
-                const response = await fetch(`${API_BASE_URL}/admin/dashboard-stats`, {
-                    headers: {
-                        'X-Admin-ID': currentAdmin.id,
-                        'X-Admin-Token': currentAdmin.token
-                        'ngrok-skip-browser-warning': 'true'
-                    }
-                });
-                
-                if (response.ok) {
-                    const data = await response.json();
-                    if (data.success) {
-                        displayDashboardStats(data.stats);
-                    }
-                }
-            } catch (error) {
-                console.error('Ошибка загрузки статистики дашборда:', error);
+    try {
+        console.log('=== LOADING DASHBOARD STATS ===');
+        console.log('URL:', `${API_BASE_URL}/admin/dashboard-stats`);
+        console.log('Admin ID:', currentAdmin.id);
+        console.log('Admin Token:', currentAdmin.token ? 'exists' : 'missing');
+        
+        const response = await fetch(`${API_BASE_URL}/admin/dashboard-stats`, {
+            headers: {
+                'X-Admin-ID': currentAdmin.id,
+                'X-Admin-Token': currentAdmin.token,
+                'ngrok-skip-browser-warning': 'true'
             }
+        });
+        
+        console.log('Response status:', response.status);
+        console.log('Response headers:', [...response.headers.entries()]);
+        
+        const text = await response.text();
+        console.log('Response text:', text);
+        
+        let data;
+        try {
+            data = JSON.parse(text);
+            console.log('Parsed data:', data);
+        } catch (e) {
+            console.error('JSON parse error:', e);
+            console.error('Received text:', text.substring(0, 500));
+            throw new Error('Invalid JSON response');
         }
+        
+        if (data.success) {
+            displayDashboardStats(data.stats);
+        } else {
+            console.error('API error:', data.error);
+            showNotification('Ошибка', data.error || 'Не удалось загрузить статистику', 'error');
+        }
+    } catch (error) {
+        console.error('Dashboard stats error:', error);
+        showNotification('Ошибка', error.message, 'error');
+    } finally {
+        document.getElementById('dashboardLoading').style.display = 'none';
+    }
+}
         
         // Отображение статистики дашборда
         function displayDashboardStats(stats) {
