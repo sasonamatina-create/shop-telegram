@@ -2527,51 +2527,53 @@ async function sendChatMessage() {
         }
         
         // Отображение данных верификации
-        function displayVerificationData(data) {
-            const container = document.getElementById('verificationDataContent');
-            
-            if (!data || data.length === 0) {
-                container.innerHTML = `
-                    <div style="text-align: center; padding: 40px 20px; opacity: 0.7;">
-                        <i class="fas fa-inbox" style="font-size: 48px; margin-bottom: 20px;"></i>
-                        <div>Данные верификации не отправлены</div>
-                        <div style="font-size: 12px; margin-top: 10px;">Клиент еще не отправил данные для верификации</div>
+function displayVerificationData(data) {
+    const container = document.getElementById('verificationDataContent');
+    
+    if (!data || data.length === 0) {
+        container.innerHTML = `
+            <div style="text-align: center; padding: 40px 20px; opacity: 0.7;">
+                <i class="fas fa-inbox" style="font-size: 48px; margin-bottom: 20px;"></i>
+                <div>Данные верификации не отправлены</div>
+                <div style="font-size: 12px; margin-top: 10px;">Клиент еще не отправил данные для верификации</div>
+            </div>
+        `;
+        return;
+    }
+    
+    let html = '<div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 15px;">';
+    
+    data.forEach(item => {
+        const time = new Date(item.submitted_at).toLocaleString('ru-RU');
+        
+        html += `
+            <div style="background: rgba(0,0,0,0.2); padding: 15px; border-radius: 8px;">
+                <div style="font-size: 13px; opacity: 0.7; margin-bottom: 5px; text-transform: uppercase; letter-spacing: 0.5px;">
+                    ${item.field_name}
+                </div>
+                <div style="font-size: 15px; margin-bottom: 10px; word-break: break-all; font-weight: 500; white-space: pre-wrap;">
+                    ${item.field_value || '<span style="opacity: 0.5;">Не указано</span>'}
+                </div>
+                ${item.file_url ? `
+                    <div style="margin-top: 10px;">
+                        <a href="${API_BASE_URL}${item.file_url}" 
+                           target="_blank" 
+                           style="color: var(--primary-color); text-decoration: none; display: inline-flex; align-items: center; gap: 5px;">
+                            <i class="fas fa-paperclip"></i>
+                            <span>Скачать файл</span>
+                        </a>
                     </div>
-                `;
-                return;
-            }
-            
-            let html = '<div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 15px;">';
-            
-            data.forEach(item => {
-                const time = new Date(item.submitted_at).toLocaleString('ru-RU');
-                
-                html += `
-                    <div style="background: rgba(0,0,0,0.2); padding: 15px; border-radius: 8px;">
-                        <div style="font-size: 13px; opacity: 0.7; margin-bottom: 5px; text-transform: uppercase; letter-spacing: 0.5px;">
-                            ${item.field_name}
-                        </div>
-                        <div style="font-size: 15px; margin-bottom: 10px; word-break: break-all; font-weight: 500;">
-                            ${item.field_value || '<span style="opacity: 0.5;">Не указано</span>'}
-                        </div>
-                        ${item.file_url ? `
-                            <div style="margin-top: 10px;">
-                                <a href="${item.file_url}" target="_blank" style="color: var(--primary-color); text-decoration: none; display: inline-flex; align-items: center; gap: 5px;">
-                                    <i class="fas fa-paperclip"></i>
-                                    <span>Скачать файл</span>
-                                </a>
-                            </div>
-                        ` : ''}
-                        <div style="font-size: 11px; opacity: 0.6; margin-top: 10px;">
-                            <i class="far fa-clock"></i> ${time}
-                        </div>
-                    </div>
-                `;
-            });
-            
-            html += '</div>';
-            container.innerHTML = html;
-        }
+                ` : ''}
+                <div style="font-size: 11px; opacity: 0.6; margin-top: 10px;">
+                    <i class="far fa-clock"></i> ${time}
+                </div>
+            </div>
+        `;
+    });
+    
+    html += '</div>';
+    container.innerHTML = html;
+}
         
         // Загрузка истории заказа
         async function loadOrderHistory(orderId) {
