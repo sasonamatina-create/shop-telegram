@@ -1588,7 +1588,6 @@ async function startApp() {
 // Функция инициализации пользователя
 async function initializeUser() {
     try {
-        // Получаем данные пользователя из Telegram
         const initData = tg.initDataUnsafe;
         const userData = {
             user_id: USER_ID,
@@ -1598,39 +1597,45 @@ async function initializeUser() {
             referred_by: getReferralFromUrl()
         };
 
-        // Регистрируем пользователя через API
+        console.log('Отправка данных:', userData); // ДЛЯ ОТЛАДКИ
+
         const response = await fetch(`${API_BASE_URL}/users/register`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'X-Telegram-Init-Data': tg.initData
+                'ngrok-skip-browser-warning': 'true'
             },
             body: JSON.stringify(userData)
         });
+
+        console.log('Статус ответа:', response.status); // ДЛЯ ОТЛАДКИ
 
         if (response.ok) {
             const data = await response.json();
             d.user = data.user;
             console.log('Пользователь инициализирован:', d.user);
             
-            // Загружаем реферальную информацию
             await loadReferralInfo();
-            
-            // Загружаем историю покупок
             await loadPurchaseHistory();
         } else {
-            console.error('Ошибка регистрации пользователя');
-            tg.showAlert('❌ Ошибка инициализации пользователя');
+            const errorText = await response.text();
+            console.error('Ошибка регистрации:', errorText);
+            
+            // НЕ показываем алерт в режиме разработки
+            if (API_BASE_URL.includes('ngrok') || API_BASE_URL.includes('localhost')) {
+                console.log('Режим разработки - ошибка API игнорируется');
+            } else {
+                tg.showAlert?.('❌ Ошибка инициализации пользователя') || alert('❌ Ошибка инициализации');
+            }
         }
     } catch (error) {
-        console.error('Ошибка при инициализации пользователя:', error);
+        console.error('Ошибка при инициализации:', error);
+        
         if (API_BASE_URL.includes('ngrok') || API_BASE_URL.includes('localhost')) {
-        console.log('Режим разработки - ошибка API игнорируется');
-    } else {
-        tg.showAlert?.('❌ Ошибка подключения к серверу') || alert('❌ Ошибка подключения к серверу');
-    }
-
-        tg.showAlert('❌ Ошибка подключения к серверу');
+            console.log('Режим разработки - ошибка API игнорируется');
+        } else {
+            tg.showAlert?.('❌ Ошибка подключения к серверу') || alert('❌ Ошибка подключения');
+        }
     }
 }
 
