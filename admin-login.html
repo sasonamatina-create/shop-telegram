@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Вход в админ-панель EPIC KYC</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0a0a1a 0%, #15152a 100%);
+            color: #fff;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .bg-shapes {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            overflow: hidden;
+            pointer-events: none;
+        }
+        
+        .shape {
+            position: absolute;
+            border-radius: 50%;
+            opacity: 0.08;
+        }
+        
+        .shape1 {
+            width: 300px;
+            height: 300px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            top: 10%;
+            left: 10%;
+            animation: float 20s infinite ease-in-out;
+        }
+        
+        .shape2 {
+            width: 200px;
+            height: 200px;
+            background: linear-gradient(135deg, #4facfe, #00f2fe);
+            top: 60%;
+            right: 10%;
+            animation: float 25s infinite ease-in-out;
+            animation-delay: 5s;
+        }
+        
+        .shape3 {
+            width: 150px;
+            height: 150px;
+            background: linear-gradient(135deg, #f093fb, #f5576c);
+            bottom: 20%;
+            left: 30%;
+            animation: float 30s infinite ease-in-out;
+            animation-delay: 10s;
+        }
+        
+        .login-container {
+            width: 100%;
+            max-width: 400px;
+            padding: 20px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .login-card {
+            background: rgba(255, 255, 255, 0.07);
+            backdrop-filter: blur(25px);
+            border: 1px solid rgba(102, 126, 234, 0.2);
+            border-radius: 16px;
+            padding: 40px 30px;
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+        
+        .logo {
+            font-size: 48px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: center;
+        }
+        
+        .logo-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto;
+            font-size: 36px;
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+        }
+        
+        h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .subtitle {
+            font-size: 14px;
+            opacity: 0.7;
+            margin-bottom: 30px;
+            line-height: 1.5;
+        }
+        
+        .input-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 14px;
+            opacity: 0.9;
+            font-weight: 500;
+        }
+        
+        .input-with-icon {
+            position: relative;
+        }
+        
+        .input-with-icon i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 16px;
+        }
+        
+        input {
+            width: 100%;
+            padding: 12px 15px 12px 45px;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            color: white;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+        
+        input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2);
+        }
+        
+        .login-btn {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .login-btn:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+        }
+        
+        .login-btn:active {
+            transform: translateY(0);
+        }
+        
+        .error-message {
+            color: #ff3b30;
+            font-size: 14px;
+            margin-top: 10px;
+            padding: 10px;
+            background: rgba(255, 59, 48, 0.1);
+            border-radius: 8px;
+            border: 1px solid rgba(255, 59, 48, 0.3);
+            display: none;
+        }
+        
+        .footer {
+            margin-top: 30px;
+            font-size: 12px;
+            opacity: 0.6;
+            text-align: center;
+            line-height: 1.5;
+        }
+        
+        .test-credentials {
+            margin-top: 20px;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            font-size: 12px;
+            text-align: left;
+        }
+        
+        .test-credentials h4 {
+            margin-bottom: 8px;
+            color: #4facfe;
+            font-size: 13px;
+        }
+        
+        .test-credentials p {
+            margin-bottom: 5px;
+            opacity: 0.8;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+        
+        @media (max-width: 480px) {
+            .login-card {
+                padding: 30px 20px;
+            }
+            
+            h1 {
+                font-size: 24px;
+            }
+            
+            .logo-icon {
+                width: 60px;
+                height: 60px;
+                font-size: 28px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-shapes">
+        <div class="shape shape1"></div>
+        <div class="shape shape2"></div>
+        <div class="shape shape3"></div>
+    </div>
+    
+    <div class="login-container">
+        <div class="login-card">
+            <div class="logo">
+                <div class="logo-icon">
+                    <i class="fas fa-user-shield"></i>
+                </div>
+            </div>
+            
+            <h1>EPIC KYC Admin</h1>
+            <div class="subtitle">Вход в админ-панель управления заказами</div>
+            
+            <div class="input-group">
+                <label for="username">Имя пользователя</label>
+                <div class="input-with-icon">
+                    <i class="fas fa-user"></i>
+                    <input type="text" id="username" placeholder="Введите имя пользователя">
+                </div>
+            </div>
+            
+            <div class="input-group">
+                <label for="password">Пароль</label>
+                <div class="input-with-icon">
+                    <i class="fas fa-lock"></i>
+                    <input type="password" id="password" placeholder="Введите пароль">
+                </div>
+            </div>
+            
+            <div class="error-message" id="errorMessage">
+                <i class="fas fa-exclamation-circle"></i>
+                <span id="errorText">Неверный логин или пароль</span>
+            </div>
+            
+            <button class="login-btn" onclick="login()">
+                <i class="fas fa-sign-in-alt"></i>
+                <span>Войти в систему</span>
+            </button>
+            
+            <div class="test-credentials">
+                <h4><i class="fas fa-info-circle"></i> Тестовые данные:</h4>
+                <p><strong>Логин:</strong> admin</p>
+                <p><strong>Пароль:</strong> admin123</p>
+            </div>
+            
+            <div class="footer">
+                <p>© 2024 EPIC KYC Admin Panel</p>
+                <p>Только для авторизованного персонала</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE_URL = window.location.origin + '/api';
+        
+        // Вход по нажатию Enter
+        document.getElementById('password').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                login();
+            }
+        });
+        
+        async function login() {
+            const username = document.getElementById('username').value.trim();
+            const password = document.getElementById('password').value;
+            const errorMessage = document.getElementById('errorMessage');
+            const errorText = document.getElementById('errorText');
+            
+            // Скрываем предыдущую ошибку
+            errorMessage.style.display = 'none';
+            
+            // Валидация
+            if (!username || !password) {
+                errorText.textContent = 'Заполните все поля';
+                errorMessage.style.display = 'block';
+                return;
+            }
+            
+            // Показываем индикатор загрузки
+            const loginBtn = document.querySelector('.login-btn');
+            const originalText = loginBtn.innerHTML;
+            loginBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i><span>Вход в систему...</span>';
+            loginBtn.disabled = true;
+            
+            try {
+                const response = await fetch(`${API_BASE_URL}/admin/login`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        username: username,
+                        password: password
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    // Сохраняем данные в localStorage
+                    localStorage.setItem('admin_id', data.admin.admin_id);
+                    localStorage.setItem('admin_token', data.token);
+                    localStorage.setItem('admin_nickname', data.admin.nickname);
+                    localStorage.setItem('admin_username', data.admin.username);
+                    localStorage.setItem('admin_role', data.admin.role);
+                    
+                    // Перенаправляем на админ-панель
+                    window.location.href = '/admin';
+                } else {
+                    errorText.textContent = data.error || 'Неверный логин или пароль';
+                    errorMessage.style.display = 'block';
+                    
+                    // Анимация ошибки
+                    errorMessage.style.animation = 'none';
+                    setTimeout(() => {
+                        errorMessage.style.animation = '';
+                    }, 10);
+                }
+            } catch (error) {
+                console.error('Ошибка авторизации:', error);
+                errorText.textContent = 'Ошибка подключения к серверу';
+                errorMessage.style.display = 'block';
+            } finally {
+                // Восстанавливаем кнопку
+                loginBtn.innerHTML = originalText;
+                loginBtn.disabled = false;
+            }
+        }
+        
+        // Автофокус на поле логина при загрузке
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('username').focus();
+            
+            // Проверяем, если пользователь уже авторизован
+            const adminToken = localStorage.getItem('admin_token');
+            if (adminToken) {
+                // Проверяем валидность токена
+                checkAuth();
+            }
+        });
+        
+        async function checkAuth() {
+            const adminId = localStorage.getItem('admin_id');
+            const adminToken = localStorage.getItem('admin_token');
+            
+            if (!adminId || !adminToken) {
+                return;
+            }
+            
+            try {
+                const response = await fetch(`${API_BASE_URL}/admin/online`, {
+                    headers: {
+                        'X-Admin-ID': adminId,
+                        'X-Admin-Token': adminToken
+                    }
+                });
+                
+                if (response.ok) {
+                    // Токен валиден, перенаправляем на админ-панель
+                    window.location.href = '/admin';
+                } else {
+                    // Токен невалиден, очищаем localStorage
+                    localStorage.removeItem('admin_id');
+                    localStorage.removeItem('admin_token');
+                    localStorage.removeItem('admin_nickname');
+                }
+            } catch (error) {
+                console.error('Ошибка проверки авторизации:', error);
+            }
+        }
+    </script>
+</body>
+</html>
