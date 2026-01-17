@@ -1778,7 +1778,7 @@
     <script>
         // Конфигурация
         const API_BASE_URL = 'http://150.241.106.83/api';
-        const WS_URL = 'wss://saran-furcular-katlyn.ngrok-free.dev';
+        const WS_URL = 'ws://150.241.106.83';
         
         // Глобальные переменные
         let currentAdmin = null;
@@ -3236,14 +3236,6 @@ function showSection(sectionId) {
         document.getElementById('sidebar').classList.remove('show');
     }
 }
-            
-
-            
-            // Скрываем мобильное меню если открыто
-            if (window.innerWidth <= 992) {
-                document.getElementById('sidebar').classList.remove('show');
-            }
-        
         // Загрузка статистики для верхней панели
         async function loadAdminStatsBar() {
             try {
