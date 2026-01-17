@@ -214,7 +214,7 @@
             line-height: 1.5;
         }
         
-        .test-credentials {
+        .instructions {
             margin-top: 20px;
             padding: 15px;
             background: rgba(255, 255, 255, 0.05);
@@ -223,13 +223,13 @@
             text-align: left;
         }
         
-        .test-credentials h4 {
+        .instructions h4 {
             margin-bottom: 8px;
             color: #4facfe;
             font-size: 13px;
         }
         
-        .test-credentials p {
+        .instructions p {
             margin-bottom: 5px;
             opacity: 0.8;
         }
@@ -300,10 +300,9 @@
                 <span>Войти в систему</span>
             </button>
             
-            <div class="test-credentials">
-                <h4><i class="fas fa-info-circle"></i> Тестовые данные:</h4>
-                <p><strong>Логин:</strong> admin</p>
-                <p><strong>Пароль:</strong> admin123</p>
+            <div class="instructions">
+                <h4><i class="fas fa-info-circle"></i> Инструкция:</h4>
+                <p>Для получения доступа к админ-панели откройте телеграм-бота <strong>@Epickyc_bot</strong> и нажмите кнопку <strong>"👑 АДМИН ПАНЕЛЬ"</strong> в главном меню.</p>
             </div>
             
             <div class="footer">
@@ -315,6 +314,7 @@
 
     <script>
         const API_BASE_URL = 'https://saran-furcular-katlyn.ngrok-free.dev/api';
+        const ADMIN_PANEL_URL = 'https://coruscating-rugelach-7547d9.netlify.app/admin';
         
         // Вход по нажатию Enter
         document.getElementById('password').addEventListener('keypress', function(e) {
@@ -368,7 +368,7 @@
                     localStorage.setItem('admin_role', data.admin.role);
                     
                     // Перенаправляем на админ-панель
-                    window.location.href = '/admin';
+                    window.location.href = ADMIN_PANEL_URL;
                 } else {
                     errorText.textContent = data.error || 'Неверный логин или пароль';
                     errorMessage.style.display = 'block';
@@ -420,7 +420,7 @@
                 
                 if (response.ok) {
                     // Токен валиден, перенаправляем на админ-панель
-                    window.location.href = '/admin';
+                    window.location.href = ADMIN_PANEL_URL;
                 } else {
                     // Токен невалиден, очищаем localStorage
                     localStorage.removeItem('admin_id');
