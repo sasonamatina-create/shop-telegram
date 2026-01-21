@@ -2826,7 +2826,6 @@ async function proceedToPayment() {
     }
 
     try {
-        // Создаем заказ через API
         const orderData = {
             user_id: USER_ID,
             exchange: d.ex,
@@ -2835,8 +2834,7 @@ async function proceedToPayment() {
             country: d.country,
             amount: d.price,
             crypto: d.crypto,
-            network: d.net,
-            wallet_type: d.walletType
+            network: d.net
         };
 
         const response = await fetch(`${API_BASE_URL}/orders/create`, {
@@ -2849,8 +2847,6 @@ async function proceedToPayment() {
         });
 
         if (!response.ok) {
-            const errorText = await response.text();
-            console.error('Ошибка создания заказа:', errorText);
             throw new Error('Ошибка создания заказа');
         }
 
@@ -2862,37 +2858,60 @@ async function proceedToPayment() {
         }
 
         d.oid = orderResult.order.order_id;
-        d.walletAddress = orderResult.wallet_address;
-        d.addr = orderResult.wallet_address;
+        d.walletAddress = orderResult.payment_address;
+        d.addr = orderResult.payment_address;
+        d.paymentUrl = orderResult.payment_url;
 
-        // Очищаем контейнер QR-кода
-        var qrContainer = document.getElementById('qr');
-        qrContainer.innerHTML = '';
-
-        // Генерируем QR-код с правильным размером
-        new QRCode(qrContainer, {
-            text: d.addr,
-            width: 200,
-            height: 200,
-            colorDark: '#000',
-            colorLight: '#fff',
-            correctLevel: QRCode.CorrectLevel.H
-        });
-
-        document.getElementById('addr').textContent = d.addr;
-
-        // Рассчитываем итоговую сумму
+        // Обновляем экран оплаты
+        document.getElementById('addr').textContent = d.addr || 'Адрес будет сгенерирован';
+        
         var totalAmount = d.price;
         document.getElementById('paymentAmount').textContent = '$' + totalAmount;
         
-        // Отображаем сумму в криптовалюте
-        const cryptoAmount = totalAmount; // Здесь можно добавить конвертацию если нужно
-        document.getElementById('cryptoAmount').textContent = `${cryptoAmount} ${d.crypto.toUpperCase()}`;
+        const cryptoAmount = orderResult.pay_amount || totalAmount;
+        const payCurrency = orderResult.pay_currency || d.crypto.toUpperCase();
+        document.getElementById('cryptoAmount').textContent = `${cryptoAmount} ${payCurrency}`;
 
-        console.log('Итоговая сумма:', totalAmount);
-        console.log('Заказ создан:', d.oid);
+        // QR-код
+        if (d.addr) {
+            var qrContainer = document.getElementById('qr');
+            qrContainer.innerHTML = '';
+            new QRCode(qrContainer, {
+                text: d.addr,
+                width: 200,
+                height: 200,
+                colorDark: '#000',
+                colorLight: '#fff',
+                correctLevel: QRCode.CorrectLevel.H
+            });
+        }
 
         switchScreen(11);
+        
+        // Добавляем кнопку оплаты
+        const paymentScreen = document.querySelector('#s11 .screen-content');
+        let openPaymentBtn = document.getElementById('openPaymentBtn');
+        
+        if (!openPaymentBtn) {
+            openPaymentBtn = document.createElement('button');
+            openPaymentBtn.id = 'openPaymentBtn';
+            openPaymentBtn.className = 'btn';
+            openPaymentBtn.style.marginTop = '20px';
+            openPaymentBtn.style.background = 'linear-gradient(135deg, #34c759, #30b453)';
+            openPaymentBtn.innerHTML = '💳 Открыть страницу оплаты';
+            
+            const qrSection = paymentScreen.querySelector('.qr-section');
+            qrSection.parentNode.insertBefore(openPaymentBtn, qrSection.nextSibling);
+        }
+        
+        openPaymentBtn.onclick = function() {
+            if (tg.openLink) {
+                tg.openLink(d.paymentUrl);
+            } else {
+                window.open(d.paymentUrl, '_blank');
+            }
+        };
+        
         startPaymentTimer();
         startPaymentCheck();
         
@@ -2904,19 +2923,11 @@ async function proceedToPayment() {
 
 // Функция перехода к оплате для MEXC
 async function proceedToPaymentMexc() {
-    console.log('proceedToPaymentMexc вызвана');
-    console.log('Данные MEXC перед оплатой:', d);
-
-    // Используем ту же функцию, так как логика одинаковая
     await proceedToPayment();
 }
 
 // Функция перехода к оплате для WEEX
 async function proceedToPaymentWeex() {
-    console.log('proceedToPaymentWeex вызвана');
-    console.log('Данные WEEX перед оплатой:', d);
-
-    // Используем ту же функцию, так как логика одинаковая
     await proceedToPayment();
 }
 
