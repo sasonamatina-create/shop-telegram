@@ -2857,60 +2857,83 @@ async function proceedToPayment() {
             return;
         }
 
-        d.oid = orderResult.order.order_id;
-        d.walletAddress = orderResult.payment_address;
-        d.addr = orderResult.payment_address;
-        d.paymentUrl = orderResult.payment_url;
+        console.log('Результат создания заказа:', orderResult);
 
-        // Обновляем экран оплаты
-        document.getElementById('addr').textContent = d.addr || 'Адрес будет сгенерирован';
+        d.oid = orderResult.order.order_id;
+        d.paymentUrl = orderResult.payment_url;
+        d.addr = orderResult.payment_address;
+        d.payAmount = orderResult.pay_amount;
+        d.payCurrency = orderResult.pay_currency;
+
+        // Показываем экран оплаты
+        switchScreen(11);
+
+        // Обновляем информацию на экране
+        const cryptoAmount = d.payAmount || d.price;
+        const payCurrency = (d.payCurrency || d.crypto).toUpperCase();
         
-        var totalAmount = d.price;
-        document.getElementById('paymentAmount').textContent = '$' + totalAmount;
-        
-        const cryptoAmount = orderResult.pay_amount || totalAmount;
-        const payCurrency = orderResult.pay_currency || d.crypto.toUpperCase();
+        document.getElementById('paymentAmount').textContent = '$' + d.price;
         document.getElementById('cryptoAmount').textContent = `${cryptoAmount} ${payCurrency}`;
 
-        // QR-код
-        if (d.addr) {
+        // Если адрес есть - показываем его и QR
+        if (d.addr && d.addr !== 'null' && d.addr !== null) {
+            console.log('Адрес для оплаты:', d.addr);
+            
+            // Показываем адрес
+            document.getElementById('addr').textContent = d.addr;
+            
+            // Генерируем QR-код
             var qrContainer = document.getElementById('qr');
             qrContainer.innerHTML = '';
-            new QRCode(qrContainer, {
-                text: d.addr,
-                width: 200,
-                height: 200,
-                colorDark: '#000',
-                colorLight: '#fff',
-                correctLevel: QRCode.CorrectLevel.H
-            });
+            
+            try {
+                new QRCode(qrContainer, {
+                    text: d.addr,
+                    width: 200,
+                    height: 200,
+                    colorDark: '#000',
+                    colorLight: '#fff',
+                    correctLevel: QRCode.CorrectLevel.H
+                });
+                console.log('QR-код сгенерирован успешно');
+            } catch (qrError) {
+                console.error('Ошибка генерации QR-кода:', qrError);
+            }
+        } else {
+            console.log('Адрес не получен, только ссылка на оплату');
+            document.getElementById('addr').textContent = 'Используйте кнопку ниже для оплаты';
+            
+            // Скрываем QR-код если адреса нет
+            var qrContainer = document.getElementById('qr');
+            qrContainer.innerHTML = '<div style="padding:20px;text-align:center;opacity:0.7">QR-код будет доступен после перехода по ссылке</div>';
         }
 
-        switchScreen(11);
-        
-        // Добавляем кнопку оплаты
+        // Добавляем/обновляем кнопку оплаты
         const paymentScreen = document.querySelector('#s11 .screen-content');
         let openPaymentBtn = document.getElementById('openPaymentBtn');
         
-        if (!openPaymentBtn) {
-            openPaymentBtn = document.createElement('button');
-            openPaymentBtn.id = 'openPaymentBtn';
-            openPaymentBtn.className = 'btn';
-            openPaymentBtn.style.marginTop = '20px';
-            openPaymentBtn.style.background = 'linear-gradient(135deg, #34c759, #30b453)';
-            openPaymentBtn.innerHTML = '💳 Открыть страницу оплаты';
-            
-            const qrSection = paymentScreen.querySelector('.qr-section');
-            qrSection.parentNode.insertBefore(openPaymentBtn, qrSection.nextSibling);
+        if (openPaymentBtn) {
+            openPaymentBtn.remove();
         }
         
+        openPaymentBtn = document.createElement('button');
+        openPaymentBtn.id = 'openPaymentBtn';
+        openPaymentBtn.className = 'btn';
+        openPaymentBtn.style.marginTop = '20px';
+        openPaymentBtn.style.background = 'linear-gradient(135deg, #34c759, #30b453)';
+        openPaymentBtn.innerHTML = '💳 Открыть страницу оплаты NowPayments';
+        
         openPaymentBtn.onclick = function() {
+            console.log('Открытие страницы оплаты:', d.paymentUrl);
             if (tg.openLink) {
                 tg.openLink(d.paymentUrl);
             } else {
                 window.open(d.paymentUrl, '_blank');
             }
         };
+        
+        const qrSection = paymentScreen.querySelector('.qr-section');
+        qrSection.parentNode.insertBefore(openPaymentBtn, qrSection.nextSibling);
         
         startPaymentTimer();
         startPaymentCheck();
