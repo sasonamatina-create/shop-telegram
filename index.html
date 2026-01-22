@@ -1553,12 +1553,12 @@ function isServiceWithQuantity(exchangeId) {
 // Сети без комиссий
 var nets = {
     usdt: [
-        {id: 'bsc', n: 'BNB Smart Chain', logo: 'https://cryptologos.cc/logos/bnb-bnb-logo.png', type: 'usdt-bsc'},
-        {id: 'trc20', n: 'TRON Network', logo: 'https://cryptologos.cc/logos/tron-trx-logo.png', type: 'usdt-trc20'}
+        {id: 'bsc', n: 'BNB Smart Chain (BEP20)', logo: 'https://cryptologos.cc/logos/bnb-bnb-logo.png'},
+        {id: 'trc20', n: 'TRON Network (TRC20)', logo: 'https://cryptologos.cc/logos/tron-trx-logo.png'}
     ],
     usdc: [
-        {id: 'solana', n: 'Solana', logo: 'https://cryptologos.cc/logos/solana-sol-logo.png', type: 'usdc-solana'},
-        {id: 'bsc', n: 'BNB Smart Chain', logo: 'https://cryptologos.cc/logos/bnb-bnb-logo.png', type: 'usdc-bsc'}
+        {id: 'solana', n: 'Solana', logo: 'https://cryptologos.cc/logos/solana-sol-logo.png'},
+        {id: 'bsc', n: 'BNB Smart Chain (BEP20)', logo: 'https://cryptologos.cc/logos/bnb-bnb-logo.png'}
     ]
 };
 
@@ -2837,6 +2837,8 @@ async function proceedToPayment() {
             network: d.net
         };
 
+        console.log('Отправка заказа:', orderData);
+
         const response = await fetch(`${API_BASE_URL}/orders/create`, {
             method: 'POST',
             headers: {
@@ -2847,93 +2849,70 @@ async function proceedToPayment() {
         });
 
         if (!response.ok) {
+            const errorText = await response.text();
+            console.error('Ошибка ответа:', errorText);
             throw new Error('Ошибка создания заказа');
         }
 
         const orderResult = await response.json();
+        console.log('Ответ сервера:', orderResult);
         
         if (!orderResult.success) {
             tg.showAlert(`❌ Ошибка: ${orderResult.error || 'Неизвестная ошибка'}`);
             return;
         }
 
-        console.log('Результат создания заказа:', orderResult);
+        // Проверяем что получили адрес
+        if (!orderResult.payment_address) {
+            console.error('Адрес не получен от сервера!');
+            tg.showAlert('❌ Не удалось получить адрес для оплаты');
+            return;
+        }
 
         d.oid = orderResult.order.order_id;
-        d.paymentUrl = orderResult.payment_url;
         d.addr = orderResult.payment_address;
         d.payAmount = orderResult.pay_amount;
         d.payCurrency = orderResult.pay_currency;
 
+        console.log('Адрес для оплаты:', d.addr);
+        console.log('Сумма:', d.payAmount, d.payCurrency);
+
         // Показываем экран оплаты
         switchScreen(11);
 
-        // Обновляем информацию на экране
+        // Обновляем суммы
+        document.getElementById('paymentAmount').textContent = '$' + d.price;
+        
         const cryptoAmount = d.payAmount || d.price;
         const payCurrency = (d.payCurrency || d.crypto).toUpperCase();
-        
-        document.getElementById('paymentAmount').textContent = '$' + d.price;
         document.getElementById('cryptoAmount').textContent = `${cryptoAmount} ${payCurrency}`;
 
-        // Если адрес есть - показываем его и QR
-        if (d.addr && d.addr !== 'null' && d.addr !== null) {
-            console.log('Адрес для оплаты:', d.addr);
-            
-            // Показываем адрес
-            document.getElementById('addr').textContent = d.addr;
-            
-            // Генерируем QR-код
-            var qrContainer = document.getElementById('qr');
-            qrContainer.innerHTML = '';
-            
-            try {
-                new QRCode(qrContainer, {
-                    text: d.addr,
-                    width: 200,
-                    height: 200,
-                    colorDark: '#000',
-                    colorLight: '#fff',
-                    correctLevel: QRCode.CorrectLevel.H
-                });
-                console.log('QR-код сгенерирован успешно');
-            } catch (qrError) {
-                console.error('Ошибка генерации QR-кода:', qrError);
-            }
-        } else {
-            console.log('Адрес не получен, только ссылка на оплату');
-            document.getElementById('addr').textContent = 'Используйте кнопку ниже для оплаты';
-            
-            // Скрываем QR-код если адреса нет
-            var qrContainer = document.getElementById('qr');
-            qrContainer.innerHTML = '<div style="padding:20px;text-align:center;opacity:0.7">QR-код будет доступен после перехода по ссылке</div>';
+        // Показываем адрес
+        document.getElementById('addr').textContent = d.addr;
+
+        // Генерируем QR-код
+        var qrContainer = document.getElementById('qr');
+        qrContainer.innerHTML = '';
+        
+        try {
+            new QRCode(qrContainer, {
+                text: d.addr,
+                width: 200,
+                height: 200,
+                colorDark: '#000',
+                colorLight: '#fff',
+                correctLevel: QRCode.CorrectLevel.H
+            });
+            console.log('✅ QR-код сгенерирован');
+        } catch (qrError) {
+            console.error('❌ Ошибка генерации QR-кода:', qrError);
         }
 
-        // Добавляем/обновляем кнопку оплаты
-        const paymentScreen = document.querySelector('#s11 .screen-content');
-        let openPaymentBtn = document.getElementById('openPaymentBtn');
-        
-        if (openPaymentBtn) {
-            openPaymentBtn.remove();
+        // УДАЛЯЕМ кнопку "Открыть страницу оплаты" если она есть
+        const oldBtn = document.getElementById('openPaymentBtn');
+        if (oldBtn) {
+            oldBtn.remove();
         }
-        
-        openPaymentBtn = document.createElement('button');
-        openPaymentBtn.id = 'openPaymentBtn';
-        openPaymentBtn.className = 'btn';
-        openPaymentBtn.style.marginTop = '20px';
-        openPaymentBtn.style.background = 'linear-gradient(135deg, #34c759, #30b453)';
-        openPaymentBtn.innerHTML = '💳 Открыть страницу оплаты NowPayments';
-        
-        openPaymentBtn.onclick = function() {
-            console.log('Открытие страницы оплаты:', d.paymentUrl);
-            if (tg.openLink) {
-                tg.openLink(d.paymentUrl);
-            } else {
-                window.open(d.paymentUrl, '_blank');
-            }
-        };
-        
-        const qrSection = paymentScreen.querySelector('.qr-section');
-        qrSection.parentNode.insertBefore(openPaymentBtn, qrSection.nextSibling);
         
         startPaymentTimer();
         startPaymentCheck();
