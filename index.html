@@ -2867,82 +2867,60 @@ async function proceedToPayment() {
             return;
         }
 
-        // Проверяем что получили адрес
         if (!orderResult.payment_address) {
             console.error('Адрес не получен от сервера!');
             tg.showAlert('❌ Не удалось получить адрес для оплаты');
             return;
         }
 
-        // СОХРАНЯЕМ данные ДО переключения экрана
         d.oid = orderResult.order.order_id;
         d.addr = orderResult.payment_address;
         d.payAmount = orderResult.pay_amount;
         d.payCurrency = orderResult.pay_currency;
 
-        console.log('✅ Сохранены данные:');
+        console.log('✅ Данные сохранены:');
         console.log('   Адрес:', d.addr);
         console.log('   Сумма:', d.payAmount, d.payCurrency);
-        console.log('   Order ID:', d.oid);
 
         // Переключаем экран
         switchScreen(11);
 
-        // УВЕЛИЧИВАЕМ задержку до 500мс и используем requestAnimationFrame
+        // Ждем загрузки DOM
         setTimeout(function() {
-            requestAnimationFrame(function() {
-                console.log('🔄 Начинаем обновление элементов...');
-                
-                // 1. Обновляем суммы
-                const paymentAmountEl = document.getElementById('paymentAmount');
-                if (paymentAmountEl) {
-                    paymentAmountEl.textContent = '$' + d.price;
-                    console.log('✅ Сумма USD обновлена:', paymentAmountEl.textContent);
-                } else {
-                    console.error('❌ Элемент paymentAmount НЕ НАЙДЕН!');
-                }
-                
-                const cryptoAmount = d.payAmount || d.price;
-                const payCurrency = (d.payCurrency || d.crypto).toUpperCase();
-                const cryptoAmountEl = document.getElementById('cryptoAmount');
-                if (cryptoAmountEl) {
-                    cryptoAmountEl.textContent = `${cryptoAmount} ${payCurrency}`;
-                    console.log('✅ Сумма крипты обновлена:', cryptoAmountEl.textContent);
-                } else {
-                    console.error('❌ Элемент cryptoAmount НЕ НАЙДЕН!');
-                }
+            console.log('🔄 Обновление данных оплаты...');
+            
+            // 1. Обновляем суммы
+            document.getElementById('paymentAmount').textContent = '$' + d.price;
+            
+            const cryptoAmount = d.payAmount || d.price;
+            const payCurrency = (d.payCurrency || d.crypto).toUpperCase();
+            document.getElementById('cryptoAmount').textContent = `${cryptoAmount} ${payCurrency}`;
 
-                // 2. КРИТИЧНО - Показываем адрес
-                const addrEl = document.getElementById('addr');
-                console.log('🔍 Элемент адреса:', addrEl);
-                console.log('🔍 Значение d.addr:', d.addr);
+            // 2. ПЕРЕСОЗДАЕМ элемент адреса полностью
+            const addrEl = document.getElementById('addr');
+            console.log('Старый элемент addr:', addrEl);
+            
+            if (addrEl) {
+                // ПЕРЕСОЗДАЕМ элемент
+                const newAddrEl = document.createElement('div');
+                newAddrEl.className = 'wallet-address';
+                newAddrEl.id = 'addr';
+                newAddrEl.textContent = d.addr;
                 
-                if (addrEl) {
-                    if (d.addr) {
-                        addrEl.textContent = d.addr;
-                        console.log('✅✅✅ АДРЕС УСТАНОВЛЕН:', addrEl.textContent);
-                        console.log('✅ Проверка innerHTML:', addrEl.innerHTML);
-                    } else {
-                        console.error('❌ d.addr пустой!');
-                        addrEl.textContent = '❌ Ошибка загрузки адреса';
-                    }
-                } else {
-                    console.error('❌❌❌ ЭЛЕМЕНТ addr НЕ НАЙДЕН В DOM!');
-                }
+                // Заменяем старый элемент новым
+                addrEl.parentNode.replaceChild(newAddrEl, addrEl);
+                
+                console.log('✅ Новый элемент создан:', newAddrEl);
+                console.log('✅ Текст адреса:', newAddrEl.textContent);
+            }
 
-                // 3. Генерируем QR-код
-                const qrContainer = document.getElementById('qr');
-                console.log('🔍 QR контейнер:', qrContainer);
-                
-                if (!qrContainer) {
-                    console.error('❌ QR контейнер не найден!');
-                    return;
-                }
-                
+            // 3. Генерируем QR-код
+            const qrContainer = document.getElementById('qr');
+            if (qrContainer) {
                 qrContainer.innerHTML = '';
                 
                 try {
-                    console.log('🔄 Генерация QR-кода для:', d.addr);
+                    console.log('🔄 Генерация QR для:', d.addr);
                     
                     new QRCode(qrContainer, {
                         text: d.addr,
@@ -2955,34 +2933,19 @@ async function proceedToPayment() {
                     
                     console.log('✅ QR-код создан');
                     
-                    // Проверяем что QR отрисовался
-                    setTimeout(function() {
-                        const qrCanvas = qrContainer.querySelector('canvas');
-                        const qrImg = qrContainer.querySelector('img');
-                        console.log('QR canvas:', qrCanvas);
-                        console.log('QR img:', qrImg);
-                        if (qrCanvas || qrImg) {
-                            console.log('✅✅✅ QR-КОД ОТОБРАЖАЕТСЯ');
-                        } else {
-                            console.error('❌ QR-код не отрисовался!');
-                        }
-                    }, 300);
-                    
                 } catch (qrError) {
-                    console.error('❌ Ошибка генерации QR:', qrError);
-                    qrContainer.innerHTML = '<div style="padding:20px;text-align:center;color:#ff3b30">❌ Ошибка QR<br>Используйте адрес ниже</div>';
+                    console.error('❌ Ошибка QR:', qrError);
+                    qrContainer.innerHTML = '<div style="padding:80px 20px;text-align:center;color:#ff3b30">❌ Ошибка QR<br><small>Используйте адрес ниже</small></div>';
                 }
+            }
 
-                // Запускаем таймер и проверку
-                startPaymentTimer();
-                startPaymentCheck();
-                
-                console.log('✅ Все обновления завершены');
-            });
-        }, 500); // Увеличили до 500мс
+            startPaymentTimer();
+            startPaymentCheck();
+            
+        }, 600);
         
     } catch (error) {
-        console.error('❌ Критическая ошибка:', error);
+        console.error('❌ Ошибка:', error);
         tg.showAlert('❌ Ошибка создания заказа');
     }
 }
