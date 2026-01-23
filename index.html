@@ -2822,75 +2822,134 @@ function selectCryptoWeex(cryptoId, cryptoName) {
 
 // Функция перехода к оплате
 async function proceedToPayment() {
+    console.log('=== НАЧАЛО proceedToPayment ===');
+    
     try {
-        // 1. Отправляем запрос
+        const orderData = {
+            user_id: USER_ID,
+            exchange: d.ex,
+            service: d.srvName || d.srv,
+            quantity: d.quantity,
+            country: d.country,
+            amount: d.price,
+            crypto: d.crypto,
+            network: d.net
+        };
+
+        console.log('Отправка заказа:', orderData);
+
         const response = await fetch(`${API_BASE_URL}/orders/create`, {
             method: 'POST',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({
-                user_id: USER_ID,
-                exchange: d.ex,
-                service: d.srvName || d.srv,
-                quantity: d.quantity,
-                country: d.country,
-                amount: d.price,
-                crypto: d.crypto,
-                network: d.net
-            })
+            headers: {
+                'Content-Type': 'application/json',
+                'ngrok-skip-browser-warning': 'true'
+            },
+            body: JSON.stringify(orderData)
         });
 
-        // 2. Получаем ответ
+        console.log('Статус ответа:', response.status);
+
+        if (!response.ok) {
+            throw new Error('Ошибка создания заказа');
+        }
+
         const data = await response.json();
-        alert('Получен ответ: ' + JSON.stringify(data));
+        console.log('Данные получены:', data);
         
         if (!data.success) {
-            alert('Ошибка: ' + data.error);
+            tg.showAlert(`❌ Ошибка: ${data.error || 'Неизвестная ошибка'}`);
             return;
         }
 
-        // 3. Сохраняем адрес
         const address = data.payment_address;
-        alert('Адрес: ' + address);
+        const amount = data.pay_amount;
+        const currency = data.pay_currency;
+        
+        console.log('Адрес:', address);
+        console.log('Сумма:', amount, currency);
         
         if (!address) {
-            alert('АДРЕС НЕ ПОЛУЧЕН!');
+            tg.showAlert('❌ Не получен адрес для оплаты');
             return;
         }
 
-        // 4. Переходим на экран 11
+        d.oid = data.order.order_id;
+        d.addr = address;
+        
+        // Переходим на экран оплаты
         switchScreen(11);
         
-        // 5. Ждем 500мс
-        await new Promise(r => setTimeout(r, 500));
-        
-        // 6. Вставляем адрес
-        document.getElementById('addr').textContent = address;
-        alert('Адрес вставлен в элемент');
-        
-        // 7. Генерируем QR
-        const qr = document.getElementById('qr');
-        qr.innerHTML = '';
-        new QRCode(qr, {text: address, width: 200, height: 200});
-        alert('QR-код создан');
-        
-        // 8. Вставляем суммы
-        document.getElementById('paymentAmount').textContent = '$' + d.price;
-        document.getElementById('cryptoAmount').textContent = data.pay_amount + ' ' + data.pay_currency;
-        
-        alert('ВСЁ ГОТОВО!');
+        // Ждем отрисовки
+        setTimeout(function() {
+            console.log('Начинаем заполнять данные');
+            
+            // Адрес
+            const addrEl = document.getElementById('addr');
+            if (addrEl) {
+                addrEl.textContent = address;
+                console.log('✅ Адрес вставлен');
+            }
+            
+            // Суммы
+            const paymentAmountEl = document.getElementById('paymentAmount');
+            const cryptoAmountEl = document.getElementById('cryptoAmount');
+            
+            if (paymentAmountEl) {
+                paymentAmountEl.textContent = '$' + d.price;
+            }
+            
+            if (cryptoAmountEl) {
+                cryptoAmountEl.textContent = amount + ' ' + currency.toUpperCase();
+            }
+            
+            // QR-код
+            const qrEl = document.getElementById('qr');
+            if (qrEl) {
+                qrEl.innerHTML = '';
+                
+                if (typeof QRCode !== 'undefined') {
+                    try {
+                        new QRCode(qrEl, {
+                            text: address,
+                            width: 200,
+                            height: 200,
+                            colorDark: '#000000',
+                            colorLight: '#ffffff',
+                            correctLevel: QRCode.CorrectLevel.H
+                        });
+                        console.log('✅ QR-код создан');
+                    } catch (err) {
+                        console.error('Ошибка QR:', err);
+                        qrEl.innerHTML = '<div style="color:red;padding:20px">Ошибка QR</div>';
+                    }
+                } else {
+                    console.error('QRCode библиотека не загружена!');
+                    qrEl.innerHTML = '<div style="color:red;padding:20px">QRCode не загружен</div>';
+                }
+            }
+            
+            console.log('✅ ВСЁ ГОТОВО');
+            
+            startPaymentTimer();
+            startPaymentCheck();
+            
+        }, 1000);
         
     } catch (e) {
-        alert('ОШИБКА: ' + e.message);
+        console.error('ОШИБКА:', e);
+        tg.showAlert('❌ Ошибка: ' + e.message);
     }
-}
+}    
 
 // Функция перехода к оплате для MEXC
 async function proceedToPaymentMexc() {
+    console.log('Вызов proceedToPayment для MEXC');
     await proceedToPayment();
 }
 
 // Функция перехода к оплате для WEEX
 async function proceedToPaymentWeex() {
+    console.log('Вызов proceedToPayment для WEEX');
     await proceedToPayment();
 }
 
