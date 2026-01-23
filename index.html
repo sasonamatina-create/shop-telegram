@@ -2822,131 +2822,65 @@ function selectCryptoWeex(cryptoId, cryptoName) {
 
 // Функция перехода к оплате
 async function proceedToPayment() {
-    console.log('proceedToPayment вызвана');
-    console.log('Данные перед оплатой:', d);
-
-    if (!d.net) {
-        tg.showAlert('❌ Пожалуйста, выберите сеть');
-        return;
-    }
-
     try {
-        const orderData = {
-            user_id: USER_ID,
-            exchange: d.ex,
-            service: d.srvName || d.srv,
-            quantity: d.quantity,
-            country: d.country,
-            amount: d.price,
-            crypto: d.crypto,
-            network: d.net
-        };
-
-        console.log('Отправка заказа:', orderData);
-
+        // 1. Отправляем запрос
         const response = await fetch(`${API_BASE_URL}/orders/create`, {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'ngrok-skip-browser-warning': 'true'
-            },
-            body: JSON.stringify(orderData)
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+                user_id: USER_ID,
+                exchange: d.ex,
+                service: d.srvName || d.srv,
+                quantity: d.quantity,
+                country: d.country,
+                amount: d.price,
+                crypto: d.crypto,
+                network: d.net
+            })
         });
 
-        if (!response.ok) {
-            const errorText = await response.text();
-            console.error('Ошибка ответа:', errorText);
-            throw new Error('Ошибка создания заказа');
-        }
-
-        const orderResult = await response.json();
-        console.log('Ответ сервера:', orderResult);
+        // 2. Получаем ответ
+        const data = await response.json();
+        alert('Получен ответ: ' + JSON.stringify(data));
         
-        if (!orderResult.success) {
-            tg.showAlert(`❌ Ошибка: ${orderResult.error || 'Неизвестная ошибка'}`);
+        if (!data.success) {
+            alert('Ошибка: ' + data.error);
             return;
         }
 
-        if (!orderResult.payment_address) {
-            console.error('Адрес не получен от сервера!');
-            tg.showAlert('❌ Не удалось получить адрес для оплаты');
+        // 3. Сохраняем адрес
+        const address = data.payment_address;
+        alert('Адрес: ' + address);
+        
+        if (!address) {
+            alert('АДРЕС НЕ ПОЛУЧЕН!');
             return;
         }
 
-        d.oid = orderResult.order.order_id;
-        d.addr = orderResult.payment_address;
-        d.payAmount = orderResult.pay_amount;
-        d.payCurrency = orderResult.pay_currency;
-
-        console.log('✅ Данные сохранены:');
-        console.log('   Адрес:', d.addr);
-        console.log('   Сумма:', d.payAmount, d.payCurrency);
-
-        // Переключаем экран
+        // 4. Переходим на экран 11
         switchScreen(11);
-
-        // Ждем загрузки DOM
-        setTimeout(function() {
-            console.log('🔄 Обновление данных оплаты...');
-            
-            // 1. Обновляем суммы
-            document.getElementById('paymentAmount').textContent = '$' + d.price;
-            
-            const cryptoAmount = d.payAmount || d.price;
-            const payCurrency = (d.payCurrency || d.crypto).toUpperCase();
-            document.getElementById('cryptoAmount').textContent = `${cryptoAmount} ${payCurrency}`;
-
-            // 2. ПЕРЕСОЗДАЕМ элемент адреса полностью
-            const addrEl = document.getElementById('addr');
-            console.log('Старый элемент addr:', addrEl);
-            
-            if (addrEl) {
-                // ПЕРЕСОЗДАЕМ элемент
-                const newAddrEl = document.createElement('div');
-                newAddrEl.className = 'wallet-address';
-                newAddrEl.id = 'addr';
-                newAddrEl.textContent = d.addr;
-                
-                // Заменяем старый элемент новым
-                addrEl.parentNode.replaceChild(newAddrEl, addrEl);
-                
-                console.log('✅ Новый элемент создан:', newAddrEl);
-                console.log('✅ Текст адреса:', newAddrEl.textContent);
-            }
-
-            // 3. Генерируем QR-код
-            const qrContainer = document.getElementById('qr');
-            if (qrContainer) {
-                qrContainer.innerHTML = '';
-                
-                try {
-                    console.log('🔄 Генерация QR для:', d.addr);
-                    
-                    new QRCode(qrContainer, {
-                        text: d.addr,
-                        width: 210,
-                        height: 210,
-                        colorDark: '#000000',
-                        colorLight: '#ffffff',
-                        correctLevel: QRCode.CorrectLevel.H
-                    });
-                    
-                    console.log('✅ QR-код создан');
-                    
-                } catch (qrError) {
-                    console.error('❌ Ошибка QR:', qrError);
-                    qrContainer.innerHTML = '<div style="padding:80px 20px;text-align:center;color:#ff3b30">❌ Ошибка QR<br><small>Используйте адрес ниже</small></div>';
-                }
-            }
-
-            startPaymentTimer();
-            startPaymentCheck();
-            
-        }, 600);
         
-    } catch (error) {
-        console.error('❌ Ошибка:', error);
-        tg.showAlert('❌ Ошибка создания заказа');
+        // 5. Ждем 500мс
+        await new Promise(r => setTimeout(r, 500));
+        
+        // 6. Вставляем адрес
+        document.getElementById('addr').textContent = address;
+        alert('Адрес вставлен в элемент');
+        
+        // 7. Генерируем QR
+        const qr = document.getElementById('qr');
+        qr.innerHTML = '';
+        new QRCode(qr, {text: address, width: 200, height: 200});
+        alert('QR-код создан');
+        
+        // 8. Вставляем суммы
+        document.getElementById('paymentAmount').textContent = '$' + d.price;
+        document.getElementById('cryptoAmount').textContent = data.pay_amount + ' ' + data.pay_currency;
+        
+        alert('ВСЁ ГОТОВО!');
+        
+    } catch (e) {
+        alert('ОШИБКА: ' + e.message);
     }
 }
 
